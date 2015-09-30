@@ -7,9 +7,11 @@ float speed;
  void setup(){
   size(900, 480);
   smooth();
-  layer1 = loadShape("lava1_layer1.svg");
-  layer2 = loadShape("lava1_layer2.svg");
-  layer3 = loadShape("lava1_layer3.svg");
+  
+  //println(dataPath("")); //~/GilmanTunnelLava/applications/AnimationTest1/data
+  layer1 = loadShape("../../assets/lavaDetail1/layer1.svg"); //must go up an extra directory because the default location is AnimationTest1/data
+  layer2 = loadShape("../../assets/lavaDetail1/layer2.svg");
+  layer3 = loadShape("../../assets/lavaDetail1/layer3.svg");
   L1 = new Lava(layer1, layer2, layer3);
   speed = 0.5; 
   frameRate(4);
