@@ -11,7 +11,10 @@ void setup(){
   layer2 = loadShape("../../assets/lavaDetail1/layer2.svg");
   layer3 = loadShape("../../assets/lavaDetail1/layer3.svg");
   L1 = new Lava(layer1, layer2, layer3);
-  L1.ay = -0.4; 
+  //L1.ay = -0.4;
+  L1.vy = -2; //try setting to -3 and messing around with amplitude and period!
+  L1.amplitude = 2;
+  L1.period = 3;
 }
 
 void draw(){
@@ -21,6 +24,6 @@ void draw(){
   
   if(L1.y < 0){
     L1.y = height;
-    L1.vy = 0; //reset animation instead of looping effect like Portal
+    //L1.vy = 0; //reset animation instead of looping effect like Portal
   }
 }

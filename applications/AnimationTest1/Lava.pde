@@ -5,7 +5,7 @@ class Lava {
   float scale;
   float vx, vy; //velocity
   float ax, ay; //acceleration
-  //no need for jerk or any higher derivatives of position at this time
+  float amplitude, period; //severity of flowing movement, period in seconds
   
   final static float DEFAULT_X = 450, DEFAULT_Y = 240;
   final static float DEFAULT_WIDTH = 100, DEFAULT_HEIGHT = 50;
@@ -34,14 +34,20 @@ class Lava {
     this.vy = 0;
     this.ax = 0;
     this.ay = 0;
+    this.amplitude = 0;
+    this.period = 0;
   }
   
   //apply physics
   void simulate(){
+    //simple motion
     vx += ax;
     vy += ay;
     x += vx;
     y += vy;
+      
+    //harmonic
+    x += amplitude/period * sin(2*PI/(period*1000/millis()));
   }
   
   //draws the layers 
