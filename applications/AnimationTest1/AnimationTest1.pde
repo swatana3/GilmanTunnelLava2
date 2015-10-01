@@ -1,15 +1,12 @@
 Lava L1;
-PShape layer1;
-PShape layer2;
-PShape layer3;
 
 void setup(){
   size(900, 480);
   frameRate(60);
   
-  layer1 = loadShape("../../assets/lavaDetail1/layer1.svg"); //must go up an extra directory because the default location is AnimationTest1/data
-  layer2 = loadShape("../../assets/lavaDetail1/layer2.svg");
-  layer3 = loadShape("../../assets/lavaDetail1/layer3.svg");
+  PShape layer1 = loadShape("../../assets/lavaDetail1/layer1.svg"); //must go up an extra directory because the default location is AnimationTest1/data
+  PShape layer2 = loadShape("../../assets/lavaDetail1/layer2.svg");
+  PShape layer3 = loadShape("../../assets/lavaDetail1/layer3.svg");
   L1 = new Lava(layer1, layer2, layer3);
   //L1.ay = -0.4;
   L1.vy = -2; //try setting to -3 and messing around with amplitude and period!
