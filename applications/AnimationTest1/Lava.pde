@@ -2,8 +2,10 @@ class Lava {
   PShape layer1, layer2, layer3;
   float x, y; //center point
   float size_width, size_height; //half left of center point, half right
-    //note: width and height are keywords
-  float scale; //yet scale isn't a reserved word?
+  float scale;
+  float vx, vy; //velocity
+  float ax, ay; //acceleration
+  //no need for jerk or any higher derivatives of position at this time
   
   final static float DEFAULT_X = 450, DEFAULT_Y = 240;
   final static float DEFAULT_WIDTH = 100, DEFAULT_HEIGHT = 50;
@@ -27,22 +29,25 @@ class Lava {
     this.y = y;
     this.size_width = size_width;
     this.size_height = size_height;
-    this.scale = 1;   
+    this.scale = 1;
+    this.vx = 0;
+    this.vy = 0;
+    this.ax = 0;
+    this.ay = 0;
   }
   
-  void setScale(float scale){
-    this.scale = scale;
-    //draw(); //don't redraw to avoid confusion in drawing multiple times per frame
-  }
-  
-  void setPosition(float x, float y){
-    this.x = x;
-    this.y = y;
-    //draw();
+  //apply physics
+  void simulate(){
+    vx += ax;
+    vy += ay;
+    x += vx;
+    y += vy;
   }
   
   //draws the layers 
   void draw(){
+    simulate();
+    
     shapeMode(CENTER); //required for correct drawing, otherwise would require shape(layer1, x - size_width/2, y - size_height/2, size_width, size_height);
 
     shape(layer3, x, y, size_width * scale, size_height * scale);
