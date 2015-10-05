@@ -5,10 +5,15 @@ class Lava {
   float scale;
   float vx, vy; //velocity
   float ax, ay; //acceleration
-  float amplitude, period; //severity of flowing movement, period in seconds
+  float ampX, perX; //severity of flowing movement, period in seconds
+  float ampY, perY; //amplitude, period
+  float ampS, perS; //sinusoidal scale
   
   final static float DEFAULT_X = 450, DEFAULT_Y = 240;
   final static float DEFAULT_WIDTH = 150, DEFAULT_HEIGHT = 50;
+  
+  final static float LAYER_3_SCALE_OFFSET = 3,
+                     LAYER_2_SCALE_OFFSET = 2;
   
   
   //Lava constructors, taking advantage of multiple constructors in Processing 3 for default values
@@ -34,8 +39,12 @@ class Lava {
     this.vy = 0;
     this.ax = 0;
     this.ay = 0;
-    this.amplitude = 0;
-    this.period = 0;
+    this.ampX = 0;
+    this.perX = 1; //divide by 0 error when period is 0
+    this.ampY = 0;
+    this.perY = 1;
+    this.ampS = 0;
+    this.perS = 1;
   }
   
   //apply physics
@@ -47,7 +56,9 @@ class Lava {
     y += vy;
       
     //harmonic
-    x += amplitude/period * sin(2*PI/(period*1000/millis()));
+    x += ampX/perX * sin(2*PI/(perX*1000/millis()));
+    y += ampY/perY * sin(2*PI/(perY*1000/millis()));
+    scale += ampS/perS * sin(2*PI/(perS*1000/millis()));
   }
   
   //draws the layers 
@@ -56,11 +67,8 @@ class Lava {
     
     shapeMode(CENTER); //required for correct drawing, otherwise would require shape(layer1, x - size_width/2, y - size_height/2, size_width, size_height);
     
-    //rectMode(CENTER);
-    //rect(x, y, size_width * scale, size_height * scale);
-    
-    shape(layer3, x, y, size_width * scale, size_height * scale);
-    shape(layer2, x, y, size_width * scale, size_height * scale);
+    shape(layer3, x, y, size_width * pow(scale,LAYER_3_SCALE_OFFSET), size_height * pow(scale,LAYER_3_SCALE_OFFSET));
+    shape(layer2, x, y, size_width * pow(scale,LAYER_2_SCALE_OFFSET), size_height * pow(scale,LAYER_2_SCALE_OFFSET));
     shape(layer1, x, y, size_width * scale, size_height * scale);
   }
 }
