@@ -8,7 +8,7 @@ class Lava {
   float amplitude, period; //severity of flowing movement, period in seconds
   
   final static float DEFAULT_X = 450, DEFAULT_Y = 240;
-  final static float DEFAULT_WIDTH = 100, DEFAULT_HEIGHT = 50;
+  final static float DEFAULT_WIDTH = 150, DEFAULT_HEIGHT = 50;
   
   
   //Lava constructors, taking advantage of multiple constructors in Processing 3 for default values
