@@ -55,7 +55,10 @@ class Lava {
     simulate();
     
     shapeMode(CENTER); //required for correct drawing, otherwise would require shape(layer1, x - size_width/2, y - size_height/2, size_width, size_height);
-
+    
+    //rectMode(CENTER);
+    //rect(x, y, size_width * scale, size_height * scale);
+    
     shape(layer3, x, y, size_width * scale, size_height * scale);
     shape(layer2, x, y, size_width * scale, size_height * scale);
     shape(layer1, x, y, size_width * scale, size_height * scale);
