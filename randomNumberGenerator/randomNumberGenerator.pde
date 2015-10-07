@@ -1,6 +1,8 @@
 //this is a program to draw a random number generator
 int size_width, size_height; //center point
 PFont f;
+PShape rock;
+
 
 void setup(){
   size_width = 900;
@@ -14,7 +16,8 @@ void setup(){
   //rectMode(CENTER);
   noLoop(); 
   
-  //speed = 0.5; 
+  //speed = 0.5;
+  rock = loadShape("../assets/rockDetail1.svg");
 }
 
 void draw () {
@@ -26,7 +29,8 @@ void draw () {
     //shapeMode(CENTER);
     noFill();
     shapeMode(CENTER);
-    ellipse(x, y, 25, 25);
+    //ellipse(x, y, 25, 25);
+    shape(rock, x, y, 25, 25);
     textFont(f,16);                  // STEP 3 Specify font to be used
     fill(0);
     //shapeMode(CORNER);// STEP 4 Specify font color 
