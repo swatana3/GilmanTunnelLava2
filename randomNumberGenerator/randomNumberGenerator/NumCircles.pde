@@ -5,6 +5,7 @@ class NumCircles {
   int size_width, size_height;
   PFont f;
   ArrayList<PVector> visited; 
+  PShape rock;
   
 // Contructor
   NumCircles(int numCircles, int circleR, int size_width, int size_height) 
@@ -16,6 +17,7 @@ class NumCircles {
     visited = new ArrayList<PVector>(); 
     f = createFont("Arial",16,true); // Arial, 16 point, anti-aliasing on
     textFont(f,36);
+    rock = loadShape("../../assets/rockDetail1.svg");
   }
   
   //Method for avoiding collision of circles
@@ -41,6 +43,7 @@ class NumCircles {
       PVector p = preventCollision(); 
       noFill();
       shapeMode(CENTER);
+      shape(rock, p.x, p.y, circleR, circleR);
       ellipse(p.x, p.y, circleR, circleR);
       textFont(f,16);// STEP 3 Specify font to be used
       fill(0);
