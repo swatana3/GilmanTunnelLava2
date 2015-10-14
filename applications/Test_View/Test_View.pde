@@ -1,1 +1,0 @@
-//teste SimpleAreanaRenderer here
