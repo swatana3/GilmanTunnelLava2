@@ -13,13 +13,13 @@ void setup(){
  f = createFont("Arial",16,true); // Arial, 16 point, anti-aliasing on
  textFont(f,36);
   //rectMode(CENTER);
-  noLoop(); 
   n = new NumCircles(50, 25,size_width, size_height );
-  
+  n.generatePositions();  
   //speed = 0.5; 
 }
 
 
 void draw () {
+  background(225);
   n.draw(); 
 }
