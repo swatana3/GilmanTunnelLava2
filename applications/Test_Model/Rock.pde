@@ -1,24 +1,25 @@
-class Rock {//this is what stores the position of things
-ArrayList<PVector> grid_rock; 
-ArrayList<PVector> grid_lava; 
+public class Rock {
 
-Model(int width_grid, int height_grid, int num_rocks, 
-  int num_lava){
+  private float x;
+  private float y;
+  private float disappearSpeed = 2f;
   
-    grid_rocks = new int[width_grid][height_grid];
-    grid_lava = new int[width_grid][height_grid];
-    
-    for(int i=1; i<num_rocks; i++){
-            //do random stuff and fill the grid
-            
-     }
-     for(int i=1; i<num_lava; i++){
-            //do random stuff and fill the grid
-            
-     }
+  public float getX() {
+    return x;
   }
-  void rockClicked(int rock_clicked[][]){
-    grid_rocks[][]
+  public void setX(float x) {
+    this.x = x;
   }
-  
+  public float getY() {
+    return y;
+  }
+  public void setY(float y) {
+    this.y = y;
+  }
+  public float getDisappearingSpeed() {
+    return disappearSpeed;
+  }
+  public void setDisappearing(float disappearSpeed) {
+    this.disappearSpeed = disappearSpeed;
+  }
 }
