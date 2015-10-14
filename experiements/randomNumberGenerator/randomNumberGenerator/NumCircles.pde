@@ -4,8 +4,8 @@ class NumCircles {
   int circleR;
   int size_width, size_height;
   PFont f;
-  ArrayList<PVector> visited; 
-  PShape rock;
+  ArrayList<PVector> visited;
+  ArrayList<Rock> rocks; 
   
 // Contructor
   NumCircles(int numCircles, int circleR, int size_width, int size_height) 
@@ -14,10 +14,10 @@ class NumCircles {
     this.circleR = circleR; 
     this.size_width = size_width; 
     this.size_height = size_height;
-    visited = new ArrayList<PVector>(); 
+    visited = new ArrayList<PVector>();
+    rocks = new ArrayList<Rock>(); 
     f = createFont("Arial",16,true); // Arial, 16 point, anti-aliasing on
     textFont(f,36);
-    rock = loadShape("../../assets/rockDetail1.svg");
   }
   
   //Method for avoiding collision of circles
@@ -36,21 +36,31 @@ class NumCircles {
     return randomP;
   }
   
+  //Generate circle positions and list of rocks
+  void generatePositions(){
+    for (int i = 0; i < numCircles; i++) {
+      PVector p = preventCollision();
+      visited.add(new PVector(p.x, p.y));
+      rocks.add(new Rock(p.x, p.y, 0.75));
+    }
+  }
+  
   //draw the circles
   void draw(){
-    
     for (int i = 0; i < numCircles; i++) {
-      PVector p = preventCollision(); 
+      PVector p = visited.get(i); 
       noFill();
       shapeMode(CENTER);
-      shape(rock, p.x, p.y, circleR, circleR);
+      
+      rocks.get(i).draw();
+      rocks.get(i).setDisappear(true);
+      stroke(255, 255, 255, 255);
+      fill(255, 255, 255, 255);
       ellipse(p.x, p.y, circleR, circleR);
-      textFont(f,16);// STEP 3 Specify font to be used
-      fill(0);
-      //shapeMode(CORNER);// STEP 4 Specify font color 
+      textFont(f,16);// Specify font to be used
+      fill(0); // Specify font color 
       textAlign(CENTER);
-      text(i,p.x,p.y+5);   // STEP 5 Display Tex    
-      visited.add(new PVector(p.x, p.y));
+      text(i,p.x,p.y+5);   // Display Tex    
     }
 
   }
