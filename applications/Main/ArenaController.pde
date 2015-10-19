@@ -13,32 +13,32 @@ public class ArenaController {
   }
   
   public void update(float delta) {
-    Droid droid = arena.getDroid();
+    Player player = player.getPlayer();
     if (moving) {
       // move on X
       int bearing = 1;
-      if (droid.getX() > targetX) {
+      if (player.getX() > targetX) {
         bearing = -1;
       } 
-      if (droid.getX() != targetX) {
-        droid.setX(droid.getX() + bearing * droid.getSpeed() * delta);
+      if (player.getX() != targetX) {
+        player.setX(player.getX() + bearing * player.getSpeed() * delta);
         // check if arrived
-        if ((droid.getX() < targetX && bearing == -1)
-            || (droid.getX() > targetX && bearing == 1)) droid.setX(targetX);
+        if ((player.getX() < targetX && bearing == -1)
+            || (player.getX() > targetX && bearing == 1)) player.setX(targetX);
       }
       // move on Y
       bearing = 1;
-      if (droid.getY() > targetY) {
+      if (player.getY() > targetY) {
         bearing = -1;
       } 
-      if (droid.getY() != targetY) {
-        droid.setY(droid.getY() + bearing * droid.getSpeed() * delta);
+      if (player.getY() != targetY) {
+        player.setY(player.getY() + bearing * player.getSpeed() * delta);
         // check if arrived
-        if ((droid.getY() < targetY && bearing == -1)
-            || (droid.getY() > targetY && bearing == 1)) droid.setY(targetY);
+        if ((player.getY() < targetY && bearing == -1)
+            || (player.getY() > targetY && bearing == 1)) player.setY(targetY);
       }
       // check if arrived
-      if (droid.getX() == targetX && droid.getY() == targetY) 
+      if (player.getX() == targetX && player.getY() == targetY) 
         moving = false;
     }
   }
