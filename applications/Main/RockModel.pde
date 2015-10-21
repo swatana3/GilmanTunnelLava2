@@ -1,8 +1,9 @@
-class Rock {
+class RockModel {
   float x,y;
-  int framesUntilDestroyed = -1;
+  int frameLife = -1;
+  int framesAlive = -1;
 
-  Rock(float x, float y) {
+  RockModel(float x, float y) {
     this.x = x;
     this.y = y;
   }
@@ -15,20 +16,30 @@ class Rock {
       return y;
   }
 
-  void setFramesUntilDestroyed(int framesUntilDestroyed) {
-      this.framesUntilDestroyed = framesUntilDestroyed;
+  void setFrameLife(int frameLife) {
+      this.frameLife = frameLife;
+      this.framesAlive = frameLife;
   }
 
   void update() {
-      if (this.framesUntilDestroyed > 0) {
-          this.framesUntilDestroyed -= 1;
+      if (this.frameLife > 0 && this.framesAlive > 0) {
+          this.framesAlive -= 1;
       }
+  }
+  
+  int getFrameLife() {
+    return frameLife;
+  }
+  
+  int getFramesAlive() {
+    return framesAlive;
   }
 
   boolean isDestroyed() {
-      if (framesUntilDestroyed == 0) {
+      if (framesAlive == 0) {
           return true;
       } else {
           return false;
       }
+  }
 }
