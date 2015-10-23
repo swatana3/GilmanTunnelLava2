@@ -25,6 +25,9 @@ void draw() {
   // main game functions
   mapController.update();
   view.render();
-  // TODO: check for game over, change game state
+}
 
+// TODO: temporary, do something better than this to change the state to PLAY
+void mouseClicked() {
+  mapController.mapModel.state = State.PLAY;
 }

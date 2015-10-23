@@ -4,6 +4,9 @@ class MapModel {
   // dimensions of map/game board
   int mapX, mapY;
 
+  //State of map
+  State state; 
+  
   public MapModel() {
     // these can change
     this.mapX = 6;
@@ -23,6 +26,7 @@ class MapModel {
     // TODO: mouse by default
     players.add(new PlayerModel(this));
 
+    state = State.START;
   }
 
   // add to rocks so someone can get across
