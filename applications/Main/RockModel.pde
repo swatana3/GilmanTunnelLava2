@@ -1,24 +1,30 @@
 class RockModel {
+  // indices relative on game board grid (4x6 for example)
   int x, y;
+  // mapModel so we know the dimension of the grid
+  int gridX, gridY;
   // 3 different images for rocks, pick one at random
   int type;
-  static final int DEFAULT_FRAMES = 1000;
+  static final int DEFAULT_FRAMES = 100;
   int framesUntilDestroyed = -1;
 
-  RockModel(int x, int y) {
+  RockModel(int x, int y, int dimX, int dimY) {
     this.x = x;
     this.y = y;
+    this.gridX = x * (width / dimX);
+    this.gridY = y * (height / dimY);
     this.framesUntilDestroyed = DEFAULT_FRAMES;
     this.type = (int) random(3);
   }
 
-  float getX() {
+  int getX() {
     return x;
   }
 
-  float getY() {
+  int getY() {
     return y;
   }
+
   int getRemainingFrames() {
     return framesUntilDestroyed;
   }

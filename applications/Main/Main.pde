@@ -9,8 +9,8 @@ View view;
 
 void setup() {
   // window stuff - handled by View
-  //size(900, 400);
-  //background (225);
+  size(600, 400);
+  background (225);
   
   // essential game stuff
   mapController = new MapController();
@@ -20,7 +20,7 @@ void setup() {
 }
 void draw() {
   // redraw background for each frame
-  //background (225);
+  background (225);
 
   // main game functions
   mapController.update();
