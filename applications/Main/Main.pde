@@ -1,21 +1,29 @@
 //Main
-
+// "Game Engine"
 MapModel mapModel;
 View view;
 
+//import MapController.pde;
+//import View.pde;
+
 void setup() {
-  size(900, 400);
-  background (225);
+  // window stuff - handled by View
+  //size(900, 400);
+  //background (225);
   
-  mapModel = new MapModel();
+  // essential game stuff
+  mapController = new mapController();
   view = new View(mapModel);
+  //mapModel = new MapModel();
   
 }
 void draw() {
-  background (225);
-  //Update rocks (this loop belongs in controller)
-  for (RockModel rock : mapModel.getRocks()) {
-    rock.update();
-  }
+  // redraw background for each frame
+  //background (225);
+
+  // main game functions
+  mapController.update();
   view.render();
+  // TODO: check for game over, change game state
+
 }
