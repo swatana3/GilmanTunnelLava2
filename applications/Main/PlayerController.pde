@@ -1,1 +1,9 @@
-PlayerController.pde
+class PlayerController {
+	PlayerController() {
+
+	}
+
+	void update() {
+		
+	}
+}

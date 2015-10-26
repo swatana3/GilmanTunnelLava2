@@ -23,5 +23,9 @@ class MapController {
     	//			player is safe!
     	//  if player isn't safe
     	//		change game state to "game over"
+
+    	for () {
+    		
+    	}
     }
 }
