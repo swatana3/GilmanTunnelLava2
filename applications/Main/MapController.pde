@@ -4,8 +4,8 @@ class MapController {
 	MapModel mapModel;
 
     // constructor
-    MapController(MapModel mapModel) {
-    	this.mapModel = mapModel;
+    MapController() {
+    	this.mapModel = new MapModel();
     }
 
     void update() {
@@ -24,8 +24,5 @@ class MapController {
     	//  if player isn't safe
     	//		change game state to "game over"
 
-    	for () {
-    		
-    	}
     }
 }

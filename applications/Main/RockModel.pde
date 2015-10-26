@@ -1,11 +1,11 @@
-class Rock {
-  float x, y;
+class RockModel {
+  int x, y;
   // 3 different images for rocks, pick one at random
   int type;
   static final int DEFAULT_FRAMES = 1000;
   int framesUntilDestroyed = -1;
 
-  Rock(float x, float y) {
+  RockModel(int x, int y) {
     this.x = x;
     this.y = y;
     this.framesUntilDestroyed = DEFAULT_FRAMES;
@@ -41,3 +41,7 @@ class Rock {
       return false;
     }
   }
+  void update() {
+    
+  }
+}

@@ -1,7 +1,8 @@
 //Main
 // "Game Engine"
-MapModel mapModel;
+MapController mapController;
 View view;
+
 
 //import MapController.pde;
 //import View.pde;
@@ -12,8 +13,8 @@ void setup() {
   //background (225);
   
   // essential game stuff
-  mapController = new mapController();
-  view = new View(mapModel);
+  mapController = new MapController();
+  view = new View(mapController.mapModel);
   //mapModel = new MapModel();
   
 }
