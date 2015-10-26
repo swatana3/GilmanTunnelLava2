@@ -1,16 +1,11 @@
 public class GameEngine {
 
   private Arena arena;
-  private Player player;
   private Renderer renderer;
   private ArenaController controller;
   
   public GameEngine() {
-    player = new Player();
-    // position droid in the middle
-    player.setX(Arena.WIDTH / 2);
-    player.setY(Arena.HEIGHT / 2);
-    arena = new Arena(player);
+    arena = new Arena();
     
     // setup renderer (view)
     renderer = new SimpleArenaRenderer(arena);

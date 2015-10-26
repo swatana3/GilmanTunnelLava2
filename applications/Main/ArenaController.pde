@@ -12,7 +12,7 @@ public class ArenaController {
     this.arena = arena;
   }
   
-  public void update(float delta) {
+  public void update(int framecount) {
     Player player = player.getPlayer();
     if (moving) {
       // move on X

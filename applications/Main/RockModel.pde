@@ -1,5 +1,6 @@
-class Rock {
+class RockModel {
   float x,y;
+  type
   int framesUntilDestroyed = -1;
 
   Rock(float x, float y) {

@@ -11,10 +11,8 @@ class Arena {
 
   private Object[][] grid;
   private List<RockModel>  rocks = new ArrayList<RockModel>();
-  private Player player;
   
-  public Arena(Player player) {
-    this.player= player;
+  public Arena() {
 
     grid = new Object[HEIGHT][WIDTH];
     for (int i = 0; i < WIDTH; i++) {
@@ -31,7 +29,7 @@ class Arena {
         y = random.nextInt(HEIGHT);
       }
       grid[x][y] = new RockModel(x, y);
-      obstacles.add((RockModel) grid[y][x]);
+      obstacles.add((RockModel) grid[x][y]);
     }
   }
   
