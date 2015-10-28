@@ -1,7 +1,7 @@
 class RockModel {
   // indices relative on game board grid (4x6 for example)
   int x, y;
-  // mapModel so we know the dimension of the grid
+  // pixel offset of top right corner of rock
   int gridX, gridY;
   // 3 different images for rocks, pick one at random
   int type;

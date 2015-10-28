@@ -12,7 +12,6 @@ class View {
     endScreen = loadImage("../../assets/Screen_End.png");
     
   // window stuff setup
-  size(600, 400);
   background (225);
   }
   
@@ -22,14 +21,15 @@ class View {
 
     switch (mapModel.state) {
       case START:
-        imageMode(CENTER);
+        //imageMode(CENTER);
         // TODO: rotate start screen
-        image(startScreen, width/2, height/2, 600, 400);
+        image(startScreen, 0, 0, 600, 400);
         break;
       case PLAY:
         for (RockModel rock : mapModel.rocks) {
           //imageMode(CENTER);
           tint(255, rock.getRemainingFrames()/ (float) rock.DEFAULT_FRAMES * 255);
+          //                  top left corner         size to make the image
           image(rockPlatform, rock.gridX, rock.gridY, width / mapModel.mapX, height / mapModel.mapY);
         }
         break;

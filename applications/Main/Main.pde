@@ -9,8 +9,12 @@ View view;
 
 void setup() {
   // essential game stuff
+  // can't put this in view, rocks depend on height and width being set
+  size(600, 400);
+
   mapController = new MapController();
-  view = new View(mapController.mapModel);  
+  view = new View(mapController.mapModel); 
+ 
 }
 void draw() {
   // main game functions
