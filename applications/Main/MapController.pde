@@ -9,7 +9,7 @@ class MapController {
     }
 
     void update() {
-        if (mapModel.state == State.PLAY) {
+        if (mapModel.state == GameState.PLAY) {
           // update rocks and players
       	  for (PlayerModel player : mapModel.players) {
       	    player.update();
@@ -43,6 +43,7 @@ class MapController {
               }
             }
           }
+          // delete rocks that have "died"
           for (RockModel rock : rocks_to_delete) {
             mapModel.rocks.remove(rock);
           }

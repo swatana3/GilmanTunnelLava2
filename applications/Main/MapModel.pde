@@ -5,28 +5,23 @@ class MapModel {
   int mapX, mapY;
 
   //State of map
-  State state; 
+  GameState state; 
   
   public MapModel() {
+    // dimension of map, rock can fit in grid <mapX> by <mapY>
     // these can change
     this.mapX = 6;
     this.mapY = 4;
     
-    // TODO: randomize locations
     rocks = new ArrayList<RockModel>();
-    rocks.add(new RockModel(1, 1, mapX, mapY));
-    rocks.add(new RockModel(4, 3, mapX, mapY));
-    rocks.add(new RockModel(0, 2, mapX, mapY));
-    rocks.add(new RockModel(3, 0, mapX, mapY));
-
-    rocks.add(new RockModel(5, 3, mapX, mapY));
-
+    // procedurally generate rocks for the map
     generateMap();
     players = new ArrayList<PlayerModel>();
-    // TODO: mouse by default
+    // TODO: get blob/dots from kinect and add those as players
+    // for now, just use the mouse (mouse is used in player)
     players.add(new PlayerModel(this));
 
-    state = State.START;
+    state = GameState.START;
   }
 
   // add to rocks so someone can get across
@@ -73,6 +68,6 @@ class MapModel {
 
 
 }
-
+// probabilities for putting rock in x/y offsets
 // .2 - same x, .6 +1 to x, .2 +2 x
 //y's: .15 -2, .25 -1 .2 0, .25 +1, .15 +2

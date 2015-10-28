@@ -1,4 +1,4 @@
-enum State {
+enum GameState {
   START, PLAY, END
 };
 
