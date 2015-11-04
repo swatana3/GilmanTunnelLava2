@@ -4,7 +4,7 @@ class RockModel {
   // pixel offset of top right corner of rock
   int gridX, gridY;
   // 3 different images for rocks, pick one at random
-  int type;
+  int imageType;
   static final int DEFAULT_FRAMES = 100;
   int framesUntilDestroyed = -1;
 
@@ -14,7 +14,7 @@ class RockModel {
     this.gridX = x * (width / dimX);
     this.gridY = y * (height / dimY);
     this.framesUntilDestroyed = DEFAULT_FRAMES;
-    this.type = (int) random(3);
+    this.imageType = (int) random(3);
   }
 
   int getX() {
