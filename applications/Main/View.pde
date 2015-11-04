@@ -24,7 +24,7 @@ class View {
     this.mapModel = mapModel;
     // load image assets
     //rockPlatform = new Gif(parent, "../../assets/Rocks3.gif");
-    rockPlatformImgs = Gif.getPImages(parent,"../../assets/Rocks3.gif" ); 
+    rockPlatformImgs = Gif.getPImages(parent,"../../assets/RocksReal2.gif" ); 
     
     startScreen = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Start.png");
     endScreen = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_End.png");
