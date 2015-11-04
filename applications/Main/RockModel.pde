@@ -5,7 +5,7 @@ class RockModel {
   int gridX, gridY;
   // 3 different images for rocks, pick one at random
   int type;
-  static final int DEFAULT_FRAMES = 100;
+  static final int DEFAULT_FRAMES = 10;
   int framesUntilDestroyed = -1;
 
   RockModel(int x, int y, int dimX, int dimY) {
@@ -23,6 +23,10 @@ class RockModel {
 
   int getY() {
     return y;
+  }
+  
+  int getType() {
+    return type;
   }
 
   int getRemainingFrames() {

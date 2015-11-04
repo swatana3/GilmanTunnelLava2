@@ -47,8 +47,14 @@ class MapController {
           for (RockModel rock : rocks_to_delete) {
             mapModel.rocks.remove(rock);
           }
+          //what is the number of rocks left?
+          println("the number of rocks left is " + mapModel.rocks.size());
+          //no rock in model then win 
+          if(mapModel.rocks.size()==0) {
+            mapModel.state = GameState.WIN;
+            println("currently it is at win state");
+          }
         }
-
     }
     
 }

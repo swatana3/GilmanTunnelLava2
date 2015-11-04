@@ -1,4 +1,4 @@
 enum GameState {
-  START, CALIBRATE, COUNTDOWN, PLAY, END
+  START, PLAY, LOSE, WIN
 };
 

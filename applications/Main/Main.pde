@@ -13,7 +13,7 @@ void setup() {
   size(600, 400);
 
   mapController = new MapController();
-  view = new View(mapController.mapModel); 
+  view = new View(this, mapController.mapModel); 
  
 }
 void draw() {
