@@ -19,24 +19,22 @@ class MapController {
       		rock.update();
       	  }
           */
-          
-      	  // TODO: check state of player (in or out of bounds)
-      	  // for location in rocks.getLocations()
-      	  // 		if player.location == location
-      	  //			player is safe!
-      	  //  if player isn't safe
-      	  //		change game state to "game over"
+       
           //RockModel
           ArrayList<RockModel> rocks_to_delete = new ArrayList<RockModel>();
           for (PlayerModel player : mapModel.players) {
+            player.hurt_this_frame = true;
             for (RockModel rock : mapModel.rocks) {
               //println(player.x + "," + player.y);
               // player is dissolving rock
               if (rock.x == player.x &&
                   rock.y == player.y) {
                   rock.decrementFramesRemaining();
-                  println(rock.getRemainingFrames());
+                  player.hurt_this_frame = false;
+                  println("rock(" + rock.x + "," + rock.y + "): " + rock.getRemainingFrames());
               }
+              // BUG: players can stand on rock at the same time,
+              //      won't be deleted until after both for loops
               // rock has been destroyed
               if (rock.isDestroyed()) {
                 rocks_to_delete.add(rock);
@@ -47,8 +45,14 @@ class MapController {
           for (RockModel rock : rocks_to_delete) {
             mapModel.rocks.remove(rock);
           }
+          // BUG: players still injured when not on map,
+          //      do collision differently? 2d array of rocks on map?
+          for (PlayerModel player : mapModel.players) {
+            if (player.hurt_this_frame) {
+              player.decrementFramesRemaining();
+            }
+          }
         }
 
     }
-    
 }

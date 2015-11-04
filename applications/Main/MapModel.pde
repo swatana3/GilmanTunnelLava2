@@ -4,6 +4,9 @@ class MapModel {
   // dimensions of map/game board
   int mapX, mapY;
 
+  // number of players
+  int playerCount;
+
   //State of map
   GameState state; 
   
@@ -12,6 +15,8 @@ class MapModel {
     // these can change
     this.mapX = 6;
     this.mapY = 4;
+    
+    this.playerCount = 0;
     
     rocks = new ArrayList<RockModel>();
     // procedurally generate rocks for the map
