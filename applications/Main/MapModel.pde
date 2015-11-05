@@ -28,7 +28,6 @@ class MapModel {
 
     state = GameState.START;
   }
-
   // add to rocks so someone can get across
   void generateMap() {
     float rand;
@@ -38,40 +37,38 @@ class MapModel {
     currentY = (int) random(mapY);
     rocks.add(new RockModel(currentX, currentY, mapX, mapY));
     while (currentX < mapX - 1) {
-        rock_exists = false;
+      rock_exists = false;
+      rand = random(1);
+      if      (rand < .2)   { continue; }
+      else if (rand < .8)   { offsetX = 1; }
+      else                  { offsetX = 2; }
+      // generating a point out of bounds
+      if (currentX + offsetX >= mapX) {
+        currentX = mapX - 1;
+      } else {
+        currentX += offsetX;
+      }
+      do {
         rand = random(1);
-        if      (rand < .2)   { continue; }
-        else if (rand < .8)   { offsetX = 1; }
-        else                  { offsetX = 2; }
-        // generating a point out of bounds
-        if (currentX + offsetX >= mapX) {
-          currentX = mapX - 1;
-        } else {
-          currentX += offsetX;
+        if      (rand < .15)  { offsetY = -2; }
+        else if (rand < .4)   { offsetY = -1; }
+        else if (rand < .6)   { offsetY = 0; }
+        else if (rand < .85)  { offsetY = 1; }
+        else                  { offsetY = 2; }
+      // generating a point out of bounds
+      } while (currentY + offsetY < 0 || currentY + offsetY >= mapY);
+      currentY += offsetY;
+      // check if rock already exists
+      for (RockModel rock : rocks) {
+        if (rock.getX() == currentX && rock.getY() == currentY) {
+          rock_exists = true;
         }
-        do {
-          rand = random(1);
-          if      (rand < .15)  { offsetY = -2; }
-          else if (rand < .4)   { offsetY = -1; }
-          else if (rand < .6)   { offsetY = 0; }
-          else if (rand < .85)  { offsetY = 1; }
-          else                  { offsetY = 2; }
-        // generating a point out of bounds
-        } while (currentY + offsetY < 0 || currentY + offsetY >= mapY);
-        currentY += offsetY;
-        // check if rock already exists
-        for (RockModel rock : rocks) {
-          if (rock.getX() == currentX && rock.getY() == currentY) {
-            rock_exists = true;
-          }
-        }
-        if (!rock_exists) {
-          rocks.add(new RockModel(currentX, currentY, mapX, mapY));
-        }
+      }
+      if (!rock_exists) {
+        rocks.add(new RockModel(currentX, currentY, mapX, mapY));
+      }
     }
   }
-
-
 }
 // probabilities for putting rock in x/y offsets
 // .2 - same x, .6 +1 to x, .2 +2 x

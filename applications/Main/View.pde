@@ -11,8 +11,8 @@ class View {
     startScreen = loadImage("../../assets/Screen_Start.png");
     endScreen = loadImage("../../assets/Screen_End.png");
     
-  // window stuff setup
-  background (225);
+    // window stuff setup
+    background (225);
   }
   
   void render() {
@@ -29,6 +29,10 @@ class View {
         for (RockModel rock : mapModel.rocks) {
           //imageMode(CENTER);
           tint(255, rock.getRemainingFrames()/ (float) rock.DEFAULT_FRAMES * 255);
+          // FOR TESTING PURPOSES: draw circle that the player needs to
+          //  be in to be "safe"
+          ellipseMode(CORNER);
+          ellipse(rock.gridX, rock.gridY, width / mapModel.mapX, height / mapModel.mapY);
           //                  top left corner         size to make the image
           image(rockPlatform, rock.gridX, rock.gridY, width / mapModel.mapX, height / mapModel.mapY);
         }
