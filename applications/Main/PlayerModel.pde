@@ -4,8 +4,6 @@ class PlayerModel {
 	// use to add native mouse pixel location,
 	// more precise
 	int mX, mY;
-	// dimensions of the world the player is in
-	int mapX, mapY;
   // player id
   int id;
         
@@ -14,8 +12,6 @@ class PlayerModel {
 	boolean hurt_this_frame;
 	// 
 	PlayerModel(MapModel mapModel) {
-	  this.mapX = mapModel.mapX;
-	  this.mapY = mapModel.mapY;
     // aka health
     this.framesUntilDestroyed = 100;
     this.hurt_this_frame = false;
@@ -24,9 +20,7 @@ class PlayerModel {
 
 	void update() {
 		// convert coordinates
-		x = mouseX/(width/mapX);
 		mX = mouseX;
-		y = mouseY/(height/mapY);
 		mY = mouseY;
 	}
 

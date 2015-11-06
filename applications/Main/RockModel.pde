@@ -1,39 +1,33 @@
 class RockModel {
-  // indices relative on game board grid (4x6 for example)
-  int x, y;
+  static final int WIDTH = 50;
+  static final int HEIGHT = 50;
   // width and height of ellipse that represents rock
   int w, h;
   // center point of ellipse
   int cX, cY;
-  // pixel offset of top right corner of rock
-  int gridX, gridY;
   // 3 different images for rocks, pick one at random
   int imageType;
   static final int DEFAULT_FRAMES = 100;
-  int framesUntilDestroyed = -1;
+  int framesUntilDestroyed;
 
-  RockModel(int x, int y, int dimX, int dimY) {
-    this.x = x;
-    this.y = y;
-    // TODO: these will be sizes eventually
-    this.w = width / dimX;
-    this.h = height / dimY;
-    // TODO: dunno if we need this or not (NOTE: integer division)
-    this.gridX = x * (width / dimX);
-    this.gridY = y * (height / dimY);
-    // have to use the actual pixels
-    this.cX = gridX + w/2;
-    this.cY = gridY + h/2;
+  RockModel(int cX, int cY) {
+    this.cX = cX;
+    this.cY = cY;
+    // how big do we want the rocks to be?
+    this.w = WIDTH;
+    this.h = HEIGHT;
+
     this.framesUntilDestroyed = DEFAULT_FRAMES;
     this.imageType = (int) random(3);
+
   }
 
   int getX() {
-    return x;
+    return cX;
   }
 
   int getY() {
-    return y;
+    return cY;
   }
 
   int getRemainingFrames() {
@@ -72,7 +66,7 @@ class RockModel {
     if (sq(pX - cX) / sq(w/2) + sq(pY - cY) / sq(h/2) <= 1) {
       decrementFramesRemaining();
       // DEBUGGING
-      println("rock(" + x + "," + y + "): " + getRemainingFrames());
+      println("rock(" + cX + "," + cY + "): " + getRemainingFrames());
       return true;
     }
     return false;

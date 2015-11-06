@@ -27,14 +27,14 @@ class View {
         break;
       case PLAY:
         for (RockModel rock : mapModel.rocks) {
-          //imageMode(CENTER);
+          imageMode(CENTER);
           tint(255, rock.getRemainingFrames()/ (float) rock.DEFAULT_FRAMES * 255);
           // FOR TESTING PURPOSES: draw circle that the player needs to
           //  be in to be "safe"
-          ellipseMode(CORNER);
-          ellipse(rock.gridX, rock.gridY, width / mapModel.mapX, height / mapModel.mapY);
+          ellipseMode(CENTER);
+          ellipse(rock.cX, rock.cY, rock.w, rock.h);
           //                  top left corner         size to make the image
-          image(rockPlatform, rock.gridX, rock.gridY, width / mapModel.mapX, height / mapModel.mapY);
+          image(rockPlatform, rock.cX, rock.cY, rock.w, rock.h);
         }
         break;
       case END:

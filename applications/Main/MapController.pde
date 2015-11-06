@@ -47,3 +47,6 @@ class MapController {
     }
   }
 }
+
+
+// TODO: player shouldn't be able to destroy rocks after they're dead
