@@ -49,7 +49,21 @@ class MapModel {
       // take min so the last rock doesn't go off the right side of the screen
       currentX += (int) min((dist * cos(angle)), width - RockModel.WIDTH/2);
       currentY += (int) (dist * sin(angle));
-      rocks.add(new RockModel(currentX, currentY));
+
+      // make sure no collision with any other rocks
+      boolean clear = true;
+      for (int i = 0; i < this.rocks.size() && clear; ++i) {
+        // are the rock centers at least RockModel.WIDTH away?
+        // just taking x coordinate distance into account
+        if (abs(this.rocks.get(i).cX - currentX) < RockModel.WIDTH) {
+          // could encounter collision, don't add this rock
+          clear = false;
+        }
+      }
+      if (clear) {
+        rocks.add(new RockModel(currentX, currentY));
+      }
+
     }
   }
 }
