@@ -9,14 +9,14 @@ class PlayerModel {
     // map model
     MapModel mapModel;
 
-	int health = -1;
+	int health;
 	// bool to tell whether the player has already been hurt this frame
 	boolean hurt_this_frame;
 	// 
 	PlayerModel(MapModel mapModel) {
     // aka health
     this.mapModel = mapModel;
-    this.health = 100;
+    this.health = 1000;
     this.hurt_this_frame = false;
     this.id = ++mapModel.playerCount;
 	}
@@ -25,7 +25,8 @@ class PlayerModel {
 		// convert coordinates
 		mX = mouseX;
 		mY = mouseY;
-		if (mX >= width) {
+		// 3 pixel edge tolerance
+		if (mX >= width-3) {
 			this.mapModel.state = GameState.WIN;
 		}
 		if (this.health <= 0) {
