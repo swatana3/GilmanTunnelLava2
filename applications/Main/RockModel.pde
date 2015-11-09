@@ -1,28 +1,33 @@
 class RockModel {
-  // indices relative on game board grid (4x6 for example)
-  int x, y;
-  // pixel offset of top right corner of rock
-  int gridX, gridY;
+  static final int WIDTH = 50;
+  static final int HEIGHT = 50;
+  // width and height of ellipse that represents rock
+  int w, h;
+  // center point of ellipse
+  int cX, cY;
   // 3 different images for rocks, pick one at random
   int imageType;
   static final int DEFAULT_FRAMES = 100;
-  int framesUntilDestroyed = -1;
+  int framesUntilDestroyed;
 
-  RockModel(int x, int y, int dimX, int dimY) {
-    this.x = x;
-    this.y = y;
-    this.gridX = x * (width / dimX);
-    this.gridY = y * (height / dimY);
+  RockModel(int cX, int cY) {
+    this.cX = cX;
+    this.cY = cY;
+    // how big do we want the rocks to be?
+    this.w = WIDTH;
+    this.h = HEIGHT;
+
     this.framesUntilDestroyed = DEFAULT_FRAMES;
     this.imageType = (int) random(3);
+
   }
 
   int getX() {
-    return x;
+    return cX;
   }
 
   int getY() {
-    return y;
+    return cY;
   }
 
   int getRemainingFrames() {
@@ -49,5 +54,21 @@ class RockModel {
   }
   void update() {
     
+  }
+
+  // check whether the player is on the rock or not
+  boolean checkCollision(int pX, int pY) {
+    // rock is an ellipse, calculate whether the player point is in it
+    // is this actually faster to do this first?
+    // check rectangle,
+    if (abs(pX - cX) > w/2.0 || abs(pY - cY) > h/2.0) { return false; }
+    // then ellipse
+    if (sq(pX - cX) / sq(w/2) + sq(pY - cY) / sq(h/2) <= 1) {
+      decrementFramesRemaining();
+      // DEBUGGING
+      println("rock(" + cX + "," + cY + "): " + getRemainingFrames());
+      return true;
+    }
+    return false;
   }
 }
