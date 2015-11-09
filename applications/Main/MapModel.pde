@@ -46,7 +46,8 @@ class MapModel {
                     // subtract PI/2 to rotate 90 degrees CW
       angle = random(acos(min((currentY - RockModel.HEIGHT/2.0), dist)/dist),
                     PI - acos(min((height - RockModel.HEIGHT/2.0 - currentY), dist)/dist)) - PI/2.0;
-      currentX += (int) (dist * cos(angle));
+      // take min so the last rock doesn't go off the right side of the screen
+      currentX += (int) min((dist * cos(angle)), width - RockModel.WIDTH/2);
       currentY += (int) (dist * sin(angle));
       rocks.add(new RockModel(currentX, currentY));
     }
