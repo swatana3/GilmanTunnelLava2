@@ -29,9 +29,6 @@ class PlayerModel {
 		if (mX >= width-3) {
 			this.mapModel.state = GameState.WIN;
 		}
-		if (this.health <= 0) {
-			this.mapModel.state = GameState.LOSE;
-		}
 	}
 
 	int getRemainingFrames() {
@@ -43,7 +40,8 @@ class PlayerModel {
 			this.health -= 1;
 			println("player " + this.id + ":" + this.health);
 		} else {
-    	// TODO: player is dead, change game state
+    		// player is dead, change game state
+    		this.mapModel.state = GameState.LOSE;
         }
 	}
 }
