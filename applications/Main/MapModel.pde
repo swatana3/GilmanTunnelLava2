@@ -1,21 +1,25 @@
 class MapModel {
+  static final int MIN_STEP_SIZE = 20, MAX_STEP_SIZE = 70;
+
   ArrayList<RockModel> rocks;
   ArrayList<PlayerModel> players;
   // dimensions of map/game board
   int mapX, mapY;
 
+  // number of players
+  int playerCount;
+
   //State of map
   GameState state; 
   
   public MapModel() {
-    // dimension of map, rock can fit in grid <mapX> by <mapY>
-    // these can change
-    this.mapX = 6;
-    this.mapY = 4;
+    // number of players playing, used for player ID
+    this.playerCount = 0;
     
     rocks = new ArrayList<RockModel>();
     // procedurally generate rocks for the map
-    generateMap();
+    //generateMap();
+    generateFullMap();
     players = new ArrayList<PlayerModel>();
     // TODO: get blob/dots from kinect and add those as players
     // for now, just use the mouse (mouse is used in player)
@@ -23,51 +27,28 @@ class MapModel {
 
     state = GameState.START;
   }
-
   // add to rocks so someone can get across
-  void generateMap() {
-    float rand;
-    int offsetX, offsetY;
-    int currentX = 0, currentY;
-    boolean rock_exists;
-    currentY = (int) random(mapY);
-    rocks.add(new RockModel(currentX, currentY, mapX, mapY));
-    while (currentX < mapX - 1) {
-        rock_exists = false;
-        rand = random(1);
-        if      (rand < .2)   { continue; }
-        else if (rand < .8)   { offsetX = 1; }
-        else                  { offsetX = 2; }
-        // generating a point out of bounds
-        if (currentX + offsetX >= mapX) {
-          currentX = mapX - 1;
-        } else {
-          currentX += offsetX;
-        }
-        do {
-          rand = random(1);
-          if      (rand < .15)  { offsetY = -2; }
-          else if (rand < .4)   { offsetY = -1; }
-          else if (rand < .6)   { offsetY = 0; }
-          else if (rand < .85)  { offsetY = 1; }
-          else                  { offsetY = 2; }
-        // generating a point out of bounds
-        } while (currentY + offsetY < 0 || currentY + offsetY >= mapY);
-        currentY += offsetY;
-        // check if rock already exists
-        for (RockModel rock : rocks) {
-          if (rock.getX() == currentX && rock.getY() == currentY) {
-            rock_exists = true;
-          }
-        }
-        if (!rock_exists) {
-          rocks.add(new RockModel(currentX, currentY, mapX, mapY));
-        }
+  // doesn't use grid for rocks
+  void generateFullMap() {
+    int currentY, currentX;
+    float randomAngle, randomDistance;
+    // randomly pick a y value to start at
+    currentY = (int) random(RockModel.HEIGHT/2, height - RockModel.HEIGHT/2);
+    // pick a random distance away from the left hand edge of the window
+    currentX = (int) random(MAX_STEP_SIZE) + RockModel.WIDTH/2;
+    rocks.add(new RockModel(currentX, currentY));
+    // while we are not within one STEP away from the RHS
+    // closest way to get from the circle to the RHS is a straight line --->
+    while (currentX + RockModel.WIDTH/2 < width - MAX_STEP_SIZE) {
+                    // min and max angles using trig
+                    // subtract PI/2 to rotate 90 degrees CW
+      randomAngle = random(acos(min((currentY - RockModel.HEIGHT/2.0), MAX_STEP_SIZE)/MAX_STEP_SIZE),
+                    PI - acos(min((height - RockModel.HEIGHT/2.0 - currentY), MAX_STEP_SIZE)/MAX_STEP_SIZE)) - PI/2.0;
+      // only works since the height and the width are the same
+      randomDistance = RockModel.HEIGHT + random(MIN_STEP_SIZE, MAX_STEP_SIZE);
+      currentX += (int) (randomDistance * cos(randomAngle));
+      currentY += (int) (randomDistance * sin(randomAngle));
+      rocks.add(new RockModel(currentX, currentY));
     }
   }
-
-
 }
-// probabilities for putting rock in x/y offsets
-// .2 - same x, .6 +1 to x, .2 +2 x
-//y's: .15 -2, .25 -1 .2 0, .25 +1, .15 +2

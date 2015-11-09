@@ -29,12 +29,12 @@ void setup() {
   noSmooth();
   
   // Load the animated gif and start animation
-//  rockGif = new Gif(this, "../../assets/Rock1Animation.gif");    
-//  rockGif.play();
-//  bubbleGif = new Gif(this, "../../assets/BubbleAnimation.gif");    
-//  bubbleGif.play();
+  rockGif = new Gif(this, "Rock1Animation3.gif");    
+  rockGif.play();
+  bubbleGif = new Gif(this, "BubbleAnimation4.gif");    
+  bubbleGif.play();
 //  lavaGif = new Gif(this, "Rock1Animation3.gif");    
-  lavaGif = new Gif(this, "../../assets/Lava_Animation_AE.gif");    
+  lavaGif = new Gif(this, "Lava_Animation_AE.gif");    
   lavaGif.play();
 
 //  generateLava(lavaGif, 1);
@@ -324,3 +324,4 @@ class LavaFieldController {
     return true;
   }
 }
+
