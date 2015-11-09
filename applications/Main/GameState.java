@@ -1,4 +1,4 @@
 enum GameState {
-  START, PLAY, END
+  START, PLAY, WIN, LOSE
 };
 

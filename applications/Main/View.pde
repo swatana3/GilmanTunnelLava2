@@ -37,7 +37,9 @@ class View {
           image(rockPlatform, rock.cX, rock.cY, rock.w, rock.h);
         }
         break;
-      case END:
+      case LOSE:
+        break;
+      case WIN:
         break;
     }
   }
