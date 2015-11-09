@@ -31,7 +31,7 @@ class MapModel {
   // doesn't use grid for rocks
   void generateFullMap() {
     int currentY, currentX;
-    float randomAngle, randomDistance;
+    float angle, dist;
     // randomly pick a y value to start at
     currentY = (int) random(RockModel.HEIGHT/2, height - RockModel.HEIGHT/2);
     // pick a random distance away from the left hand edge of the window
@@ -40,15 +40,30 @@ class MapModel {
     // while we are not within one STEP away from the RHS
     // closest way to get from the circle to the RHS is a straight line --->
     while (currentX + RockModel.WIDTH/2 < width - MAX_STEP_SIZE) {
+      // only works since the height and the width are the same
+      dist = RockModel.HEIGHT + random(MIN_STEP_SIZE, MAX_STEP_SIZE);
                     // min and max angles using trig
                     // subtract PI/2 to rotate 90 degrees CW
-      randomAngle = random(acos(min((currentY - RockModel.HEIGHT/2.0), MAX_STEP_SIZE)/MAX_STEP_SIZE),
-                    PI - acos(min((height - RockModel.HEIGHT/2.0 - currentY), MAX_STEP_SIZE)/MAX_STEP_SIZE)) - PI/2.0;
-      // only works since the height and the width are the same
-      randomDistance = RockModel.HEIGHT + random(MIN_STEP_SIZE, MAX_STEP_SIZE);
-      currentX += (int) (randomDistance * cos(randomAngle));
-      currentY += (int) (randomDistance * sin(randomAngle));
-      rocks.add(new RockModel(currentX, currentY));
+      angle = random(acos(min((currentY - RockModel.HEIGHT/2.0), dist)/dist),
+                    PI - acos(min((height - RockModel.HEIGHT/2.0 - currentY), dist)/dist)) - PI/2.0;
+      // take min so the last rock doesn't go off the right side of the screen
+      currentX += (int) min((dist * cos(angle)), width - RockModel.WIDTH/2);
+      currentY += (int) (dist * sin(angle));
+
+      // make sure no collision with any other rocks
+      boolean clear = true;
+      for (int i = 0; i < this.rocks.size() && clear; ++i) {
+        // are the rock centers at least RockModel.WIDTH away?
+        // just taking x coordinate distance into account
+        if (abs(this.rocks.get(i).cX - currentX) < RockModel.WIDTH) {
+          // could encounter collision, don't add this rock
+          clear = false;
+        }
+      }
+      if (clear) {
+        rocks.add(new RockModel(currentX, currentY));
+      }
+
     }
   }
 }
