@@ -54,9 +54,8 @@ class View {
 
     switch (mapModel.state) {
       case START:
-        //imageMode(CENTER);
-        // TODO: rotate start screen
-        image(startScreen, 0, 0, 600, 400);
+        imageMode(CORNER);
+        image(startScreen, 0, 0, width, height);
         break;
       case CALIBRATE:
         println("calibrating....1");
@@ -112,6 +111,8 @@ class View {
         //there's no end state yet..
         //the rock should disappear regardless of someone being there..
       case LOSE:
+        imageMode(CORNER);
+        image(endScreen, 0, 0, width, height);
         break;
     }
   }
