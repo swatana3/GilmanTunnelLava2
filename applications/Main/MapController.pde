@@ -14,6 +14,9 @@ class MapController {
   	  for (PlayerModel player : mapModel.players) {
   	    player.update();
   	  }
+      for (RockModel rock : mapModel.rocks) {
+        rock.update();
+      }
       
       //RockModel
       ArrayList<RockModel> rocks_to_delete = new ArrayList<RockModel>();
@@ -40,6 +43,7 @@ class MapController {
           }
         }
       }
+
       // delete rocks that have "died"
       for (RockModel rock : rocks_to_delete) {
         mapModel.rocks.remove(rock);

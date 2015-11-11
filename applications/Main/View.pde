@@ -111,6 +111,7 @@ class View {
         println("YOU WON");
         //there's no end state yet..
         //the rock should disappear regardless of someone being there..
+      case LOSE:
         break;
     }
   }

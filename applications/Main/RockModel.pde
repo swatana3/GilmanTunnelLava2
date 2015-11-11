@@ -5,6 +5,9 @@ class RockModel {
   int w, h;
   // center point of ellipse
   int cX, cY;
+  // velocity of this rock - don't know if this is how it should be done yet?
+  float vX, vY;
+
   // 3 different images for rocks, pick one at random
   int imageType;
   static final int DEFAULT_FRAMES = 100;
@@ -17,7 +20,12 @@ class RockModel {
     this.w = WIDTH;
     this.h = HEIGHT;
 
+    // velocity of the rock, in pixels per frame
+    this.vX = 0;
+    this.vY = 0;
+
     this.framesUntilDestroyed = DEFAULT_FRAMES;
+    // pick a random number for a rock image (3 images) to represent this rock
     this.imageType = (int) random(3);
 
   }
@@ -57,7 +65,9 @@ class RockModel {
     }
   }
   void update() {
-    
+    updateVelocity();
+    this.cX += this.vX;
+    this.cY += this.vY;
   }
 
   // check whether the player is on the rock or not
@@ -74,5 +84,16 @@ class RockModel {
       return true;
     }
     return false;
+  }
+
+  void updateVelocity() {
+    // change velocity vectors if you want eliptical movement or something
+    // check x wall collision
+    if (this.cX <= RockModel.WIDTH/2 || this.cX >= width - RockModel.WIDTH/2) {
+      this.vX *= -1;
+    }
+    if (this.cY <= RockModel.HEIGHT/2 || this.cY >= height - RockModel.HEIGHT/2) {
+      this.vY *= -1;
+    }
   }
 }
