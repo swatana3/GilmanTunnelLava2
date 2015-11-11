@@ -8,8 +8,8 @@ class View {
     this.mapModel = mapModel;
     // load image assets
     rockPlatform = loadImage("../../assets/rockPlatform1.png");
-    startScreen = loadImage("../../assets/Screen_Start.png");
-    endScreen = loadImage("../../assets/Screen_End.png");
+    startScreen = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Start.png");
+    endScreen = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_End.png");
     
     // window stuff setup
     background (225);
@@ -21,9 +21,8 @@ class View {
 
     switch (mapModel.state) {
       case START:
-        //imageMode(CENTER);
-        // TODO: rotate start screen
-        image(startScreen, 0, 0, 600, 400);
+        imageMode(CORNER);
+        image(startScreen, 0, 0, width, height);
         break;
       case PLAY:
         for (RockModel rock : mapModel.rocks) {
@@ -38,8 +37,12 @@ class View {
         }
         break;
       case LOSE:
+        imageMode(CORNER);
+        image(endScreen, 0, 0, width, height);
         break;
       case WIN:
+        imageMode(CORNER);
+        image(endScreen, 0, 0, width, height);
         break;
     }
   }

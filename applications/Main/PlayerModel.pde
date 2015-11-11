@@ -50,7 +50,7 @@ class PlayerModel {
 				// if the player isn't dead, decrement health
 				if (this.health > 0) {
 					this.health -= 1;
-					println("player " + this.id + "health:" + this.health);
+					println("player " + this.id + " health: " + this.health);
 				// player is dead, game over
 				} else {
 	    		// player is dead, change game state
@@ -58,7 +58,7 @@ class PlayerModel {
 		    }
 		  } else {
 		  	this.shield -= 1;
-		  	println("player " + id + "shield:" + this.shield);
+		  	println("player " + id + " shield: " + this.shield);
 		  }
 		// player is safe, recover shield
 		} else {
