@@ -1,19 +1,19 @@
 // MapController - handles rock and map models
 
 class MapController {
-	MapModel mapModel;
+  MapModel mapModel;
 
   // constructor
   MapController() {
-  	this.mapModel = new MapModel();
+    this.mapModel = new MapModel();
   }
 
   void update() {
     if (mapModel.state == GameState.PLAY) {
       // update rocks and players
-  	  for (PlayerModel player : mapModel.players) {
-  	    player.update();
-  	  }
+      for (PlayerModel player : mapModel.players) {
+        player.update();
+      }
       for (RockModel rock : mapModel.rocks) {
         rock.update();
       }
@@ -44,9 +44,7 @@ class MapController {
       // BUG: players still injured when not on map,
       //      do collision differently? 2d array of rocks on map?
       for (PlayerModel player : mapModel.players) {
-        if (player.hurt_this_frame) {
-          player.decrementFramesRemaining();
-        }
+        player.dealDamage();
       }
     }
   }
