@@ -16,12 +16,9 @@ class View {
   PImage rockPlatform;
   PImage lavaImg;
   
-  //looping things
-  int frameCountSinceLoopLava;
-  int frameCountSinceLoopRock;
-  
-  
-  
+  //keep track of frames since calibrate was called
+  int framesSinceCalledCalibrate; 
+   
   View(PApplet parent, MapModel mapModel) {
     this.mapModel = mapModel;
     rockPlatform = loadImage("../../assets/rockPlatform1.png");
@@ -40,9 +37,9 @@ class View {
     
     //Added the Lava animation gif
     //myAnimation = new Gif(parent, "../../assets/Lava_Animation_AE_shorter.gif");
-    lavaImg = loadImage("../../assets/lavabkgd.png" );  
-    frameCountSinceLoopLava =0; 
-    frameCountSinceLoopRock =0;   
+    lavaImg = loadImage("../../assets/lavabkgd.png" );   
+    
+    framesSinceCalledCalibrate =0; 
     
     // window stuff setup
     background (225);
@@ -57,37 +54,69 @@ class View {
         imageMode(CORNER);
         image(startScreen, 0, 0, width, height);
         break;
-      case CALIBRATE:
-        println("calibrating....1");
-        calibrateScreen1.resize(width, height); 
-        background(calibrateScreen1);
-        delay(2000);
-        println("calibrating....2");
-        calibrateScreen2.resize(width, height); 
-        background(calibrateScreen2);
-        delay(2000);
-        println("calibrating....3");
-        calibrateScreen3.resize(width, height); 
-        background(calibrateScreen3);
-        delay(2000);
-        mapModel.state = GameState.COUNTDOWN; 
+      case CALIBRATE1:
+        //println("calibrating....1");
+        if (framesSinceCalledCalibrate <=100)
+        {
+          calibrateScreen1.resize(width, height); 
+          background(calibrateScreen1);
+          println("frames since called calibrate is" + framesSinceCalledCalibrate);
+          framesSinceCalledCalibrate++; 
+        } else {
+          mapModel.state = GameState.CALIBRATE2; 
+        }
         break;
-     case COUNTDOWN:
-        println("countdown...1");
-        countdownScreen1.resize(width, height); 
-        background(countdownScreen1);
-        delay(2000);
-        println("countdown...2");
-        countdownScreen2.resize(width, height); 
-        background(countdownScreen2);
-        delay(2000);
-        println("countdown...3");
-        countdownScreen3.resize(width, height); 
-        background(countdownScreen3);
-        delay(2000);
-        mapModel.state = GameState.PLAY; 
-        break;
-      case PLAY:
+     case CALIBRATE2:
+       if (framesSinceCalledCalibrate<=200){
+          calibrateScreen2.resize(width, height); 
+          background(calibrateScreen2);
+          println("frames since called calibrate is" + framesSinceCalledCalibrate);
+          framesSinceCalledCalibrate++; 
+        } else{
+          mapModel.state = GameState.CALIBRATE3; 
+        }
+         break;
+       case CALIBRATE3:
+         if (framesSinceCalledCalibrate<=300){
+          calibrateScreen3.resize(width, height); 
+          background(calibrateScreen3);
+          println("frames since called calibrate is" + framesSinceCalledCalibrate);
+          framesSinceCalledCalibrate++; 
+         } else{
+          mapModel.state = GameState.COUNTDOWN1; 
+         }
+       break;
+       case COUNTDOWN1:
+         if (framesSinceCalledCalibrate<=400){
+          countdownScreen1.resize(width, height); 
+          background(countdownScreen1);
+          println("frames since called calibrate is" + framesSinceCalledCalibrate);
+          framesSinceCalledCalibrate++; 
+         } else{
+          mapModel.state = GameState.COUNTDOWN2; 
+         }
+       break;
+       case COUNTDOWN2:
+         if (framesSinceCalledCalibrate<=500){
+          countdownScreen2.resize(width, height); 
+          background(countdownScreen2);
+          println("frames since called calibrate is" + framesSinceCalledCalibrate);
+          framesSinceCalledCalibrate++; 
+          }else{
+          mapModel.state = GameState.COUNTDOWN3; 
+          }
+       break;
+       case COUNTDOWN3:
+         if (framesSinceCalledCalibrate<=600){
+          countdownScreen3.resize(width, height); 
+          background(countdownScreen3);
+          println("frames since called calibrate is" + framesSinceCalledCalibrate);
+          framesSinceCalledCalibrate++; 
+         } else{
+          mapModel.state = GameState.PLAY; 
+          }
+       break;
+     case PLAY:
         lavaImg.resize(width, height); 
         background(lavaImg); 
         for (RockModel rock : mapModel.rocks) {

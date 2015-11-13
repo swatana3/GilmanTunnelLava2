@@ -24,5 +24,5 @@ void draw() {
 
 // TODO: temporary, do something better than this to change the state to PLAY
 void mouseClicked() {
-  mapController.mapModel.state = GameState.CALIBRATE;
+  mapController.mapModel.state = GameState.CALIBRATE1;
 }
