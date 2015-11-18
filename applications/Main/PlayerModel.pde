@@ -8,8 +8,6 @@ class PlayerModel {
   int mX, mY;
   // player id
   int id;
-  // map model
-  MapModel mapModel;
   int health;
   // shield provides some tolerance of time before a player
   // starts taking damage to their health
@@ -17,23 +15,18 @@ class PlayerModel {
   // bool to tell whether the player has already been hurt this frame
   boolean hurt_this_frame;
   // 
-  PlayerModel(MapModel mapModel) {
+  PlayerModel(int id) {
     // aka health
-    this.mapModel = mapModel;
     this.shield = MAX_SHIELD;
     this.health = 100;
     this.hurt_this_frame = false;
-    this.id = ++mapModel.playerCount;
+    this.id = id;
   }
 
   void update() {
     // convert coordinates
     mX = mouseX;
     mY = mouseY;
-    // 3 pixel edge tolerance
-    if (mX >= width-3) {
-      this.mapModel.state = GameState.WIN;
-    }
   }
 
   int getRemainingFrames() {
@@ -53,7 +46,7 @@ class PlayerModel {
           // player is dead, game over
         } else {
           // player is dead, change game state
-          this.mapModel.state = GameState.LOSE;
+          //TODO send notification player is dead
         }
       } else {
         this.shield -= 1;

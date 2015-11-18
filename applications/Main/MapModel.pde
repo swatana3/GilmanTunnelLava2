@@ -1,35 +1,58 @@
 class MapModel {
+  //Generation constants 
   static final int MIN_STEP_SIZE = 20, MAX_STEP_SIZE = 70;
-
-  ArrayList<RockModel> rocks;
-  ArrayList<PlayerModel> players;
-  // dimensions of map/game board
-  int mapX, mapY;
-
-  // number of players
-  int playerCount;
-
+  
   //State of map
   GameState state; 
+  ArrayList<RockModel> rocks;
+  ArrayList<PlayerModel> players;
+  CollisionModel collisionModel;
+  
+  // number of players playing, used for player ID
+  int playerCount = 0;
   
   public MapModel() {
-    // number of players playing, used for player ID
-    this.playerCount = 0;
-    
     rocks = new ArrayList<RockModel>();
+    players = new ArrayList<PlayerModel>();
+    collisionModel = new CollisionModel(this);
+    // TODO: get blob/dots from kinect and add those as players
+    // for now, just use the mouse (mouse is used in player)  
+    players.add(new PlayerModel(playerCount));
+    playerCount += 1;
+
     // procedurally generate rocks for the map
     //generateMap();
     generateFullMap();
-    players = new ArrayList<PlayerModel>();
-    // TODO: get blob/dots from kinect and add those as players
-    // for now, just use the mouse (mouse is used in player)
-    players.add(new PlayerModel(this));
-
     state = GameState.START;
   }
+  
+  void update() {
+    if (state == GameState.START) {
+        if (mousePressed) {
+          state = GameState.PLAY;
+        }
+    } else if (state == GameState.PLAY) {
+        for (PlayerModel player : mapModel.players) {
+          player.update();
+        }
+        for (RockModel rock : mapModel.rocks) {
+          rock.update();
+        }
+        collisionModel.update();
+        
+        //perform victory/death condition check here
+        // 3 pixel edge tolerance
+        //On notification player has crossed edge boundary
+        //if (player.mX >= width-3) {
+        //this.mapModel.state = GameState.WIN;
+        //}
+    }
+  }
+  
   // add to rocks so someone can get across
   // doesn't use grid for rocks
-  void generateFullMap() {
+  
+  private void generateFullMap() {
     int currentY, currentX;
     float angle, dist;
     // randomly pick a y value to start at
@@ -67,3 +90,4 @@ class MapModel {
     }
   }
 }
+

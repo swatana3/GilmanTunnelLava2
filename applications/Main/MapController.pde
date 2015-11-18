@@ -4,20 +4,12 @@ class MapController {
   MapModel mapModel;
 
   // constructor
-  MapController() {
-    this.mapModel = new MapModel();
+  MapController(MapModel mapModel) {
+    this.mapModel = mapModel;
   }
 
   void update() {
     if (mapModel.state == GameState.PLAY) {
-      // update rocks and players
-      for (PlayerModel player : mapModel.players) {
-        player.update();
-      }
-      for (RockModel rock : mapModel.rocks) {
-        rock.update();
-      }
-      
       //RockModel
       ArrayList<RockModel> rocks_to_delete = new ArrayList<RockModel>();
       for (PlayerModel player : mapModel.players) {
