@@ -3,6 +3,7 @@ class RockModel {
   static final int HEIGHT = 50;
   // width and height of ellipse that represents rock
   int w, h;
+  
   // center point of ellipse
   int cX, cY;
   // velocity of this rock - don't know if this is how it should be done yet?
@@ -11,7 +12,12 @@ class RockModel {
   // 3 different images for rocks, pick one at random
   int imageType;
   static final int DEFAULT_FRAMES = 100;
+  
+  //State
   int framesUntilDestroyed;
+  boolean dead = false;
+  boolean collidingWithPlayer = false;
+    
 
   RockModel(int cX, int cY) {
     this.cX = cX;
@@ -30,26 +36,32 @@ class RockModel {
 
   }
 
-  int getX() {
+  int getRawX() {
     return cX;
   }
 
-  int getY() {
+  int getRawY() {
     return cY;
+  }
+  
+  int getWidth() {
+    return w;
+  }
+  
+  int getHeight() {
+    return h;
   }
 
   int getRemainingFrames() {
     return framesUntilDestroyed;
   }
+  
+  public void setCollidingWithPlayer(boolean colliding) {
+    this.collidingWithPlayer = colliding;
+  } 
 
   void setFramesUntilDestroyed(int framesUntilDestroyed) {
     this.framesUntilDestroyed = framesUntilDestroyed;
-  }
-
-  void decrementFramesRemaining() {
-    if (this.framesUntilDestroyed > 0) {
-      this.framesUntilDestroyed -= 1;
-    }
   }
 
   boolean isDestroyed() {
@@ -60,26 +72,19 @@ class RockModel {
       return false;
     }
   }
+  
   void update() {
     updateVelocity();
     this.cX += this.vX;
     this.cY += this.vY;
-  }
-
-  // check whether the player is on the rock or not
-  boolean checkCollision(int pX, int pY) {
-    // rock is an ellipse, calculate whether the player point is in it
-    // is this actually faster to do this first?
-    // check rectangle,
-    if (abs(pX - cX) > w/2.0 || abs(pY - cY) > h/2.0) { return false; }
-    // then ellipse
-    if (sq(pX - cX) / sq(w/2) + sq(pY - cY) / sq(h/2) <= 1) {
-      decrementFramesRemaining();
-      // DEBUGGING
-      println("rock(" + cX + "," + cY + "): " + getRemainingFrames());
-      return true;
+    
+    if (collidingWithPlayer) {
+      if (this.framesUntilDestroyed > 0) {
+        this.framesUntilDestroyed -= 1;
+      } else {
+        this.dead = true;
+      }     
     }
-    return false;
   }
 
   void updateVelocity() {

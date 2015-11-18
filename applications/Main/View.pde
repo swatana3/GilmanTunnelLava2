@@ -2,6 +2,7 @@ class View {
   MapModel mapModel;
   PImage rockPlatform;
   PImage startScreen;
+  PImage loseScreen;
   PImage endScreen;
   
   View(MapModel mapModel) {
@@ -19,7 +20,7 @@ class View {
     // redraw background for each frame
     background (225);
 
-    switch (mapModel.state) {
+    switch (mapModel.getState()) {
       case START:
         imageMode(CORNER);
         image(startScreen, 0, 0, width, height);

@@ -1,16 +1,16 @@
 class MapModel implements Observer {
   //Generation constants 
   static final int MIN_STEP_SIZE = 20, MAX_STEP_SIZE = 70;
-  
+
   //State of map
-  GameState state; 
+  private GameState state; 
   ArrayList<RockModel> rocks;
   ArrayList<PlayerModel> players;
   CollisionModel collisionModel;
-  
+
   // number of players playing, used for player ID
   int playerCount = 0;
-  
+
   public MapModel() {
     rocks = new ArrayList<RockModel>();
     players = new ArrayList<PlayerModel>();
@@ -20,7 +20,7 @@ class MapModel implements Observer {
     PlayerModel player = new PlayerModel(playerCount);
     player.playerDeadEvent().addObserver(this);   
     players.add(player);
-    
+
     playerCount += 1;
 
     // procedurally generate rocks for the map
@@ -28,39 +28,56 @@ class MapModel implements Observer {
     generateFullMap();
     state = GameState.START;
   }
-  
+
   public void onNotify(Event event) {
     if (event instanceof PlayerDeadEvent) {
       state = GameState.LOSE;
     }
   }
-  
+
+  public GameState getState() {
+    return state;
+  }
+
+  public void beginGame() {
+    state = GameState.PLAY;
+  }
+
   void update() {
     if (state == GameState.START) {
-        if (mousePressed) {
-          state = GameState.PLAY;
-        }
     } else if (state == GameState.PLAY) {
-        for (PlayerModel player : mapModel.players) {
-          player.update();
-        }
-        for (RockModel rock : mapModel.rocks) {
-          rock.update();
-        }
-        collisionModel.update();
-        
+      for (PlayerModel player : mapModel.players) {
+        player.update();
         //perform victory/death condition check here
         // 3 pixel edge tolerance
         //On notification player has crossed edge boundary
-        //if (player.mX >= width-3) {
-        //this.mapModel.state = GameState.WIN;
-        //}
+        if (player.getRawX() >= width-3) {
+          state = GameState.WIN;
+        }
+      }
+
+      ArrayList<RockModel> rocksToDestroy = new ArrayList<RockModel>();
+
+      for (RockModel rock : mapModel.rocks) {
+        rock.update();
+        if (rock.isDestroyed()) {
+          rocksToDestroy.add(rock);
+        }
+      }
+      collisionModel.update();
+
+      //Clean up rocks
+      for (RockModel rock : rocksToDestroy) {
+        rocks.remove(rock);
+      }
+    } else if (state == GameState.WIN) {
+      System.out.println("WIN!");
     }
   }
-  
+
   // add to rocks so someone can get across
   // doesn't use grid for rocks
-  
+
   private void generateFullMap() {
     int currentY, currentX;
     float angle, dist;
@@ -74,17 +91,17 @@ class MapModel implements Observer {
     while (currentX + RockModel.WIDTH/2 < width - MAX_STEP_SIZE) {
       // only works since the height and the width are the same
       dist = RockModel.HEIGHT + random(MIN_STEP_SIZE, MAX_STEP_SIZE);
-                    // min and max angles using trig
-                    // subtract PI/2 to rotate 90 degrees CW
-      angle = random(acos(min((currentY - RockModel.HEIGHT/2.0), dist)/dist),
-                    PI - acos(min((height - RockModel.HEIGHT/2.0 - currentY), dist)/dist)) - PI/2.0;
+      // min and max angles using trig
+      // subtract PI/2 to rotate 90 degrees CW
+      angle = random(acos(min((currentY - RockModel.HEIGHT/2.0), dist)/dist), 
+      PI - acos(min((height - RockModel.HEIGHT/2.0 - currentY), dist)/dist)) - PI/2.0;
       // take min so the last rock doesn't go off the right side of the screen
       currentX += (int) min((dist * cos(angle)), width - RockModel.WIDTH/2);
       currentY += (int) (dist * sin(angle));
 
       // make sure no collision with any other rocks
       boolean clear = true;
-      for (int i = 0; i < this.rocks.size() && clear; ++i) {
+      for (int i = 0; i < this.rocks.size () && clear; ++i) {
         // are the rock centers at least RockModel.WIDTH away?
         // just taking x coordinate distance into account
         if (abs(this.rocks.get(i).cX - currentX) < RockModel.WIDTH) {
@@ -95,7 +112,6 @@ class MapModel implements Observer {
       if (clear) {
         rocks.add(new RockModel(currentX, currentY));
       }
-
     }
   }
 }
