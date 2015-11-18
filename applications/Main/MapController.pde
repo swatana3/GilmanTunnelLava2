@@ -12,7 +12,7 @@ class MapController {
     switch(mapModel.getState()) {
       case START:
        if (mousePressed) {
-          mapModel.beginGame();
+          mapModel.beginCalibration();
         }
         break;
       case PLAY:
@@ -24,6 +24,3 @@ class MapController {
     }
   }
 }
-
-
-// TODO: player shouldn't be able to destroy rocks after they're dead

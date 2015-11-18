@@ -10,7 +10,7 @@ void setup() {
   size(600, 400);
   mapModel = new MapModel();
   mapController = new MapController(mapModel);
-  view = new View(mapModel);
+  view = new View(this, mapModel);
 }
 void draw() {
   // main game functions

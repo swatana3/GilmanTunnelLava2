@@ -52,6 +52,10 @@ class RockModel {
     return h;
   }
 
+  int getType() {
+    return imageType;
+  }
+
   int getRemainingFrames() {
     return framesUntilDestroyed;
   }

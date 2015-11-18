@@ -7,6 +7,7 @@ class MapModel implements Observer {
   ArrayList<RockModel> rocks;
   ArrayList<PlayerModel> players;
   CollisionModel collisionModel;
+  int framesSinceCalibrate = 0;
 
   // number of players playing, used for player ID
   int playerCount = 0;
@@ -39,45 +40,97 @@ class MapModel implements Observer {
     return state;
   }
 
-  public void beginGame() {
-    state = GameState.PLAY;
+  public void beginCalibration() {
+    state = GameState.CALIBRATE1;
   }
 
   void update() {
-    if (state == GameState.START) {
-    } else if (state == GameState.PLAY) {
-      for (PlayerModel player : mapModel.players) {
-        player.update();
-        //perform victory/death condition check here
-        // 3 pixel edge tolerance
-        //On notification player has crossed edge boundary
-        if (player.getRawX() >= width-3) {
-          state = GameState.WIN;
+    //consider just using a calibrate state and a countdown state, and let the view fire an event when it's done cycling through the countdown/calibration screens
+    switch (state) {
+      case START:
+        break;
+      case CALIBRATE1:
+        if (framesSinceCalibrate > 100) {
+          state = GameState.CALIBRATE2;
+        } else {
+          framesSinceCalibrate++;
         }
-      }
-
-      ArrayList<RockModel> rocksToDestroy = new ArrayList<RockModel>();
-
-      for (RockModel rock : mapModel.rocks) {
-        rock.update();
-        if (rock.isDestroyed()) {
-          rocksToDestroy.add(rock);
+        break;
+      case CALIBRATE2:
+        if (framesSinceCalibrate > 200) {
+          state = GameState.CALIBRATE3;
+        } else {
+          framesSinceCalibrate++;
         }
-      }
-      collisionModel.update();
-
-      //Clean up rocks
-      for (RockModel rock : rocksToDestroy) {
-        rocks.remove(rock);
-      }
-    } else if (state == GameState.WIN) {
-      System.out.println("WIN!");
+        break;
+      case CALIBRATE3:
+        if (framesSinceCalibrate > 300) {
+          state = GameState.COUNTDOWN1;
+        } else {
+          framesSinceCalibrate++;
+        }
+        break;
+      case COUNTDOWN1:
+        if (framesSinceCalibrate > 400) {
+          state = GameState.COUNTDOWN2;
+        } else {
+          framesSinceCalibrate++;
+        }
+        break;
+      case COUNTDOWN2:
+        if (framesSinceCalibrate > 500) {
+          state = GameState.COUNTDOWN3;
+        } else {
+          framesSinceCalibrate++;
+        }
+        break;
+      case COUNTDOWN3:
+        if (framesSinceCalibrate > 600) {
+          state = GameState.PLAY;
+        } else {
+          framesSinceCalibrate++;
+        }
+        break;
+      case PLAY:
+        for (PlayerModel player : mapModel.players) {
+          player.update();
+          //perform victory/death condition check here
+          // 3 pixel edge tolerance
+          //On notification player has crossed edge boundary
+          if (player.getRawX() >= width-3) {
+            state = GameState.WIN;
+          }
+        }
+        ArrayList<RockModel> rocksToDestroy = new ArrayList<RockModel>();
+  
+        for (RockModel rock : mapModel.rocks) {
+          rock.update();
+          if (rock.isDestroyed()) {
+            rocksToDestroy.add(rock);
+          }
+        }
+        
+        //another victory condition?
+        if(mapModel.rocks.size()==0) {
+          mapModel.state = GameState.WIN;
+        }
+        
+        collisionModel.update();
+  
+        //Clean up rocks
+        for (RockModel rock : rocksToDestroy) {
+          rocks.remove(rock);
+        }
+        break;
+      case WIN:
+        System.out.println("WIN!");
+        break;
     }
+    println("frames since called calibrate is" + framesSinceCalibrate);
   }
 
   // add to rocks so someone can get across
   // doesn't use grid for rocks
-
   private void generateFullMap() {
     int currentY, currentX;
     float angle, dist;
