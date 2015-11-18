@@ -1,4 +1,4 @@
-class MapModel {
+class MapModel implements Observer {
   //Generation constants 
   static final int MIN_STEP_SIZE = 20, MAX_STEP_SIZE = 70;
   
@@ -16,14 +16,23 @@ class MapModel {
     players = new ArrayList<PlayerModel>();
     collisionModel = new CollisionModel(this);
     // TODO: get blob/dots from kinect and add those as players
-    // for now, just use the mouse (mouse is used in player)  
-    players.add(new PlayerModel(playerCount));
+    // for now, just use the mouse (mouse is used in player)
+    PlayerModel player = new PlayerModel(playerCount);
+    player.playerDeadEvent().addObserver(this);   
+    players.add(player);
+    
     playerCount += 1;
 
     // procedurally generate rocks for the map
     //generateMap();
     generateFullMap();
     state = GameState.START;
+  }
+  
+  public void onNotify(Event event) {
+    if (event instanceof PlayerDeadEvent) {
+      state = GameState.LOSE;
+    }
   }
   
   void update() {

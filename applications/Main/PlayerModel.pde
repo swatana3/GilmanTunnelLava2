@@ -1,4 +1,5 @@
 class PlayerModel {
+  private PlayerDeadEvent playerDeadEvent = new PlayerDeadEvent();
 
   static final int MAX_SHIELD = 20;
   // index of player on game map
@@ -28,6 +29,10 @@ class PlayerModel {
     mX = mouseX;
     mY = mouseY;
   }
+  
+  PlayerDeadEvent playerDeadEvent() {
+    return playerDeadEvent; 
+  }
 
   int getRemainingFrames() {
     return health;
@@ -43,10 +48,8 @@ class PlayerModel {
         if (this.health > 0) {
           this.health -= 1;
           println("player " + this.id + " health: " + this.health);
-          // player is dead, game over
         } else {
-          // player is dead, change game state
-          //TODO send notification player is dead
+          playerDeadEvent.notifyEvent();
         }
       } else {
         this.shield -= 1;
