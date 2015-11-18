@@ -1,4 +1,5 @@
 class CollisionModel {
+  private PlayerStepsOnRockEvent playerStepsOnRockEvent = new PlayerStepsOnRockEvent();
   MapModel mapModel;
 
   CollisionModel(MapModel mapModel) {
@@ -7,7 +8,8 @@ class CollisionModel {
 
   void update() {
     for (PlayerModel player : mapModel.players) {
-      player.setCollidingWithLava(true); //assume touching lava unless we find player is colliding with rock
+      //assume touching lava unless we find player is colliding with rock
+      player.setCollidingWithLava(true);
       for (RockModel rock : mapModel.rocks) {
         // rock is an ellipse, calculate whether the player point is in it
         // is this actually faster to do this first?
@@ -20,8 +22,13 @@ class CollisionModel {
         int h = rock.getHeight();
         //check rectangle
         if (!(abs(pX - cX) > w/2.0 || abs(pY - cY) > h/2.0) &&
-          //then check ellipse
-          (sq(pX - cX) / sq(w/2) + sq(pY - cY) / sq(h/2) <= 1)) {
+            //then check ellipse
+            (sq(pX - cX) / sq(w/2) + sq(pY - cY) / sq(h/2) <= 1)) {
+            // if player wasn't on this rock before,
+            if (!rock.collidingWithPlayer) {
+              // create PlayerStepsOnRockEvent
+              playerStepsOnRockEvent.notifyEvent(rock);
+            }
             rock.setCollidingWithPlayer(true);
             player.setCollidingWithLava(false);
             // DEBUGGING
@@ -31,6 +38,10 @@ class CollisionModel {
         }
       }
     }
+  }
+
+  PlayerStepsOnRockEvent playerStepsOnRockEvent() {
+    return playerStepsOnRockEvent;
   }
 }
 

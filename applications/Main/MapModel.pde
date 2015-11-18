@@ -19,7 +19,7 @@ class MapModel implements Observer {
     // TODO: get blob/dots from kinect and add those as players
     // for now, just use the mouse (mouse is used in player)
     PlayerModel player = new PlayerModel(playerCount);
-    player.playerDeadEvent().addObserver(this);   
+    player.playerDeadEvent().addObserver(this);
     players.add(player);
 
     playerCount += 1;
@@ -41,11 +41,16 @@ class MapModel implements Observer {
   }
 
   public void beginCalibration() {
-    state = GameState.CALIBRATE1;
+    // skip calibration
+    //state = GameState.CALIBRATE1;
+    state = GameState.PLAY;
+
   }
 
   void update() {
-    //consider just using a calibrate state and a countdown state, and let the view fire an event when it's done cycling through the countdown/calibration screens
+    //consider just using a calibrate state and a countdown state,
+    // and let the view fire an event when it's done cycling through
+    // the countdown/calibration screens
     switch (state) {
       case START:
         break;

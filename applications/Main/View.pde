@@ -1,4 +1,4 @@
-class View {
+class View implements Observer {
   MapModel mapModel;
   //PImage rockPlatform;
   PImage startScreen;
@@ -50,6 +50,9 @@ class View {
     lavaImg = loadImage("../../assets/lavabkgd.png" );   
             
     lavaImg.resize(width, height); 
+
+    // make View an observer of PlayerStepsOnRocksEvents
+    mapModel.collisionModel.playerStepsOnRockEvent().addObserver(this);
 
     // window stuff setup
     background (225);
@@ -107,5 +110,11 @@ class View {
         break;
       }
   }
+  public void onNotify(Event event) {
+    if (event instanceof PlayerStepsOnRockEvent) {
+      println("stepped on rock " + (System.identityHashCode(((PlayerStepsOnRockEvent) event).rockModel)));
+    }
+  }
+
 }
 
