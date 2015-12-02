@@ -16,6 +16,8 @@ class RockModel {
   
   // center point of ellipse
   int cX, cY;
+  
+  int centerX, centerY;
   // velocity of this rock - don't know if this is how it should be done yet?
   float vX, vY;
 
@@ -32,8 +34,8 @@ class RockModel {
   RockModel(int cX, int cY) {
     this.cX = cX;
     this.cY = cY;
-    this.posX = cX;
-    this.posY = cY;
+    this.centerX = cX;
+    this.centerY = cY;
     // how big do we want the rocks to be?
     this.w = WIDTH;
     this.h = HEIGHT;
@@ -45,8 +47,8 @@ class RockModel {
     // can change the velocity later by changing theta increase
     
     //currrently setting radius manually
-    this.radiusX = 10;
-    this.radiusY = 50;
+    this.radiusX = 50;
+    this.radiusY = 100;
     
     //angle of ellipse
     this.theta =0; 
@@ -126,13 +128,10 @@ class RockModel {
 
   void updateVelocity() {
      this.theta += 0.01;
-      println("theta is" + theta);
-      this.posX = radiusX * cos( theta );
-      this.posY = radiusY * sin( theta );
-      
-      this.cX += posX;
-      this.cY += posY; 
-      
+     //println("theta is" + theta);
+     this.cX = (int)(radiusX * cos( theta )) + centerX;
+     this.cY = (int)(radiusY * sin( theta )) + centerY;
+    
       if (theta > TWO_PI){
         theta = 0;   
       }

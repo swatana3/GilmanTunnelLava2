@@ -93,9 +93,7 @@ class View implements Observer {
           // FOR TESTING PURPOSES: draw circle that the player needs to
           //  be in to be "safe"
           ellipseMode(CENTER);
-          //translate( rock.cX, rock.cY);
           ellipse(rock.cX, rock.cY, rock.w, rock.h);
-          //                  top left corner         size to make the image
           image(rockPlatform, rock.cX, rock.cY, rock.w, rock.h);
         }
         break;
@@ -116,6 +114,5 @@ class View implements Observer {
       println("stepped on rock " + (System.identityHashCode(((PlayerStepsOnRockEvent) event).rockModel)));
     }
   }
-
 }
 
