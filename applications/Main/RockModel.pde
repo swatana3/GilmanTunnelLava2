@@ -4,6 +4,16 @@ class RockModel {
   // width and height of ellipse that represents rock
   int w, h;
   
+  float posX, posY;
+  
+  boolean movingRock;
+  
+  //incrementally changing elliptical angle
+  float theta;
+  
+  //radius of ellipse, it can be set later
+  float radiusX, radiusY;
+  
   // center point of ellipse
   int cX, cY;
   // velocity of this rock - don't know if this is how it should be done yet?
@@ -22,17 +32,37 @@ class RockModel {
   RockModel(int cX, int cY) {
     this.cX = cX;
     this.cY = cY;
+    this.posX = cX;
+    this.posY = cY;
     // how big do we want the rocks to be?
     this.w = WIDTH;
     this.h = HEIGHT;
 
-    // velocity of the rock, in pixels per frame
-    this.vX = 0;
-    this.vY = 0;
+     //this.vel = 100;
+   
+   //this.multiFactor = 0;  
+    
+    // can change the velocity later by changing theta increase
+    
+    //currrently setting radius manually
+    this.radiusX = 10;
+    this.radiusY = 50;
+    
+    //angle of ellipse
+    this.theta =0; 
+
 
     this.framesUntilDestroyed = DEFAULT_FRAMES;
     // pick a random number for a rock image (3 images) to represent this rock
     this.imageType = (int) random(3);
+    
+    if ((int) random(3) ==0){
+      println("Moving rock created!!");
+      this.movingRock = true;
+    } else {
+      println("not created!");
+      this.movingRock = false;
+    }
 
   }
 
@@ -78,9 +108,12 @@ class RockModel {
   }
   
   void update() {
-    updateVelocity();
-    this.cX += this.vX;
-    this.cY += this.vY;
+    if (movingRock) {
+      println("updating velocity");
+      updateVelocity();
+    } else {
+      println("NOT updating velocity");
+    }
     
     if (collidingWithPlayer) {
       if (this.framesUntilDestroyed > 0) {
@@ -92,13 +125,16 @@ class RockModel {
   }
 
   void updateVelocity() {
-    // change velocity vectors if you want eliptical movement or something
-    // check x wall collision
-    if (this.cX <= RockModel.WIDTH/2 || this.cX >= width - RockModel.WIDTH/2) {
-      this.vX *= -1;
-    }
-    if (this.cY <= RockModel.HEIGHT/2 || this.cY >= height - RockModel.HEIGHT/2) {
-      this.vY *= -1;
-    }
+     this.theta += 0.01;
+      println("theta is" + theta);
+      this.posX = radiusX * cos( theta );
+      this.posY = radiusY * sin( theta );
+      
+      this.cX += posX;
+      this.cY += posY; 
+      
+      if (theta > TWO_PI){
+        theta = 0;   
+      }
   }
 }
