@@ -1,3 +1,5 @@
+import java.util.Map;
+
 class View implements Observer {
   MapModel mapModel;
   //PImage rockPlatform;
@@ -14,12 +16,22 @@ class View implements Observer {
   PImage countdownScreen3;
 
   //static images(gifs were too large)
-  PImage rockPlatform;
+  PImage rockPlatformOne;
+  PImage rockPlatformTwo;
+  PImage rockPlatformThree;
+  PImage rockDetailOne;
+  PImage rockDetailTwo;
+  PImage rockDetailThree;
   PImage lavaImg;
 
   View(PApplet parent, MapModel mapModel) {
     this.mapModel = mapModel;
-    rockPlatform = loadImage("../../assets/rockPlatform1.png");
+    rockPlatformOne = loadImage("../../assets/rockPlatform1.png");
+    rockPlatformTwo = loadImage("../../assets/rockPlatform2.png");
+    rockPlatformThree = loadImage("../../assets/rockPlatform3.png");
+    rockDetailOne = loadImage("../../assets/rockDetail1.png");
+    rockDetailTwo = loadImage("../../assets/rockDetail2.png");
+    rockDetailThree = loadImage("../../assets/rockDetail3.png");
     startScreen = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Start.png");
     endScreen = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_End.png");
 
@@ -94,8 +106,26 @@ class View implements Observer {
           //  be in to be "safe"
           ellipseMode(CENTER);
           ellipse(rock.cX, rock.cY, rock.w, rock.h);
-          //                  top left corner         size to make the image
-          image(rockPlatform, rock.cX, rock.cY, rock.w, rock.h);
+          
+          PImage rockImg;
+          PImage rockDetail;
+          switch (rock.getType()) {
+            case 0:
+              rockImg = rockPlatformOne;
+              rockDetail = rockDetailOne;
+              break;
+            case 1:
+              rockImg = rockPlatformTwo;
+              rockDetail = rockDetailTwo;
+              break;
+            default:
+              rockImg = rockPlatformThree;
+              rockDetail = rockDetailThree;
+              break;
+          }
+          //top left corner size to make the image
+          image(rockImg, rock.cX, rock.cY, rock.w, rock.h);
+          image(rockDetail, rock.cX, rock.cY, rock.w, rock.h);
         }
         break;
       case WIN:
