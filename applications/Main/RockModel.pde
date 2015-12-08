@@ -11,6 +11,9 @@ class RockModel {
   //incrementally changing elliptical angle
   float theta;
   
+  //Store real cX and cY, cX, cY for display
+  int storecX, storecY;
+  
   //radius of ellipse, it can be set later
   float radiusX, radiusY;
   
@@ -23,6 +26,11 @@ class RockModel {
 
   // 3 different images for rocks, pick one at random
   int imageType;
+
+  //if rocks are moving offscreen
+  boolean movingOffScreenX; 
+  boolean movingOffScreenY; 
+  
   static final int DEFAULT_FRAMES = 100;
   
   //State
@@ -61,6 +69,14 @@ class RockModel {
     if ((int) random(3) ==0){
       println("Moving rock created!!");
       this.movingRock = true;
+      
+      //use these variables if it's moving rock
+      this.movingOffScreenX = false;
+      this.movingOffScreenY = false;
+      
+      this.storecX = this.cX;
+      this.storecY = this.cY; 
+      
     } else {
       println("not created!");
       this.movingRock = false;
@@ -126,11 +142,42 @@ class RockModel {
     }
   }
 
+//only updates velcocity if it's a moving rock 
   void updateVelocity() {
-     this.theta += 0.01;
-     //println("theta is" + theta);
-     this.cX = (int)(radiusX * cos( theta )) + centerX;
-     this.cY = (int)(radiusY * sin( theta )) + centerY;
+    this.theta += 0.01;
+    
+     this.storecX = (int)(radiusX * cos( theta )) + centerX;
+     this.storecY = (int)(radiusY * sin( theta )) + centerY;
+     
+     //change movingOffScreen based on conditions for x coordinate
+    if (!this.movingOffScreenX && (this.storecX<0 || this.storecX>width)){
+      this.movingOffScreenX = true;
+    } else if (movingOffScreenX && (this.storecX>0 && this.storecX<width)) {
+     this.movingOffScreenX = false;
+    } 
+    
+    //display results based on moving off screen
+    if (!this.movingOffScreenX) {
+      this.cX = storecX;
+    } else if (this.storecX<0 ) {
+      this.cX = 0;
+    } else {
+      this.cX = width;
+    }
+    
+    if (!this.movingOffScreenY && (this.storecY<0 || this.storecY>height)){
+      this.movingOffScreenY = true;
+    } else if (movingOffScreenY && (this.storecY>0 && this.storecY<height)) {
+     this.movingOffScreenY = false;
+    } 
+    
+    if (!this.movingOffScreenY) {
+      this.cY = storecY;
+    } else if (this.storecY<0 ) {
+      this.cY = 0;
+    } else {
+      this.cY = height;
+    }
     
       if (theta > TWO_PI){
         theta = 0;   
