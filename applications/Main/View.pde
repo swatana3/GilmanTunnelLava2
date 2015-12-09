@@ -6,6 +6,7 @@ class View implements Observer {
   PImage startScreen;
   PImage loseScreen;
   PImage endScreen;
+  PImage winScreen;
   //PImage calibrateScreen
   PImage calibrateScreen1;
   PImage calibrateScreen2;
@@ -23,6 +24,9 @@ class View implements Observer {
   PImage rockDetailTwo;
   PImage rockDetailThree;
   PImage lavaImg;
+  
+  //have an arrayList of Rocks while playerisSteppedOnRock and playerStepsOffRock
+  
 
   View(PApplet parent, MapModel mapModel) {
     this.mapModel = mapModel;
@@ -34,8 +38,10 @@ class View implements Observer {
     rockDetailThree = loadImage("../../assets/rockDetail3.png");
     startScreen = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Start.png");
     endScreen = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_End.png");
+    winScreen = loadImage("../../assets/Rotated Screens/GT Setting Design_End_Win.png");
 
     endScreen.resize(width, height);
+    winScreen.resize(width, height);
 
     //calibrateScreen
     calibrateScreen1 = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Calibrate1.png");
@@ -131,7 +137,7 @@ class View implements Observer {
       case WIN:
         //prevent gif from looping in background can test with myAnimation.isPlaying()
         ///myAnimation.noLoop(); 
-        background(endScreen);
+        background(winScreen);
         //there's no end state yet..
         //the rock should disappear regardless of someone being there..
       case LOSE:
@@ -143,6 +149,8 @@ class View implements Observer {
   public void onNotify(Event event) {
     if (event instanceof PlayerStepsOnRockEvent) {
       println("stepped on rock " + (System.identityHashCode(((PlayerStepsOnRockEvent) event).rockModel)));
+      RockModel localRock = ((PlayerStepsOnRockEvent) event).rockModel;
+      localRock.bouncing = true;
     }
   }
 }

@@ -1,6 +1,7 @@
 class RockModel {
   static final int WIDTH = 50;
   static final int HEIGHT = 50;
+ 
   // width and height of ellipse that represents rock
   int w, h;
   
@@ -37,6 +38,18 @@ class RockModel {
   int framesUntilDestroyed;
   boolean dead = false;
   boolean collidingWithPlayer = false;
+  
+  //variables for bounce effect called in View (can't be in View specific to each rock)
+  float amplitude;
+  float decay;
+  float minScale;
+  float t;
+  float sineScale;
+  //BouncingState
+  boolean bouncing;
+  
+  //store the width and height during bounce
+  int storeW, storeH; 
     
 
   RockModel(int cX, int cY) {
@@ -47,12 +60,18 @@ class RockModel {
     // how big do we want the rocks to be?
     this.w = WIDTH;
     this.h = HEIGHT;
-
-     //this.vel = 100;
-   
-   //this.multiFactor = 0;  
     
-    // can change the velocity later by changing theta increase
+    //variables for bounce in view
+    sineScale = 1;
+    amplitude = 0.10;
+    decay = 0.002;
+    minScale = 1.0;
+    t=0;
+    bouncing = false;
+    
+    //store w and h for bounce
+    storeW = w;
+    storeH = h;
     
     //currrently setting radius manually
     this.radiusX = 50;
@@ -132,6 +151,10 @@ class RockModel {
     } else {
       println("NOT updating velocity");
     }
+    //change height and width of rock if its bouncing
+    if (bouncing){
+      bouncingMovement();
+    }
     
     if (collidingWithPlayer) {
       if (this.framesUntilDestroyed > 0) {
@@ -141,6 +164,21 @@ class RockModel {
       }     
     }
   }
+  
+//bouncing movement change rock height and width
+void bouncingMovement() {
+  sineScale = (minScale) - (amplitude * sin(2 * PI * t / 60) + amplitude);
+  if (amplitude > 0) {
+    amplitude -= decay;
+  } else {
+    amplitude = 0;
+  }
+  t += 1;
+  
+  w = (int) (storeW * sineScale);
+  h = (int) (storeH * sineScale);
+       
+}
 
 //only updates velcocity if it's a moving rock 
   void updateVelocity() {

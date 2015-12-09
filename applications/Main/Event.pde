@@ -38,3 +38,4 @@ class PlayerStepsOnRockEvent extends Event {
     super.notifyEvent();
   }
 }
+
