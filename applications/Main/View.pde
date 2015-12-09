@@ -30,7 +30,7 @@ class View implements Observer {
   float decay = 0.002;
   float minScale = 1.0;
   float t=0;
-  float sineScale
+  float sineScale;
 
   View(PApplet parent, MapModel mapModel) {
     this.mapModel = mapModel;
@@ -80,7 +80,7 @@ class View implements Observer {
     background (225);
     
     //before anyone steps on rock
-    sinScale = 1;
+    sineScale = 1;
   }
 
   void render() {
@@ -137,8 +137,8 @@ class View implements Observer {
               break;
           }
           //top left corner size to make the image
-          image(rockImg, rock.cX, rock.cY, rock.w, rock.h);
-          image(rockDetail, rock.cX, rock.cY, rock.w, rock.h);
+          image(rockImg, rock.cX, rock.cY, sineScale * rock.w, sineScale * rock.h);
+          image(rockDetail, rock.cX, rock.cY, sineScale * rock.w, sineScale * rock.h);
         }
         break;
       case WIN:
@@ -156,13 +156,14 @@ class View implements Observer {
   public void onNotify(Event event) {
     if (event instanceof PlayerStepsOnRockEvent) {
       println("stepped on rock " + (System.identityHashCode(((PlayerStepsOnRockEvent) event).rockModel)));
-      sineScale = (minScale) - (amplitude * sin(2 * PI * t / 60) + amplitude); 
-      if (amplitude > 0) {
-        amplitude -= decay;
+      RockModel localRock = 
+      ((PlayerStepsOnRockEvent) event).rockModel.sineScale = (((PlayerStepsOnRockEvent) event).rockModel.minScale) - (((PlayerStepsOnRockEvent) event).rockModel.amplitude * sin(2 * PI * t / 60) + ((PlayerStepsOnRockEvent) event).rockModel.amplitude);
+      if (((PlayerStepsOnRockEvent) event).rockModel.amplitude > 0) {
+        ((PlayerStepsOnRockEvent) event).rockModel.amplitude -= ((PlayerStepsOnRockEvent) event).rockModel.decay;
        } else {
-        amplitude = 0;
+        ((PlayerStepsOnRockEvent) event).rockModel.amplitude = 0;
        }
-      t += 1;
+      ((PlayerStepsOnRockEvent) event).rockModel.t += 1;
     }
   }
 }
