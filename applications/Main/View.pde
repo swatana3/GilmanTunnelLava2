@@ -25,12 +25,8 @@ class View implements Observer {
   PImage rockDetailThree;
   PImage lavaImg;
   
-  //variables for bounce effect
-  float amplitude = 0.10;
-  float decay = 0.002;
-  float minScale = 1.0;
-  float t=0;
-  float sineScale;
+  //have an arrayList of Rocks while playerisSteppedOnRock and playerStepsOffRock
+  
 
   View(PApplet parent, MapModel mapModel) {
     this.mapModel = mapModel;
@@ -78,9 +74,6 @@ class View implements Observer {
 
     // window stuff setup
     background (225);
-    
-    //before anyone steps on rock
-    sineScale = 1;
   }
 
   void render() {
@@ -137,8 +130,8 @@ class View implements Observer {
               break;
           }
           //top left corner size to make the image
-          image(rockImg, rock.cX, rock.cY, sineScale * rock.w, sineScale * rock.h);
-          image(rockDetail, rock.cX, rock.cY, sineScale * rock.w, sineScale * rock.h);
+          image(rockImg, rock.cX, rock.cY, rock.w, rock.h);
+          image(rockDetail, rock.cX, rock.cY, rock.w, rock.h);
         }
         break;
       case WIN:
@@ -156,14 +149,8 @@ class View implements Observer {
   public void onNotify(Event event) {
     if (event instanceof PlayerStepsOnRockEvent) {
       println("stepped on rock " + (System.identityHashCode(((PlayerStepsOnRockEvent) event).rockModel)));
-      RockModel localRock = 
-      ((PlayerStepsOnRockEvent) event).rockModel.sineScale = (((PlayerStepsOnRockEvent) event).rockModel.minScale) - (((PlayerStepsOnRockEvent) event).rockModel.amplitude * sin(2 * PI * t / 60) + ((PlayerStepsOnRockEvent) event).rockModel.amplitude);
-      if (((PlayerStepsOnRockEvent) event).rockModel.amplitude > 0) {
-        ((PlayerStepsOnRockEvent) event).rockModel.amplitude -= ((PlayerStepsOnRockEvent) event).rockModel.decay;
-       } else {
-        ((PlayerStepsOnRockEvent) event).rockModel.amplitude = 0;
-       }
-      ((PlayerStepsOnRockEvent) event).rockModel.t += 1;
+      RockModel localRock = ((PlayerStepsOnRockEvent) event).rockModel;
+      localRock.bouncing = true;
     }
   }
 }

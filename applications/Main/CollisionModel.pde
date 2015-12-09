@@ -1,5 +1,6 @@
 class CollisionModel {
   private PlayerStepsOnRockEvent playerStepsOnRockEvent = new PlayerStepsOnRockEvent();
+  
   MapModel mapModel;
 
   CollisionModel(MapModel mapModel) {
