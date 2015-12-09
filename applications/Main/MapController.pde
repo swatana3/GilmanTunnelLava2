@@ -1,6 +1,6 @@
 // MapController - handles rock and map models
 
-boolean useOpenNI = false; //for testing only
+boolean useOpenNI = true; //for testing only
 
 SimpleOpenNI context;
 float        zoomF =0.5f;
@@ -103,6 +103,7 @@ class MapController {
       context.update();
       switch(mapModel.getState()) {
       case START:
+        mapModel.beginCalibration();
         //TODO: implement multiple players and adding/dropping players
         break;
       case PLAY:
@@ -118,8 +119,8 @@ class MapController {
             //for now we're only doing one player
             PlayerModel player = mapModel.players.get(0);
             //scale to processing coordinates
-            player.setRawX((int)com.x + 1100);
-            player.setRawY((int)com.y + 500);
+            player.setRawX((-1)*(int)com.x + 1100);
+            player.setRawY((-1)*(int)com.y + 500);
             println("x: " + com.x + " y: " + com.y);
           }
         }

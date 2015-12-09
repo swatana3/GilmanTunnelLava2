@@ -79,7 +79,6 @@ class View implements Observer {
   void render() {
     // redraw background for each frame
     background (225);
-
     switch (mapModel.getState()) {
       case START:
         imageMode(CORNER);
