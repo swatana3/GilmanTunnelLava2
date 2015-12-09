@@ -9,7 +9,7 @@ SimpleOpenNI context;
 float        zoomF =0.5f;
 float        rotX = radians(180);  // by default rotate the hole scene 180deg around the x-axis, 
                                    // the data from openni comes upside down
-float        rotY = radians(0);
+float        rotY = radians(180);
 boolean      autoCalib=true;
 
 PVector      bodyCenter = new PVector();
