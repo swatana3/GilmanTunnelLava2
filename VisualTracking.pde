@@ -7,8 +7,6 @@
  * prog:  Max Rheiner / Interaction Design / Zhdk / http://iad.zhdk.ch/
  * date:  12/12/2012 (m/d/y)
  * ----------------------------------------------------------------------------
- 
- For visual appeal.
  */
  
 import SimpleOpenNI.*;
@@ -128,7 +126,20 @@ void draw()
       
       fill(0,255,100);
       text(Integer.toString(userList[i]),com.x,com.y,com.z);
-      println("x: " + com.x + " y: " + com.y);
+      PMatrix3D  orientation = new PMatrix3D();
+        pushMatrix();
+          translate(com.x,com.y,com.z);
+    
+          // set the local coordsys
+          applyMatrix(orientation);
+          if (com.x != 0.0 && com.y != 0.0) {
+            println(com.x+","+com.y);
+            ellipse(com.x, com.y, 10, 10);
+          }
+    
+        // coordsys lines are 100mm long
+        popMatrix();
+
     }      
   }    
  
