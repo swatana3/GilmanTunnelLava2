@@ -32,7 +32,7 @@ class MapModel implements Observer {
 
   public void onNotify(Event event) {
     if (event instanceof PlayerDeadEvent) {
-      state = GameState.LOSE;
+      //state = GameState.LOSE;
     }
   }
 
@@ -103,7 +103,7 @@ class MapModel implements Observer {
           // 3 pixel edge tolerance
           //On notification player has crossed edge boundary
           if (player.getRawX() >= width-3) {
-            state = GameState.WIN;
+            //state = GameState.WIN;
           }
         }
         ArrayList<RockModel> rocksToDestroy = new ArrayList<RockModel>();
@@ -117,7 +117,7 @@ class MapModel implements Observer {
         
         //another victory condition?
         if(mapModel.rocks.size()==0) {
-          mapModel.state = GameState.WIN;
+          //mapModel.state = GameState.WIN;
         }
         
         collisionModel.update();

@@ -1,7 +1,6 @@
 class RockModel {
-  static final int WIDTH = 50;
-  static final int HEIGHT = 50;
- 
+  static final int WIDTH = 300;
+  static final int HEIGHT = 300;
   // width and height of ellipse that represents rock
   int w, h;
   
