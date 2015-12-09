@@ -3,53 +3,117 @@ class RockModel {
   static final int HEIGHT = 50;
   // width and height of ellipse that represents rock
   int w, h;
+  
+  float posX, posY;
+  
+  boolean movingRock;
+  
+  //incrementally changing elliptical angle
+  float theta;
+  
+  //Store real cX and cY, cX, cY for display
+  int storecX, storecY;
+  
+  //radius of ellipse, it can be set later
+  float radiusX, radiusY;
+  
   // center point of ellipse
   int cX, cY;
+  
+  int centerX, centerY;
   // velocity of this rock - don't know if this is how it should be done yet?
   float vX, vY;
 
   // 3 different images for rocks, pick one at random
   int imageType;
+
+  //if rocks are moving offscreen
+  boolean movingOffScreenX; 
+  boolean movingOffScreenY; 
+  
   static final int DEFAULT_FRAMES = 100;
+  
+  //State
   int framesUntilDestroyed;
+  boolean dead = false;
+  boolean collidingWithPlayer = false;
+    
 
   RockModel(int cX, int cY) {
     this.cX = cX;
     this.cY = cY;
+    this.centerX = cX;
+    this.centerY = cY;
     // how big do we want the rocks to be?
     this.w = WIDTH;
     this.h = HEIGHT;
 
-    // velocity of the rock, in pixels per frame
-    this.vX = 0;
-    this.vY = 0;
+     //this.vel = 100;
+   
+   //this.multiFactor = 0;  
+    
+    // can change the velocity later by changing theta increase
+    
+    //currrently setting radius manually
+    this.radiusX = 50;
+    this.radiusY = 100;
+    
+    //angle of ellipse
+    this.theta =0; 
+
 
     this.framesUntilDestroyed = DEFAULT_FRAMES;
     // pick a random number for a rock image (3 images) to represent this rock
     this.imageType = (int) random(3);
+    
+    if ((int) random(3) ==0){
+      println("Moving rock created!!");
+      this.movingRock = true;
+      
+      //use these variables if it's moving rock
+      this.movingOffScreenX = false;
+      this.movingOffScreenY = false;
+      
+      this.storecX = this.cX;
+      this.storecY = this.cY; 
+      
+    } else {
+      println("not created!");
+      this.movingRock = false;
+    }
 
   }
 
-  int getX() {
+  int getRawX() {
     return cX;
   }
 
-  int getY() {
+  int getRawY() {
     return cY;
+  }
+  
+  int getWidth() {
+    return w;
+  }
+  
+  int getHeight() {
+    return h;
+  }
+
+  int getType() {
+    return imageType;
   }
 
   int getRemainingFrames() {
     return framesUntilDestroyed;
   }
+  
+  public void setCollidingWithPlayer(boolean colliding) {
+    this.collidingWithPlayer = colliding;
+  } 
 
   void setFramesUntilDestroyed(int framesUntilDestroyed) {
     this.framesUntilDestroyed = framesUntilDestroyed;
-  }
-
-  void decrementFramesRemaining() {
-    if (this.framesUntilDestroyed > 0) {
-      this.framesUntilDestroyed -= 1;
-    }
   }
 
   boolean isDestroyed() {
@@ -60,36 +124,63 @@ class RockModel {
       return false;
     }
   }
+  
   void update() {
-    updateVelocity();
-    this.cX += this.vX;
-    this.cY += this.vY;
-  }
-
-  // check whether the player is on the rock or not
-  boolean checkCollision(int pX, int pY) {
-    // rock is an ellipse, calculate whether the player point is in it
-    // is this actually faster to do this first?
-    // check rectangle,
-    if (abs(pX - cX) > w/2.0 || abs(pY - cY) > h/2.0) { return false; }
-    // then ellipse
-    if (sq(pX - cX) / sq(w/2) + sq(pY - cY) / sq(h/2) <= 1) {
-      decrementFramesRemaining();
-      // DEBUGGING
-      println("rock(" + cX + "," + cY + "): " + getRemainingFrames());
-      return true;
+    if (movingRock) {
+      println("updating velocity");
+      updateVelocity();
+    } else {
+      println("NOT updating velocity");
     }
-    return false;
+    
+    if (collidingWithPlayer) {
+      if (this.framesUntilDestroyed > 0) {
+        this.framesUntilDestroyed -= 1;
+      } else {
+        this.dead = true;
+      }     
+    }
   }
 
+//only updates velcocity if it's a moving rock 
   void updateVelocity() {
-    // change velocity vectors if you want eliptical movement or something
-    // check x wall collision
-    if (this.cX <= RockModel.WIDTH/2 || this.cX >= width - RockModel.WIDTH/2) {
-      this.vX *= -1;
+    this.theta += 0.01;
+    
+     this.storecX = (int)(radiusX * cos( theta )) + centerX;
+     this.storecY = (int)(radiusY * sin( theta )) + centerY;
+     
+     //change movingOffScreen based on conditions for x coordinate
+    if (!this.movingOffScreenX && (this.storecX<0 || this.storecX>width)){
+      this.movingOffScreenX = true;
+    } else if (movingOffScreenX && (this.storecX>0 && this.storecX<width)) {
+     this.movingOffScreenX = false;
+    } 
+    
+    //display results based on moving off screen
+    if (!this.movingOffScreenX) {
+      this.cX = storecX;
+    } else if (this.storecX<0 ) {
+      this.cX = 0;
+    } else {
+      this.cX = width;
     }
-    if (this.cY <= RockModel.HEIGHT/2 || this.cY >= height - RockModel.HEIGHT/2) {
-      this.vY *= -1;
+    
+    if (!this.movingOffScreenY && (this.storecY<0 || this.storecY>height)){
+      this.movingOffScreenY = true;
+    } else if (movingOffScreenY && (this.storecY>0 && this.storecY<height)) {
+     this.movingOffScreenY = false;
+    } 
+    
+    if (!this.movingOffScreenY) {
+      this.cY = storecY;
+    } else if (this.storecY<0 ) {
+      this.cY = 0;
+    } else {
+      this.cY = height;
     }
+    
+      if (theta > TWO_PI){
+        theta = 0;   
+      }
   }
 }

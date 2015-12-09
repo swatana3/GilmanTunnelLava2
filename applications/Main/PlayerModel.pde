@@ -1,47 +1,69 @@
 class PlayerModel {
-  // index of player on game map
-	int x, y;
-	// use to add native mouse pixel location,
-	// more precise
-	int mX, mY;
- 	// player id
-  	int id;
-    // map model
-    MapModel mapModel;
+  private PlayerDeadEvent playerDeadEvent = new PlayerDeadEvent();
 
-	int health;
-	// bool to tell whether the player has already been hurt this frame
-	boolean hurt_this_frame;
-	// 
-	PlayerModel(MapModel mapModel) {
+  static final int MAX_SHIELD = 20;
+  // raw x and y coordinates
+  private int mX, mY;
+  // player id
+  private int id;
+  private int health;
+  // shield provides some tolerance of time before a player
+  // starts taking damage to their health
+  private int shield;
+  // if colliding with lava
+  private boolean collidingWithLava = false;
+  private boolean dead = false;
+  
+
+  PlayerModel(int id) {
     // aka health
-    this.mapModel = mapModel;
-    this.health = 1000;
-    this.hurt_this_frame = false;
-    this.id = ++mapModel.playerCount;
-	}
+    this.shield = MAX_SHIELD;
+    this.health = 100;
+    this.id = id;
+  }
 
-	void update() {
-		// convert coordinates
-		mX = mouseX;
-		mY = mouseY;
-		// 3 pixel edge tolerance
-		if (mX >= width-3) {
-			this.mapModel.state = GameState.WIN;
-		}
-	}
-
-	int getRemainingFrames() {
-	  return health;
-	}
-
-	void decrementFramesRemaining() {
-		if (this.health > 0) {
-			this.health -= 1;
-			println("player " + this.id + ":" + this.health);
-		} else {
-    		// player is dead, change game state
-    		this.mapModel.state = GameState.LOSE;
+  void update() {
+    if (collidingWithLava) {
+      if (this.shield <= 0) {
+        if (this.health > 0) {
+          this.health -= 1;
+        } else {
+          playerDeadEvent.notifyEvent();
+          this.dead = true;
         }
-	}
+      } else {
+        this.shield -= 1;
+      }      
+    } else {
+      this.shield = min(this.shield + 1, MAX_SHIELD);
+    } 
+    println("player " + id + " shield: " + this.shield + " x: " + this.mX + " y: " + this.mY);
+  }
+  
+  public void setCollidingWithLava(boolean collide) {
+    this.collidingWithLava = collide;
+  }
+
+  public void setRawX(int x) {
+    this.mX = x;
+  }
+  public int getRawX() {
+    return mX;
+  }
+  
+  public void setRawY(int y) {
+    this.mY = y;
+  }
+  public int getRawY() {
+    return mY;
+  }
+  
+  PlayerDeadEvent playerDeadEvent() {
+    return playerDeadEvent; 
+  }
+
+  int getRemainingFrames() {
+    return health;
+  }
 }
+
