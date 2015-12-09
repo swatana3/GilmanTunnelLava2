@@ -133,6 +133,10 @@ class View implements Observer {
           image(rockImg, rock.cX, rock.cY, rock.w, rock.h);
           image(rockDetail, rock.cX, rock.cY, rock.w, rock.h);
         }
+        tint(255, 255);
+        ellipseMode(CENTER);
+        fill(255,0,0);        
+        ellipse(mapModel.players.get(0).getRawX(), mapModel.players.get(0).getRawY(), 50, 50);
         break;
       case WIN:
         //prevent gif from looping in background can test with myAnimation.isPlaying()
