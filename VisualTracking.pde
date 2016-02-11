@@ -1,5 +1,6 @@
 /* --------------------------------------------------------------------------
  * SimpleOpenNI User3d Test
+ * https://github.com/dyninc/DynViz_with_Kinect/blob/master/dynviz/dynviz/libraries/SimpleOpenNI/examples/OpenNI/User3d/User3d.pde
  * --------------------------------------------------------------------------
  * Processing Wrapper for the OpenNI/Kinect 2 library
  * http://code.google.com/p/simple-openni
