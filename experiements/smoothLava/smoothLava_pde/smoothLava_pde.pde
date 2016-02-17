@@ -68,8 +68,8 @@ void draw() {
      if (index == 0){
        increment = true;
      }
-      //Otherwise if at 179, decrement
-     else if (index == 179){
+      //Otherwise if at frame_life -1, decrement
+     else if (index == (frame_life - 1)){
        increment = false;
      } 
    }
