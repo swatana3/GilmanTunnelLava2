@@ -36,6 +36,19 @@ PVector leftFootPosition = new PVector();
 // turn feet into scalar form
 float distanceScalarL;
 float distanceScalarR;
+// variables used for linear interpolation
+float leftLerpX = 0;
+float leftLerpY = 0;
+float leftLastX = 0;
+float leftLastY = 0;
+float leftClosestX = 0;
+float leftClosestY = 0;
+float rightLerpX = 0;
+float rightLerpY = 0;
+float rightLastX = 0;
+float rightLastY = 0;
+float rightClosestX = 0;
+float rightClosestY = 0;
 // diameter of feet drawn in pixels
 float feetSize = 200;
  
@@ -127,9 +140,16 @@ void drawSkeleton(int userId){
   distanceScalarL = (525/leftFootPosition.z);
   distanceScalarR = (525/rightFootPosition.z);
   // draw the circle at the position of the head with the head size scaled by the distance scalar
-  ellipse(leftFootPosition.x,leftFootPosition.y, distanceScalarL*feetSize,distanceScalarL*feetSize);
-  ellipse(rightFootPosition.x,rightFootPosition.y, distanceScalarR*feetSize,distanceScalarR*feetSize);
- 
+  leftLerpX = lerp(leftLastX, leftFootPosition.x, 0.5f);
+  leftLerpY = lerp(leftLastY, leftFootPosition.y, 0.5f);
+  rightLerpX = lerp(rightLastX, rightFootPosition.x, 0.3f);
+  rightLerpY = lerp(rightLastY, rightFootPosition.y, 0.3f);
+  ellipse(leftLerpX,leftLerpY, distanceScalarL*feetSize,distanceScalarL*feetSize);
+  ellipse(rightLerpX,rightLerpY, distanceScalarR*feetSize,distanceScalarR*feetSize);
+  leftLastX = leftLerpX;
+  leftLastY = leftLerpY;
+  rightLastX = rightLerpX;
+  rightLastY = rightLerpY;
 }
  
 /*---------------------------------------------------------------
