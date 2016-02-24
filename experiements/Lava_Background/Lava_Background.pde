@@ -7,7 +7,7 @@ Simulates the moving lava background.
 **/
 
 /** Global Variables - to be used across all classes **/
-final int numBubbles  = 10; // Sets the number of bubbles to appear on the screen
+final int numBubbles  = 115; // Sets the number of bubbles to appear on the screen
 final int frameLife = 600; //Indicates how large the memory is in frames; 60 frames = 1 second
 bubble[] bubbles = new bubble[numBubbles]; // Holds the bubble objects
 int index = frameLife - 1; // stores the current index of the memory array
@@ -30,10 +30,6 @@ void setup(){
 void draw(){
   background(255, 92, 30);
   noStroke();
-  //Continously draw the bubbles - debugging output
-  //if (frameCount % frameLife == 0){
-  //  print("Looping achieved.");
-  //}
   
   /* Recording portion */
   if (frameCount <= frameLife) {
@@ -141,8 +137,14 @@ class bubble{
     y = ig;
     bubbleNum = num;
     
-    //Calculate random variables
-    couleur=color(random(230, 255), random(150, 160), 0, 100); //Randomly set color
+    //Calculate random variable
+    float rand = random(0, 11);
+    if (rand < 10) { 
+      couleur = color(random(230, 355), random(75, 200), random(0, 30), 100); //Randomly set color
+    }
+    else {
+      couleur = color(255, 92, 30, 100);
+    }
     n = floor(random(8, 20)); //Randomly set number of points to draw bubble
     float depart = random(90);
     angles = new float[n];
@@ -152,7 +154,7 @@ class bubble{
     respiration = new dimmer(-5.5, 5.5, 200,random(360));
     
     //Set speed of bubble center movement. Bubble center is at (x, y). vY is speed in y-direction. vX is speed in x-direction.
-    vY =- random(100 - raydebase)*0.01;
+    vY =- random(100 - raydebase)*0.012;
     vX = random(-0.03,0.03);
 
     // Initialize each point with its initial angle and radius. Center of bubble is at (x, y).
