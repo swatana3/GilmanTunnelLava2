@@ -15,6 +15,8 @@ PVector topLCorner;
 int currentX;
 int currentY;
 
+int currentZ; 
+
 //while there is no keyboard input
 boolean cont; 
 
@@ -42,6 +44,10 @@ void setup()
  size(640, 480);
  kinect = new SimpleOpenNI(this);
  kinect.enableRGB();
+ kinect.enableDepth();
+ 
+ //function that aligns rgb and depth
+ kinect.alternativeViewPointDepthToImage();
  
  //trackColor = color (255,0,0);
  smooth ();
@@ -141,5 +147,7 @@ void keyPressed(){
 }
 
 void createFloor(){
+  pushMatrix()
+  translate(bottomLCorner.x, bottomRCorner.y)
   //create the floor from the points we gathered
 }
