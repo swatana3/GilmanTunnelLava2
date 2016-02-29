@@ -1,3 +1,4 @@
+
 /*---------------------------------------------------------------
 Author : Sayge Schell
 
@@ -16,6 +17,7 @@ Imports
 ----------------------------------------------------------------*/
 // import kinect library
 import SimpleOpenNI.*;
+
  
 /*---------------------------------------------------------------
 Variables
@@ -92,11 +94,18 @@ void draw(){
   kinect.update();
   // get Kinect data
   kinectDepth = kinect.depthImage();
+   
   // draw depth image at coordinates (0,0)
   image(kinectDepth,0,0); 
  
    // get all user IDs of tracked users
   userID = kinect.getUsers();
+  
+  XnPlane3D plane; 
+        XnStatus st =  g_SceneAnalyzer.GetFloor(plane); 
+  printf("Plane point=(%f,%f,%f), vector=(%f,%f,%f)\n", plane.ptPoint.X, 
+  plane.ptPoint.Y, plane.ptPoint.Z, plane.vNormal.X, plane.vNormal.Y, 
+  plane.vNormal.Z); 
  
   // loop through each user to see if tracking
   for(int i=0;i<userID.length;i++)
