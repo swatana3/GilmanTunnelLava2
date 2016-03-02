@@ -5,7 +5,9 @@ class View implements Observer {
   //PImage rockPlatform;
   PImage startScreen;
   PImage loseScreen;
+  PImage FloseScreen;
   PImage endScreen;
+  PImage FendScreen;
   PImage winScreen;
   //PImage calibrateScreen
   PImage calibrateScreen1;
@@ -15,6 +17,11 @@ class View implements Observer {
   PImage countdownScreen1;
   PImage countdownScreen2;
   PImage countdownScreen3;
+  PImage betweenLevels;
+  PImage FcountdownScreen1;
+  PImage FcountdownScreen2;
+  PImage FcountdownScreen3;
+ 
 
   //static images(gifs were too large)
   PImage rockPlatformOne;
@@ -38,9 +45,11 @@ class View implements Observer {
     rockDetailThree = loadImage("../../assets/rockDetail3.png");
     startScreen = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Start.png");
     endScreen = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_End.png");
+    FendScreen = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_End_F.png");
     winScreen = loadImage("../../assets/Rotated Screens/GT Setting Design_End_Win.png");
 
     endScreen.resize(width, height);
+    FendScreen.resize(width, height);
     winScreen.resize(width, height);
 
     //calibrateScreen
@@ -56,11 +65,17 @@ class View implements Observer {
     countdownScreen1 = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Countdown1.png");
     countdownScreen2 = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Countdown2.png");
     countdownScreen3 = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Countdown3.png");
+    FcountdownScreen1 = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Countdown1_F.png");
+    FcountdownScreen2 = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Countdown2_F.png");
+    FcountdownScreen3 = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Countdown3_F.png");
 
     
     countdownScreen1.resize(width, height);
     countdownScreen2.resize(width, height);
     countdownScreen3.resize(width, height);
+    FcountdownScreen1.resize(width, height);
+    FcountdownScreen2.resize(width, height);
+    FcountdownScreen3.resize(width, height);
     
 
     //Added the Lava animation gif
@@ -103,6 +118,22 @@ class View implements Observer {
       case COUNTDOWN3: 
         background(countdownScreen3);
         break;
+      case FLIPPEDCOUNTDOWN1: 
+        background(FcountdownScreen1);
+        println("FLIIPED");
+        break;
+      case FLIPPEDCOUNTDOWN2: 
+        background(FcountdownScreen2);
+        println("FLIIPED");
+        break;
+      case FLIPPEDCOUNTDOWN3: 
+        background(FcountdownScreen3);
+        println("FLIIPED");
+        break;
+      case BETWEENLEVEL:
+        //change background
+        println("BETWEEN LEVEL");
+        break;
       case PLAY: 
         background(lavaImg); 
         for (RockModel rock : mapModel.rocks) {
@@ -144,7 +175,12 @@ class View implements Observer {
         imageMode(CORNER);
         image(endScreen, 0, 0, width, height);
         break;
-      }
+     case FLOSE:
+       imageMode(CORNER);
+       image(FendScreen, 0, 0, width, height);
+       break;
+     }
+      
   }
   public void onNotify(Event event) {
     if (event instanceof PlayerStepsOnRockEvent) {

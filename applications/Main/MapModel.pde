@@ -8,6 +8,7 @@ class MapModel implements Observer {
   ArrayList<PlayerModel> players;
   CollisionModel collisionModel;
   int framesSinceCalibrate = 0;
+  int level = 1;
 
   // number of players playing, used for player ID
   int playerCount = 0;
@@ -32,7 +33,11 @@ class MapModel implements Observer {
 
   public void onNotify(Event event) {
     if (event instanceof PlayerDeadEvent) {
+      if (level % 2 == 0){
+        state = GameState.FLOSE;
+      } else {
       state = GameState.LOSE;
+      }  
     }
   }
 
@@ -42,9 +47,7 @@ class MapModel implements Observer {
 
   public void beginCalibration() {
     // skip calibration
-    //state = GameState.CALIBRATE1;
-    state = GameState.PLAY;
-
+    state = GameState.CALIBRATE1;
   }
 
   void update() {
@@ -75,6 +78,31 @@ class MapModel implements Observer {
           framesSinceCalibrate++;
         }
         break;
+      case BETWEENLEVEL:
+        if (framesSinceCalibrate == 601){
+          framesSinceCalibrate = 0;
+        }
+        if (level == 11 ){
+          state = GameState.WIN;
+        }
+        if(mapModel.rocks.size()==0) {
+          //Add rocks below each player
+          for (PlayerModel p : players){
+            rocks.add(new RockModel(p.getRawX(), p.getRawY()));
+          }
+          generateFullMap();
+        }
+        if (framesSinceCalibrate > 300){
+          //We want a flipped countdown
+          if (level % 2 == 0){
+            state = GameState.FLIPPEDCOUNTDOWN1;
+          } else {
+            state = GameState.COUNTDOWN1;
+          }  
+        } else {
+          framesSinceCalibrate++;
+        }
+        break;
       case COUNTDOWN1:
         if (framesSinceCalibrate > 400) {
           state = GameState.COUNTDOWN2;
@@ -96,6 +124,27 @@ class MapModel implements Observer {
           framesSinceCalibrate++;
         }
         break;
+       case FLIPPEDCOUNTDOWN1:
+        if (framesSinceCalibrate > 400) {
+          state = GameState.FLIPPEDCOUNTDOWN2;
+        } else {
+          framesSinceCalibrate++;
+        }
+        break;
+      case FLIPPEDCOUNTDOWN2:
+        if (framesSinceCalibrate > 500) {
+          state = GameState.FLIPPEDCOUNTDOWN3;
+        } else {
+          framesSinceCalibrate++;
+        }
+        break;
+      case FLIPPEDCOUNTDOWN3:
+        if (framesSinceCalibrate > 600) {
+          state = GameState.PLAY;
+        } else {
+          framesSinceCalibrate++;
+        }
+        break;
       case PLAY:
         for (PlayerModel player : mapModel.players) {
           player.update();
@@ -103,7 +152,13 @@ class MapModel implements Observer {
           // 3 pixel edge tolerance
           //On notification player has crossed edge boundary
           if (player.getRawX() >= width-3) {
-            state = GameState.WIN;
+            if (level == 11){
+              state = GameState.WIN;
+            } else {
+              level++;
+              player.resetHealth();
+              state = GameState.BETWEENLEVEL;
+            }  
           }
         }
         ArrayList<RockModel> rocksToDestroy = new ArrayList<RockModel>();
@@ -117,7 +172,15 @@ class MapModel implements Observer {
         
         //another victory condition?
         if(mapModel.rocks.size()==0) {
-          mapModel.state = GameState.WIN;
+          if (level == 11){
+            mapModel.state = GameState.WIN;
+          } else {
+            level++;
+            for (PlayerModel player : mapModel.players){
+              player.resetHealth();
+            }
+            mapModel.state = GameState.BETWEENLEVEL;
+          }
         }
         
         collisionModel.update();
@@ -171,6 +234,7 @@ class MapModel implements Observer {
         rocks.add(new RockModel(currentX, currentY));
       }
     }
+
   }
 }
 
