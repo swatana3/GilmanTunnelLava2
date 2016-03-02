@@ -79,7 +79,7 @@ class MapModel implements Observer {
         }
         break;
       case BETWEENLEVEL:
-        if (framesSinceCalibrate == 601){
+        if (framesSinceCalibrate > 600){
           framesSinceCalibrate = 0;
         }
         if (level == 11 ){
@@ -146,6 +146,13 @@ class MapModel implements Observer {
         }
         break;
       case PLAY:
+        if (framesSinceCalibrate == 601) {
+           //add rocks below players if first iteration
+           for (PlayerModel p : players) {
+             rocks.add(new RockModel(p.getRawX(), p.getRawY(), true));
+          }
+          framesSinceCalibrate++;
+        }
         for (PlayerModel player : mapModel.players) {
           player.update();
           //perform victory/death condition check here
@@ -209,9 +216,10 @@ class MapModel implements Observer {
     rocks.add(new RockModel(currentX, currentY));
     // while we are not within one STEP away from the RHS
     // closest way to get from the circle to the RHS is a straight line --->
-    while (currentX + RockModel.WIDTH/2 < width - MAX_STEP_SIZE) {
+    //The distance scales up with the level
+    while (currentX + RockModel.WIDTH/2 < width - (1 + float(level/10) - .1) * MAX_STEP_SIZE) {
       // only works since the height and the width are the same
-      dist = RockModel.HEIGHT + random(MIN_STEP_SIZE, MAX_STEP_SIZE);
+      dist = RockModel.HEIGHT + random(MIN_STEP_SIZE, (1 + float(level/10) - .1) * MAX_STEP_SIZE);
       // min and max angles using trig
       // subtract PI/2 to rotate 90 degrees CW
       angle = random(acos(min((currentY - RockModel.HEIGHT/2.0), dist)/dist), 

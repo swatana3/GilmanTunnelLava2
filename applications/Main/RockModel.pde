@@ -50,6 +50,41 @@ class RockModel {
   
   //store the width and height during bounce
   int storeW, storeH; 
+  
+  RockModel(int cX, int cY, boolean Start){
+    this.cX = cX;
+    this.cY = cY;
+    this.centerX = cX;
+    this.centerY = cY;
+    // how big do we want the rocks to be?
+    this.w = WIDTH;
+    this.h = HEIGHT;
+    
+    //variables for bounce in view
+    sineScale = 1;
+    amplitude = 0.10;
+    decay = 0.002;
+    minScale = 1.0;
+    t=0;
+    bouncing = false;
+    
+    //store w and h for bounce
+    storeW = w;
+    storeH = h;
+    
+    //currrently setting radius manually
+    this.radiusX = 50;
+    this.radiusY = 100;
+    
+    //angle of ellipse
+    this.theta =0; 
+
+
+    this.framesUntilDestroyed = DEFAULT_FRAMES;
+    // pick a random number for a rock image (3 images) to represent this rock
+    this.imageType = (int) random(1,3);
+    this.movingRock = false;
+  }
     
 
   RockModel(int cX, int cY) {
