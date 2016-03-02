@@ -97,8 +97,10 @@ class View implements Observer {
 
     switch (mapModel.getState()) {
       case START:
+        //println("we reached the render method");
         imageMode(CORNER);
         image(startScreen, 0, 0, width, height);
+        //println("Image supposedly rendered");
         break;
       case CALIBRATE1: 
         background(calibrateScreen1);
@@ -168,7 +170,9 @@ class View implements Observer {
       case WIN:
         //prevent gif from looping in background can test with myAnimation.isPlaying()
         ///myAnimation.noLoop(); 
+        imageMode(CORNER);
         background(winScreen);
+        break;
         //there's no end state yet..
         //the rock should disappear regardless of someone being there..
       case LOSE:

@@ -41,6 +41,26 @@ class MapModel implements Observer {
     }
   }
 
+  /* Resets the game after death/win*/
+  void reset() {
+    //Reset all counters and variables
+    level = 1;
+    playerCount = 0;
+    framesSinceCalibrate = 0;
+    players.clear();
+    rocks.clear();
+    //Add the players
+    PlayerModel player = new PlayerModel(playerCount);
+    player.playerDeadEvent().addObserver(this);
+    players.add(player);
+    playerCount += 1;
+    // procedurally generate rocks for the map
+    //generateMap();
+    generateFullMap();
+    state = GameState.START;
+    print(state);
+  }
+  
   public GameState getState() {
     return state;
   }
@@ -56,6 +76,7 @@ class MapModel implements Observer {
     // the countdown/calibration screens
     switch (state) {
       case START:
+        //println("we reached the update method");
         break;
       case CALIBRATE1:
         if (framesSinceCalibrate > 100) {
@@ -82,9 +103,7 @@ class MapModel implements Observer {
         if (framesSinceCalibrate > 600){
           framesSinceCalibrate = 0;
         }
-        if (level == 11 ){
-          state = GameState.WIN;
-        }
+       
         if(mapModel.rocks.size()==0) {
           //Add rocks below each player
           for (PlayerModel p : players){
@@ -159,7 +178,7 @@ class MapModel implements Observer {
           // 3 pixel edge tolerance
           //On notification player has crossed edge boundary
           if (player.getRawX() >= width-3) {
-            if (level == 11){
+            if (level == 10){
               state = GameState.WIN;
             } else {
               level++;
@@ -171,7 +190,7 @@ class MapModel implements Observer {
         ArrayList<RockModel> rocksToDestroy = new ArrayList<RockModel>();
   
         for (RockModel rock : mapModel.rocks) {
-          rock.update();
+          rock.update(level);
           if (rock.isDestroyed()) {
             rocksToDestroy.add(rock);
           }
@@ -179,7 +198,7 @@ class MapModel implements Observer {
         
         //another victory condition?
         if(mapModel.rocks.size()==0) {
-          if (level == 11){
+          if (level == 10){
             mapModel.state = GameState.WIN;
           } else {
             level++;
@@ -199,7 +218,37 @@ class MapModel implements Observer {
         break;
       case WIN:
         System.out.println("WIN!");
+        /*if (framesSinceCalibrate > 601){
+          framesSinceCalibrate = 0;
+        } else if (framesSinceCalibrate > 300) {
+          state = GameState.RESET;
+        } else {
+          framesSinceCalibrate++;
+        }*/
         break;
+      case LOSE:
+        System.out.println("LOSE");
+        if (framesSinceCalibrate > 601){
+          framesSinceCalibrate = 0;
+        } else if (framesSinceCalibrate > 300) {
+          state = GameState.RESET;
+        } else {
+          framesSinceCalibrate++;
+        }
+        break;
+      case FLOSE:
+        System.out.println("LOSE");
+        if (framesSinceCalibrate > 601){
+          framesSinceCalibrate = 0;
+        } else if (framesSinceCalibrate > 300) {
+          state = GameState.RESET;
+        } else {
+          framesSinceCalibrate++;
+        }
+        break;
+       case RESET:
+         reset();
+         break;
     }
     println("frames since called calibrate is" + framesSinceCalibrate);
   }

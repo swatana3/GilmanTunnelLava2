@@ -179,10 +179,10 @@ class RockModel {
     }
   }
   
-  void update() {
+  void update(int level) {
     if (movingRock) {
       println("updating velocity");
-      updateVelocity();
+      updateVelocity(level);
     } else {
       println("NOT updating velocity");
     }
@@ -216,8 +216,9 @@ void bouncingMovement() {
 }
 
 //only updates velcocity if it's a moving rock 
-  void updateVelocity() {
-    this.theta += 0.01;
+  void updateVelocity(int level) {
+    float scaled_t = level * .005;
+    this.theta += (.01 + scaled_t);
     
      this.storecX = (int)(radiusX * cos( theta )) + centerX;
      this.storecY = (int)(radiusY * sin( theta )) + centerY;
