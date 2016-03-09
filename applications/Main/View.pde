@@ -10,6 +10,7 @@ class View implements Observer {
   PImage endScreen;
   PImage FendScreen;
   PImage winScreen;
+  PImage winScreen2;
   //PImage calibrateScreen
   PImage calibrateScreen1;
   PImage calibrateScreen2;
@@ -22,6 +23,7 @@ class View implements Observer {
   PImage FcountdownScreen1;
   PImage FcountdownScreen2;
   PImage FcountdownScreen3;
+  PImage rules;
  
 
   //static images(gifs were too large)
@@ -51,31 +53,35 @@ class View implements Observer {
     rockDetailOne = loadImage("../../assets/rockDetail1.png");
     rockDetailTwo = loadImage("../../assets/rockDetail2.png");
     rockDetailThree = loadImage("../../assets/rockDetail3.png");
-    startScreen = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Start.png");
-    endScreen = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_End.png");
-    FendScreen = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_End_F.png");
-    winScreen = loadImage("../../assets/Rotated Screens/GT Setting Design_End_Win.png");
+    startScreen = loadImage("../../assets/New Screens/GT_Start-78.png");
+    endScreen = loadImage("../../assets/New Screens/GT_GameOver.png");
+    FendScreen = loadImage("../../assets/New Screens/GT_GameOver_Hover.png");
+    winScreen = loadImage("../../assets/New Screens/GT_YouWin.png");
+    winScreen2 = loadImage("../../assets/New Screens/GT_YouWin2.png");
+    rules = loadImage("../../assets/New Screens/GT_Rules-82.png");
 
     endScreen.resize(width, height);
     FendScreen.resize(width, height);
     winScreen.resize(width, height);
+    winScreen2.resize(width, height);
+    rules.resize(width, height);
 
     //calibrateScreen
-    calibrateScreen1 = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Calibrate1.png");
-    calibrateScreen2 = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Calibrate1.png");
-    calibrateScreen3  = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Calibrate1.png");
+    calibrateScreen1 = loadImage("../../assets/New Screens/GT_C1.png");
+    calibrateScreen2 = loadImage("../../assets/New Screens/GT_C2.png");
+    calibrateScreen3  = loadImage("../../assets/New Screens/GT_C3.png");
 
     calibrateScreen1.resize(width, height);
     calibrateScreen2.resize(width, height);
     calibrateScreen3.resize(width, height);
 
     //countdownScreen
-    countdownScreen1 = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Countdown1.png");
-    countdownScreen2 = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Countdown2.png");
-    countdownScreen3 = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Countdown3.png");
-    FcountdownScreen1 = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Countdown1_F.png");
-    FcountdownScreen2 = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Countdown2_F.png");
-    FcountdownScreen3 = loadImage("../../assets/Rotated Screens/GT Setting Design_rotated_Countdown3_F.png");
+    countdownScreen1 = loadImage("../../assets/New Screens/GT_1.png");
+    countdownScreen2 = loadImage("../../assets/New Screens/GT_2.png");
+    countdownScreen3 = loadImage("../../assets/New Screens/GT_3.png");
+    FcountdownScreen1 = loadImage("../../assets/New Screens/GT_1_F.png");
+    FcountdownScreen2 = loadImage("../../assets/New Screens/GT_2_F.png");
+    FcountdownScreen3 = loadImage("../../assets/New Screens/GT_3_F.png");
 
     
     countdownScreen1.resize(width, height);
@@ -110,6 +116,10 @@ class View implements Observer {
         image(startScreen, 0, 0, width, height);
         //println("Image supposedly rendered");
         break;
+      case RULES:
+        background(rules);
+        println("background triggered");
+        break;
       case CALIBRATE1: 
         background(calibrateScreen1);
         break;
@@ -120,16 +130,16 @@ class View implements Observer {
         background(calibrateScreen3);
         break;
       case COUNTDOWN1: 
-        background(countdownScreen1);
+        background(countdownScreen3);
         break;
       case COUNTDOWN2: 
         background(countdownScreen2);
         break;
       case COUNTDOWN3: 
-        background(countdownScreen3);
+        background(countdownScreen1);
         break;
       case FLIPPEDCOUNTDOWN1: 
-        background(FcountdownScreen1);
+        background(FcountdownScreen3);
         println("FLIIPED");
         break;
       case FLIPPEDCOUNTDOWN2: 
@@ -137,7 +147,7 @@ class View implements Observer {
         println("FLIIPED");
         break;
       case FLIPPEDCOUNTDOWN3: 
-        background(FcountdownScreen3);
+        background(FcountdownScreen1);
         println("FLIIPED");
         break;
       case BETWEENLEVEL:
@@ -214,17 +224,15 @@ class View implements Observer {
         ///myAnimation.noLoop(); 
         imageMode(CORNER);
         background(winScreen);
+        background(winScreen2);
         break;
         //there's no end state yet..
         //the rock should disappear regardless of someone being there.
       case LOSE:
         imageMode(CORNER);
         image(endScreen, 0, 0, width, height);
+        image(FendScreen, 0, 0, width, height);
         break;
-     case FLOSE:
-       imageMode(CORNER);
-       image(FendScreen, 0, 0, width, height);
-       break;
      }
       
   }

@@ -42,7 +42,7 @@ class Bubble{
     angles = new float[n];
     radius = new dimmer[n];
     float degree = 360.0/n;
-    float raydebase = random(20, 100);
+    float raydebase = random(5, 55);
     respiration = new dimmer(-5.5, 5.5, 200,random(360));
     
     //Set speed of bubble center movement. Bubble center is at (x, y). vY is speed in y-direction. vX is speed in x-direction.
@@ -137,7 +137,6 @@ class Bubble{
         memory_curvesX[a] = x + ix;
         memory_curvesY[a] = y + ig;
         
-        //curveVertex(x+ix,y+ig);    // Connect this point and the previous point with a curve
         if((y+ig)>0){nothing=false;}      
         // Save coordinates of the first 3 points of the bubble because need to re-curve them after all points have been curved.
         // This is required by the curveVertex implementation of Catmull-Rom splines.
@@ -162,11 +161,6 @@ class Bubble{
       memory_curvesY[n+1] = fy2;
       memory_curvesX[n+2] = fx3;
       memory_curvesY[n+2] = fy3;
-      //Draw the curves
-      /*curveVertex(fx,fy);
-      curveVertex(fx2,fy2);
-      curveVertex(fx3,fy3);
-      endShape(CLOSE);*/
       if(nothing==true){
         y=700 ;
         x=random(-20,520);

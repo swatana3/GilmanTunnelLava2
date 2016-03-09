@@ -10,8 +10,15 @@ class MapController {
 
   void update() {
     switch(mapModel.getState()) {
+      /*case RULES:
+        if (mousePressed) {
+          mapModel.beginCalibration();
+        }
+        break;*/
       case START:
        if (mousePressed) { 
+          //mapModel.beginRules();
+          //println("began rules");
           mapModel.beginCalibration();
         }
         break;

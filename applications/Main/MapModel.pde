@@ -33,11 +33,7 @@ class MapModel implements Observer {
 
   public void onNotify(Event event) {
     if (event instanceof PlayerDeadEvent) {
-      if (level % 2 == 0){
-        state = GameState.FLOSE;
-      } else {
-      state = GameState.LOSE;
-      }  
+      state = GameState.LOSE;  
     }
   }
 
@@ -58,6 +54,7 @@ class MapModel implements Observer {
     //generateMap();
     generateFullMap();
     state = GameState.START;
+    
     print(state);
   }
   
@@ -67,7 +64,13 @@ class MapModel implements Observer {
 
   public void beginCalibration() {
     // skip calibration
+    //state = GameState.CALIBRATE1;
     state = GameState.COUNTDOWN1;
+  }
+  
+  public void beginRules() {
+    state = GameState.RULES;
+    println("rules!!!!");
   }
 
   void update() {
@@ -77,6 +80,11 @@ class MapModel implements Observer {
     switch (state) {
       case START:
         //println("we reached the update method");
+        int two = 2;
+        break;
+      case RULES:
+        //blah
+        int one =  1;
         break;
       case CALIBRATE1:
         if (framesSinceCalibrate > 100) {
@@ -95,6 +103,7 @@ class MapModel implements Observer {
       case CALIBRATE3:
         if (framesSinceCalibrate > 300) {
           state = GameState.COUNTDOWN1;
+          framesSinceCalibrate = 0;
         } else {
           framesSinceCalibrate++;
         }
@@ -172,22 +181,8 @@ class MapModel implements Observer {
           }
           framesSinceCalibrate++;
         }
-        // THIS PROVIDES FALSE POSITIVE VICTORIES
         for (PlayerModel player : mapModel.players) {
           player.update();
-          //perform victory/death condition check here
-          // 3 pixel edge tolerance
-          //On notification player has crossed edge boundary
-          /*
-          if (player.getRawX() >= width-3) {
-            if (level == 10){
-              mapModel.state = GameState.WIN;
-            } else {
-              level++;
-              player.resetHealth();
-              mapModel.state = GameState.BETWEENLEVEL;
-            }  
-          } */
         }
         ArrayList<RockModel> rocksToDestroy = new ArrayList<RockModel>();
   
@@ -200,7 +195,7 @@ class MapModel implements Observer {
         
         //another victory condition?
         if(mapModel.rocks.size()==0) {
-          if (level == 1){
+          if (level == 10){
             mapModel.state = GameState.WIN;
           } else {
             level++;
@@ -239,19 +234,8 @@ class MapModel implements Observer {
           framesSinceCalibrate++;
         }
         break;
-      case FLOSE:
-        System.out.println("LOSE");
-        if (framesSinceCalibrate > 301){
-          framesSinceCalibrate = 0;
-        } else if (framesSinceCalibrate > 300) {
-          state = GameState.RESET;
-        } else {
-          framesSinceCalibrate++;
-        }
-        break;
        case RESET:
          reset();
-         state = GameState.START;
          break;
     }
     //println("frames since called calibrate is" + framesSinceCalibrate);
