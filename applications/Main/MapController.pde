@@ -11,7 +11,7 @@ class MapController {
   void update() {
     switch(mapModel.getState()) {
       case START:
-       if (mousePressed) {
+       if (mousePressed) { 
           mapModel.beginCalibration();
         }
         break;

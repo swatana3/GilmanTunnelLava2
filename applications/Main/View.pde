@@ -2,6 +2,7 @@ import java.util.Map;
 
 class View implements Observer {
   MapModel mapModel;
+  Lava lava;
   //PImage rockPlatform;
   PImage startScreen;
   PImage loseScreen;
@@ -32,11 +33,18 @@ class View implements Observer {
   PImage rockDetailThree;
   PImage lavaImg;
   
+  int frameLife = 800;
+  int index = 0; // stores the current index of the memory array
+  boolean increment = false; // Indicates whether we are incrementing or decrementing our index when running from memory
+  float[] tempX;
+  float[] tempY;
+  
   //have an arrayList of Rocks while playerisSteppedOnRock and playerStepsOffRock
   
 
-  View(PApplet parent, MapModel mapModel) {
+  View(PApplet parent, MapModel mapModel, Lava lava) {
     this.mapModel = mapModel;
+    this.lava = lava;
     rockPlatformOne = loadImage("../../assets/rockPlatform1.png");
     rockPlatformTwo = loadImage("../../assets/rockPlatform2.png");
     rockPlatformThree = loadImage("../../assets/rockPlatform3.png");
@@ -135,9 +143,43 @@ class View implements Observer {
       case BETWEENLEVEL:
         //change background
         println("BETWEEN LEVEL");
+        background(255, 20, 0);
         break;
       case PLAY: 
-        background(lavaImg); 
+         background(255, 92, 30);
+         noStroke(); 
+        
+        //Draw bubbles
+        
+        for(Bubble bubble : lava.bubbles){
+          //Get x,y vertices for the specific time indicated
+          tempX = bubble.getCurvesX(index);
+          tempY = bubble.getCurvesY(index);
+          beginShape();
+          fill(bubble.getColor());
+          //Draw each x,y curve
+          for (int i = 0; i < (bubble.getNumPoints() + 3); i++){
+            curveVertex(tempX[i], tempY[i]);
+          }
+          endShape(CLOSE);
+        }
+        //Increment or decrement our index
+        if (!increment && index > 0){
+          index -= 1;
+        }
+        else if (increment && index < frameLife - 1){
+          index += 1;
+        }
+        //If index is currently 0, start incrementing
+        if (index == 0){
+          increment = true;
+        }
+        //Otherwise if at frameLife -1, decrement
+        else if (index == (frameLife - 1)){
+        increment = false;
+        }      
+        
+        //Draw Rocks
         for (RockModel rock : mapModel.rocks) {
           imageMode(CENTER);
           tint(255, rock.getRemainingFrames()/ (float) rock.DEFAULT_FRAMES * 255);
@@ -174,7 +216,7 @@ class View implements Observer {
         background(winScreen);
         break;
         //there's no end state yet..
-        //the rock should disappear regardless of someone being there..
+        //the rock should disappear regardless of someone being there.
       case LOSE:
         imageMode(CORNER);
         image(endScreen, 0, 0, width, height);

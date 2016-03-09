@@ -67,7 +67,7 @@ class MapModel implements Observer {
 
   public void beginCalibration() {
     // skip calibration
-    state = GameState.CALIBRATE1;
+    state = GameState.COUNTDOWN1;
   }
 
   void update() {
@@ -100,7 +100,7 @@ class MapModel implements Observer {
         }
         break;
       case BETWEENLEVEL:
-        if (framesSinceCalibrate > 600){
+        if (framesSinceCalibrate > 300){
           framesSinceCalibrate = 0;
         }
        
@@ -111,7 +111,7 @@ class MapModel implements Observer {
           }
           generateFullMap();
         }
-        if (framesSinceCalibrate > 300){
+        if (framesSinceCalibrate > 0){
           //We want a flipped countdown
           if (level % 2 == 0){
             state = GameState.FLIPPEDCOUNTDOWN1;
@@ -123,69 +123,71 @@ class MapModel implements Observer {
         }
         break;
       case COUNTDOWN1:
-        if (framesSinceCalibrate > 400) {
+        if (framesSinceCalibrate > 100) {
           state = GameState.COUNTDOWN2;
         } else {
           framesSinceCalibrate++;
         }
         break;
       case COUNTDOWN2:
-        if (framesSinceCalibrate > 500) {
+        if (framesSinceCalibrate > 200) {
           state = GameState.COUNTDOWN3;
         } else {
           framesSinceCalibrate++;
         }
         break;
       case COUNTDOWN3:
-        if (framesSinceCalibrate > 600) {
+        if (framesSinceCalibrate > 300) {
           state = GameState.PLAY;
         } else {
           framesSinceCalibrate++;
         }
         break;
        case FLIPPEDCOUNTDOWN1:
-        if (framesSinceCalibrate > 400) {
+        if (framesSinceCalibrate > 100) {
           state = GameState.FLIPPEDCOUNTDOWN2;
         } else {
           framesSinceCalibrate++;
         }
         break;
       case FLIPPEDCOUNTDOWN2:
-        if (framesSinceCalibrate > 500) {
+        if (framesSinceCalibrate > 200) {
           state = GameState.FLIPPEDCOUNTDOWN3;
         } else {
           framesSinceCalibrate++;
         }
         break;
       case FLIPPEDCOUNTDOWN3:
-        if (framesSinceCalibrate > 600) {
+        if (framesSinceCalibrate > 300) {
           state = GameState.PLAY;
         } else {
           framesSinceCalibrate++;
         }
         break;
       case PLAY:
-        if (framesSinceCalibrate == 601) {
+        if (framesSinceCalibrate == 301) {
            //add rocks below players if first iteration
            for (PlayerModel p : players) {
              rocks.add(new RockModel(p.getRawX(), p.getRawY(), true));
           }
           framesSinceCalibrate++;
         }
+        // THIS PROVIDES FALSE POSITIVE VICTORIES
         for (PlayerModel player : mapModel.players) {
           player.update();
           //perform victory/death condition check here
           // 3 pixel edge tolerance
           //On notification player has crossed edge boundary
+          /*
           if (player.getRawX() >= width-3) {
             if (level == 10){
-              state = GameState.WIN;
+              mapModel.state = GameState.WIN;
             } else {
               level++;
               player.resetHealth();
-              state = GameState.BETWEENLEVEL;
+              mapModel.state = GameState.BETWEENLEVEL;
             }  
-          }
+          } */
         }
         ArrayList<RockModel> rocksToDestroy = new ArrayList<RockModel>();
   
@@ -198,7 +200,7 @@ class MapModel implements Observer {
         
         //another victory condition?
         if(mapModel.rocks.size()==0) {
-          if (level == 10){
+          if (level == 1){
             mapModel.state = GameState.WIN;
           } else {
             level++;
@@ -218,17 +220,18 @@ class MapModel implements Observer {
         break;
       case WIN:
         System.out.println("WIN!");
-        /*if (framesSinceCalibrate > 601){
+        if (framesSinceCalibrate > 301){
           framesSinceCalibrate = 0;
         } else if (framesSinceCalibrate > 300) {
           state = GameState.RESET;
         } else {
           framesSinceCalibrate++;
-        }*/
+        }
         break;
+
       case LOSE:
         System.out.println("LOSE");
-        if (framesSinceCalibrate > 601){
+        if (framesSinceCalibrate > 301){
           framesSinceCalibrate = 0;
         } else if (framesSinceCalibrate > 300) {
           state = GameState.RESET;
@@ -238,7 +241,7 @@ class MapModel implements Observer {
         break;
       case FLOSE:
         System.out.println("LOSE");
-        if (framesSinceCalibrate > 601){
+        if (framesSinceCalibrate > 301){
           framesSinceCalibrate = 0;
         } else if (framesSinceCalibrate > 300) {
           state = GameState.RESET;
@@ -248,9 +251,10 @@ class MapModel implements Observer {
         break;
        case RESET:
          reset();
+         state = GameState.START;
          break;
     }
-    println("frames since called calibrate is" + framesSinceCalibrate);
+    //println("frames since called calibrate is" + framesSinceCalibrate);
   }
 
   // add to rocks so someone can get across

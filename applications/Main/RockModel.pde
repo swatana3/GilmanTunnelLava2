@@ -121,7 +121,7 @@ class RockModel {
     this.imageType = (int) random(3);
     
     if ((int) random(3) ==0){
-      println("Moving rock created!!");
+      //println("Moving rock created!!");
       this.movingRock = true;
       
       //use these variables if it's moving rock
@@ -172,7 +172,7 @@ class RockModel {
 
   boolean isDestroyed() {
     if (framesUntilDestroyed == 0) {
-      println("Rock destroyed.");
+      //println("Rock destroyed.");
       return true;
     } else {
       return false;
@@ -181,10 +181,10 @@ class RockModel {
   
   void update(int level) {
     if (movingRock) {
-      println("updating velocity");
+      //println("updating velocity");
       updateVelocity(level);
     } else {
-      println("NOT updating velocity");
+      //println("NOT updating velocity");
     }
     //change height and width of rock if its bouncing
     if (bouncing){

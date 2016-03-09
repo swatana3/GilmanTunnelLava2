@@ -2,6 +2,7 @@
 MapController mapController;
 MapModel mapModel;
 View view;
+Lava lava;
 
 
 void setup() {
@@ -10,11 +11,11 @@ void setup() {
   size(600, 400);
   mapModel = new MapModel();
   mapController = new MapController(mapModel);
-  view = new View(this, mapModel);
+  lava = new Lava();
+  view = new View(this, mapModel, lava);
 }
 void draw() {
   // main game functions
-  
   // update controller
   mapController.update();      
   // do collision checking here
