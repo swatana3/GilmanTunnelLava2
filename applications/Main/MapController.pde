@@ -19,6 +19,7 @@ class MapController {
        if (mousePressed) { 
           //mapModel.beginRules();
           //println("began rules");
+          //Add second count so mouse must be pressed for 5 seconds
           mapModel.beginCalibration();
         }
         break;
