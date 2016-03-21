@@ -18,13 +18,13 @@ class PlayerModel {
   PlayerModel(int id) {
     // aka health
     this.shield = MAX_SHIELD;
-    this.health = 100;
+    this.health = 105;
     this.id = id;
   }
   
   /* Resets health and shield - for use in between levels */
   void resetHealth(){
-    this.health = 100;
+    this.health = 105;
     this.shield = MAX_SHIELD;  
   }
 

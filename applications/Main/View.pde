@@ -2,7 +2,7 @@ import java.util.Map;
 
 class View implements Observer {
   MapModel mapModel;
-  Lava lava;
+  //Lava lava;
   //PImage rockPlatform;
   PImage startScreen;
   PImage loseScreen;
@@ -24,8 +24,17 @@ class View implements Observer {
   PImage FcountdownScreen2;
   PImage FcountdownScreen3;
   PImage rules;
- 
+ //PImage health bars
+  PImage health1; 
+  PImage health2;
+  PImage health3;
+  PImage health4;
+  PImage health5;
+  PImage health6;
+  PImage health7;
 
+  int counter = 0;
+  
   //static images(gifs were too large)
   PImage rockPlatformOne;
   PImage rockPlatformTwo;
@@ -44,9 +53,9 @@ class View implements Observer {
   //have an arrayList of Rocks while playerisSteppedOnRock and playerStepsOffRock
   
 
-  View(PApplet parent, MapModel mapModel, Lava lava) {
+  View(PApplet parent, MapModel mapModel) {
     this.mapModel = mapModel;
-    this.lava = lava;
+    //this.lava = lava;
     rockPlatformOne = loadImage("../../assets/rockPlatform1.png");
     rockPlatformTwo = loadImage("../../assets/rockPlatform2.png");
     rockPlatformThree = loadImage("../../assets/rockPlatform3.png");
@@ -91,6 +100,22 @@ class View implements Observer {
     FcountdownScreen2.resize(width, height);
     FcountdownScreen3.resize(width, height);
     
+    //health bars
+    health1 = loadImage("../../assets/New Screens/GT_Health1.png");
+    health2 = loadImage("../../assets/New Screens/GT_Health2.png");
+    health3 = loadImage("../../assets/New Screens/GT_Health3.png");
+    health4 = loadImage("../../assets/New Screens/GT_Health4.png");
+    health5 = loadImage("../../assets/New Screens/GT_Health5.png");
+    health6 = loadImage("../../assets/New Screens/GT_Health6.png");
+    health7 = loadImage("../../assets/New Screens/GT_Health7.png");
+    
+    health1.resize(width/5, height/10);
+    health2.resize(width/5, height/10);
+    health3.resize(width/5, height/10);
+    health4.resize(width/5, height/10);
+    health5.resize(width/5, height/10);
+    health6.resize(width/5, height/10);
+    health7.resize(width/5, height/10);   
 
     //Added the Lava animation gif
     //myAnimation = new Gif(parent, "../../assets/Lava_Animation_AE_shorter.gif");
@@ -104,6 +129,11 @@ class View implements Observer {
     // window stuff setup
     background (225);
   }
+  
+  void resetCounter() {
+    counter = 0;
+  }
+  
 
   void render() {
     // redraw background for each frame
@@ -161,7 +191,7 @@ class View implements Observer {
         
         //Draw bubbles
         
-        for(Bubble bubble : lava.bubbles){
+        for(Bubble bubble : mapModel.lava.bubbles){
           //Get x,y vertices for the specific time indicated
           tempX = bubble.getCurvesX(index);
           tempY = bubble.getCurvesY(index);
@@ -218,20 +248,66 @@ class View implements Observer {
           image(rockImg, rock.cX, rock.cY, rock.w, rock.h);
           image(rockDetail, rock.cX, rock.cY, rock.w, rock.h);
         }
+        //Display Health bars
+        int playerNum = 0;
+        for (PlayerModel player : mapModel.players) {
+          imageMode(CORNERS);
+          noTint();
+          playerNum++;
+          //Wrap later instead of breaking
+          if ((600 - 80 * playerNum) < 0){
+            break;
+          }
+          String display = "Player" + " " + playerNum;
+          int health = (player.getRemainingFrames());
+          PImage healthImage = health7;
+          print(health);
+          if (health <= 15) {
+           healthImage = health1;
+          } else if (health <= 30) {
+           healthImage = health2;
+          } else if (health <= 45) {
+           healthImage = health3;
+          }else if (health <= 60) {
+           healthImage = health4;
+          }else if (health <= 75) {
+            healthImage = health5;
+          }else if (health <= 90) {
+            healthImage = health6;
+          }else if (health == 105) {
+            healthImage = health7;
+          }
+          image(healthImage, (600 - 80 * playerNum), 0, (600 - 80 * (playerNum - 1)), 40);
+          fill(255, 255, 255);
+          textFont(createFont("Agency FB", 12, true));
+          text(display, 600 -  80*playerNum + 20, 50);
+        }
         break;
       case WIN:
         //prevent gif from looping in background can test with myAnimation.isPlaying()
         ///myAnimation.noLoop(); 
         imageMode(CORNER);
         background(winScreen);
-        background(winScreen2);
+        frameRate(120);
+        noTint();
+        tint(255,255,255, counter);
+        image(winScreen2,0,0);
+        if (counter < 255){
+            counter++;
+        }
         break;
         //there's no end state yet..
         //the rock should disappear regardless of someone being there.
       case LOSE:
         imageMode(CORNER);
-        image(endScreen, 0, 0, width, height);
+        background(endScreen);
+        frameRate(120);
+        noTint();
+        tint(255,255,255, counter);
         image(FendScreen, 0, 0, width, height);
+        if (counter < 255){
+            counter++;
+        }
         break;
      }
       

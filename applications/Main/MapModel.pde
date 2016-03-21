@@ -9,11 +9,14 @@ class MapModel implements Observer {
   CollisionModel collisionModel;
   int framesSinceCalibrate = 0;
   int level = 1;
+  boolean win_reset = false;
+  Lava lava;
 
   // number of players playing, used for player ID
   int playerCount = 0;
 
   public MapModel() {
+    lava = new Lava();
     rocks = new ArrayList<RockModel>();
     players = new ArrayList<PlayerModel>();
     collisionModel = new CollisionModel(this);
@@ -80,11 +83,11 @@ class MapModel implements Observer {
     switch (state) {
       case START:
         //println("we reached the update method");
-        int two = 2;
+        print("start");
         break;
       case RULES:
         //blah
-        int one =  1;
+        print("rules");
         break;
       case CALIBRATE1:
         if (framesSinceCalibrate > 100) {
@@ -195,7 +198,7 @@ class MapModel implements Observer {
         
         //another victory condition?
         if(mapModel.rocks.size()==0) {
-          if (level == 10){
+          if (level == 1){
             mapModel.state = GameState.WIN;
           } else {
             level++;
@@ -215,21 +218,26 @@ class MapModel implements Observer {
         break;
       case WIN:
         System.out.println("WIN!");
-        if (framesSinceCalibrate > 301){
+        if ((framesSinceCalibrate > 301) && (win_reset == false)){
           framesSinceCalibrate = 0;
-        } else if (framesSinceCalibrate > 300) {
+          win_reset = true;
+        } else if ((framesSinceCalibrate > 480) && (win_reset)) {
           state = GameState.RESET;
+          win_reset = false;
         } else {
           framesSinceCalibrate++;
         }
         break;
 
       case LOSE:
-        System.out.println("LOSE");
-        if (framesSinceCalibrate > 301){
+        System.out.println("LOSE!");
+        if ((framesSinceCalibrate > 301) && (win_reset == false)){
           framesSinceCalibrate = 0;
-        } else if (framesSinceCalibrate > 300) {
+          win_reset = true;
+        } else if ((framesSinceCalibrate > 480) && (win_reset)) {
           state = GameState.RESET;
+          win_reset = false;
+          
         } else {
           framesSinceCalibrate++;
         }
@@ -279,7 +287,6 @@ class MapModel implements Observer {
         rocks.add(new RockModel(currentX, currentY));
       }
     }
-
-  }
+  } 
 }
 
