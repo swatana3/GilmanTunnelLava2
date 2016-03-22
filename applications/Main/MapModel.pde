@@ -90,21 +90,21 @@ class MapModel implements Observer {
         print("rules");
         break;
       case CALIBRATE1:
-        if (framesSinceCalibrate > 100) {
+        if (framesSinceCalibrate > 120) {
           state = GameState.CALIBRATE2;
         } else {
           framesSinceCalibrate++;
         }
         break;
       case CALIBRATE2:
-        if (framesSinceCalibrate > 200) {
+        if (framesSinceCalibrate > 240) {
           state = GameState.CALIBRATE3;
         } else {
           framesSinceCalibrate++;
         }
         break;
       case CALIBRATE3:
-        if (framesSinceCalibrate > 300) {
+        if (framesSinceCalibrate > 360) {
           state = GameState.COUNTDOWN1;
           framesSinceCalibrate = 0;
         } else {
@@ -112,7 +112,7 @@ class MapModel implements Observer {
         }
         break;
       case BETWEENLEVEL:
-        if (framesSinceCalibrate > 300){
+        if (framesSinceCalibrate > 360){
           framesSinceCalibrate = 0;
         }
        
@@ -123,61 +123,63 @@ class MapModel implements Observer {
           }
           generateFullMap();
         }
-        if (framesSinceCalibrate > 0){
+        else if (framesSinceCalibrate > 120){
           //We want a flipped countdown
           if (level % 2 == 0){
             state = GameState.FLIPPEDCOUNTDOWN1;
+            framesSinceCalibrate = 0;
           } else {
             state = GameState.COUNTDOWN1;
+            framesSinceCalibrate = 0;
           }  
         } else {
           framesSinceCalibrate++;
         }
         break;
       case COUNTDOWN1:
-        if (framesSinceCalibrate > 100) {
+        if (framesSinceCalibrate > 120) {
           state = GameState.COUNTDOWN2;
         } else {
           framesSinceCalibrate++;
         }
         break;
       case COUNTDOWN2:
-        if (framesSinceCalibrate > 200) {
+        if (framesSinceCalibrate > 240) {
           state = GameState.COUNTDOWN3;
         } else {
           framesSinceCalibrate++;
         }
         break;
       case COUNTDOWN3:
-        if (framesSinceCalibrate > 300) {
+        if (framesSinceCalibrate > 360) {
           state = GameState.PLAY;
         } else {
           framesSinceCalibrate++;
         }
         break;
        case FLIPPEDCOUNTDOWN1:
-        if (framesSinceCalibrate > 100) {
+        if (framesSinceCalibrate > 120) {
           state = GameState.FLIPPEDCOUNTDOWN2;
         } else {
           framesSinceCalibrate++;
         }
         break;
       case FLIPPEDCOUNTDOWN2:
-        if (framesSinceCalibrate > 200) {
+        if (framesSinceCalibrate > 240) {
           state = GameState.FLIPPEDCOUNTDOWN3;
         } else {
           framesSinceCalibrate++;
         }
         break;
       case FLIPPEDCOUNTDOWN3:
-        if (framesSinceCalibrate > 300) {
+        if (framesSinceCalibrate > 360) {
           state = GameState.PLAY;
         } else {
           framesSinceCalibrate++;
         }
         break;
       case PLAY:
-        if (framesSinceCalibrate == 301) {
+        if (framesSinceCalibrate == 361) {
            //add rocks below players if first iteration
            for (PlayerModel p : players) {
              rocks.add(new RockModel(p.getRawX(), p.getRawY(), true));
@@ -218,10 +220,10 @@ class MapModel implements Observer {
         break;
       case WIN:
         System.out.println("WIN!");
-        if ((framesSinceCalibrate > 301) && (win_reset == false)){
+        if ((framesSinceCalibrate > 361) && (win_reset == false)){
           framesSinceCalibrate = 0;
           win_reset = true;
-        } else if ((framesSinceCalibrate > 480) && (win_reset)) {
+        } else if ((framesSinceCalibrate > 540) && (win_reset)) {
           state = GameState.RESET;
           win_reset = false;
         } else {
@@ -231,10 +233,10 @@ class MapModel implements Observer {
 
       case LOSE:
         System.out.println("LOSE!");
-        if ((framesSinceCalibrate > 301) && (win_reset == false)){
+        if ((framesSinceCalibrate > 361) && (win_reset == false)){
           framesSinceCalibrate = 0;
           win_reset = true;
-        } else if ((framesSinceCalibrate > 480) && (win_reset)) {
+        } else if ((framesSinceCalibrate > 540) && (win_reset)) {
           state = GameState.RESET;
           win_reset = false;
           

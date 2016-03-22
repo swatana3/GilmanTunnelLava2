@@ -32,6 +32,9 @@ class View implements Observer {
   PImage health5;
   PImage health6;
   PImage health7;
+  //PImage Between levels
+  PImage between;
+  PImage betweenf;
 
   int counter = 0;
   
@@ -115,19 +118,27 @@ class View implements Observer {
     health4.resize(width/5, height/10);
     health5.resize(width/5, height/10);
     health6.resize(width/5, height/10);
-    health7.resize(width/5, height/10);   
+    health7.resize(width/5, height/10);  
+
+    //between levels
+    between = loadImage("../../assets/New Screens/GT_LevelTemplate.png");
+    betweenf = loadImage("../../assets/New Screens/GT_LevelTemplateF.png");
+    
+    between.resize(width, height);
+    betweenf.resize(width, height);
 
     //Added the Lava animation gif
     //myAnimation = new Gif(parent, "../../assets/Lava_Animation_AE_shorter.gif");
-    lavaImg = loadImage("../../assets/lavabkgd.png" );   
+    //lavaImg = loadImage("../../assets/lavabkgd.png" );   
             
-    lavaImg.resize(width, height); 
+    //lavaImg.resize(width, height); 
 
     // make View an observer of PlayerStepsOnRocksEvents
     mapModel.collisionModel.playerStepsOnRockEvent().addObserver(this);
 
     // window stuff setup
     background (225);
+    
   }
   
   void resetCounter() {
@@ -182,8 +193,34 @@ class View implements Observer {
         break;
       case BETWEENLEVEL:
         //change background
-        println("BETWEEN LEVEL");
-        background(255, 20, 0);
+        if (mapModel.level % 2 == 0){
+           //flipped background 
+           background(betweenf);
+           /*
+           fill(255,255,255);
+           textFont(createFont("Agency FB", 36, true));                  // Set the font
+           translate(width/2,height/2);  // Translate to the center
+           rotate(270);                // Rotate by theta
+           textAlign(CENTER);            
+            text(level,300,300);            
+           */ 
+           //TODO print out text
+        } else {
+          //normal background
+          background(between);
+           /*
+           fill(255,255,255);
+           textFont(createFont("Agency FB", 36, true));                  // Set the font
+           translate(width/2,height/2);  // Translate to the center
+           rotate(90);                // Rotate by theta
+           textAlign(CENTER);            
+            text(level,300,100);            
+           */ 
+          //TODO print out text
+        }
+        //print level number
+        //TODO FORMAT THIS  
+      
         break;
       case PLAY: 
          background(255, 92, 30);
@@ -225,8 +262,8 @@ class View implements Observer {
           tint(255, rock.getRemainingFrames()/ (float) rock.DEFAULT_FRAMES * 255);
           // FOR TESTING PURPOSES: draw circle that the player needs to
           //  be in to be "safe"
-          ellipseMode(CENTER);
-          ellipse(rock.cX, rock.cY, rock.w, rock.h);
+          //ellipseMode(CENTER);
+          //ellipse(rock.cX, rock.cY, rock.w, rock.h);
           
           PImage rockImg;
           PImage rockDetail;
@@ -295,6 +332,36 @@ class View implements Observer {
         if (counter < 255){
             counter++;
         }
+        //bubbles
+         for (int j = 0; j < 100; j++) {
+          //Get x,y vertices for the specific time indicated
+          tempX = mapModel.lava.bubbles[j].getCurvesX(index);
+          tempY = mapModel.lava.bubbles[j].getCurvesY(index);
+          beginShape();
+          fill(mapModel.lava.bubbles[j].getColor());
+          //Draw each x,y curve
+          for (int i = 0; i < (mapModel.lava.bubbles[j].getNumPoints() + 3); i++){
+            curveVertex(tempX[i], tempY[i]);
+          }
+          endShape(CLOSE);
+        }
+        //Increment or decrement our index
+        if (!increment && index > 0){
+          index -= 1;
+        }
+        else if (increment && index < frameLife - 1){
+          index += 1;
+        }
+        //If index is currently 0, start incrementing
+        if (index == 0){
+          increment = true;
+        }
+        //Otherwise if at frameLife -1, decrement
+        else if (index == (frameLife - 1)){
+        increment = false;
+        }
+        
+        
         break;
         //there's no end state yet..
         //the rock should disappear regardless of someone being there.
@@ -308,6 +375,34 @@ class View implements Observer {
         if (counter < 255){
             counter++;
         }
+        for (int j = 0; j < 75; j++) {
+          //Get x,y vertices for the specific time indicated
+          tempX = mapModel.lava.bubbles[j].getCurvesX(index);
+          tempY = mapModel.lava.bubbles[j].getCurvesY(index);
+          beginShape();
+          fill(mapModel.lava.bubbles[j].getColor());
+          //Draw each x,y curve
+          for (int i = 0; i < (mapModel.lava.bubbles[j].getNumPoints() + 3); i++){
+            curveVertex(tempX[i], tempY[i]);
+          }
+          endShape(CLOSE);
+        }
+        //Increment or decrement our index
+        if (!increment && index > 0){
+          index -= 1;
+        }
+        else if (increment && index < frameLife - 1){
+          index += 1;
+        }
+        //If index is currently 0, start incrementing
+        if (index == 0){
+          increment = true;
+        }
+        //Otherwise if at frameLife -1, decrement
+        else if (index == (frameLife - 1)){
+        increment = false;
+        }      
+              
         break;
      }
       
