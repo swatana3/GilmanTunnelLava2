@@ -3,58 +3,58 @@ class RockModel {
   static final int HEIGHT = 50;
  
   // width and height of ellipse that represents rock
-  int w, h;
+  private int w, h;
   
-  float posX, posY;
+  private float posX, posY;
   
-  boolean movingRock;
+  private boolean movingRock;
   
   //incrementally changing elliptical angle
-  float theta;
+  private float theta;
   
   //Store real cX and cY, cX, cY for display
-  int storecX, storecY;
+  private int storecX, storecY;
   
   //radius of ellipse, it can be set later
-  float radiusX, radiusY;
+  private float radiusX, radiusY;
   
   // center point of ellipse
-  int cX, cY;
+  private int cX, cY;
   
-  int centerX, centerY;
+  private int centerX, centerY;
   // velocity of this rock - don't know if this is how it should be done yet?
-  float vX, vY;
+  private float vX, vY;
 
   // 3 different images for rocks, pick one at random
-  int imageType;
+  private int imageType;
 
   //if rocks are moving offscreen
-  boolean movingOffScreenX; 
-  boolean movingOffScreenY; 
+  private boolean movingOffScreenX; 
+  private boolean movingOffScreenY; 
   
-  static final int DEFAULT_FRAMES = 100;
+  static final private int DEFAULT_FRAMES = 100;
   
   //State
-  int framesUntilDestroyed;
-  boolean dead = false;
-  boolean collidingWithPlayer = false;
+  private int framesUntilDestroyed;
+  private boolean dead = false;
+  private boolean collidingWithPlayer = false;
   
   //variables for bounce effect called in View (can't be in View specific to each rock)
-  float amplitude;
-  float decay;
-  float minScale;
-  float t;
-  float sineScale;
+  private float amplitude;
+  private float decay;
+  private float minScale;
+  private float t;
+  private float sineScale;
   //BouncingState
-  boolean bouncing;
+  private boolean bouncing;
   
   //store the width and height during bounce
-  int storeW, storeH; 
+  private int storeW, storeH; 
   
   //type of movement
-  int move;
-  boolean down = false;
-  boolean left = false;
+  private int move;
+  private boolean down = false;
+  private boolean left = false;
   
   
   RockModel(int cX, int cY, boolean Start){
@@ -174,6 +174,22 @@ class RockModel {
 
   int getRemainingFrames() {
     return framesUntilDestroyed;
+  }
+  
+  int getDefaultFrames(){
+    return DEFAULT_FRAMES;
+  }
+  
+  int getCenterX(){
+    return cX;
+  }
+  
+  int getCenterY(){
+    return cY;
+  }
+    
+  void setBouncing(boolean tf) {
+    bouncing = tf;
   }
   
   public void setCollidingWithPlayer(boolean colliding) {

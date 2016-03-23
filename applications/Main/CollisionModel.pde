@@ -1,7 +1,7 @@
 class CollisionModel {
   private PlayerStepsOnRockEvent playerStepsOnRockEvent = new PlayerStepsOnRockEvent();
   
-  MapModel mapModel;
+  private MapModel mapModel;
 
   CollisionModel(MapModel mapModel) {
     this.mapModel = mapModel;
@@ -11,7 +11,7 @@ class CollisionModel {
     for (PlayerModel player : mapModel.players) {
       //assume touching lava unless we find player is colliding with rock
       player.setCollidingWithLava(true);
-      for (RockModel rock : mapModel.rocks) {
+      for (RockModel rock : mapModel.getRocks()) {
         // rock is an ellipse, calculate whether the player point is in it
         // is this actually faster to do this first?
         // check rectangle,
@@ -39,6 +39,10 @@ class CollisionModel {
         }
       }
     }
+  }
+  
+  MapModel getModel(){
+    return mapModel;
   }
 
   PlayerStepsOnRockEvent playerStepsOnRockEvent() {

@@ -13,6 +13,7 @@ class PlayerModel {
   // if colliding with lava
   private boolean collidingWithLava = false;
   private boolean dead = false;
+  final private int max_health = 105;
   
 
   PlayerModel(int id) {
@@ -26,6 +27,10 @@ class PlayerModel {
   void resetHealth(){
     this.health = 105;
     this.shield = MAX_SHIELD;  
+  }
+  
+  int getMaxHealth(){
+    return this.max_health;
   }
 
   void update() {

@@ -1,57 +1,61 @@
 import java.util.Map;
 
 class View implements Observer {
-  MapModel mapModel;
+  private MapModel mapModel;
   //Lava lava;
   //PImage rockPlatform;
-  PImage startScreen;
-  PImage loseScreen;
-  PImage FloseScreen;
-  PImage endScreen;
-  PImage FendScreen;
-  PImage winScreen;
-  PImage winScreen2;
+  private PImage startScreen;
+  private PImage loseScreen;
+  private PImage FloseScreen;
+  private PImage endScreen;
+  private PImage FendScreen;
+  private PImage winScreen;
+  private PImage winScreen2;
   //PImage calibrateScreen
-  PImage calibrateScreen1;
-  PImage calibrateScreen2;
-  PImage calibrateScreen3;
+  private PImage calibrateScreen1;
+  private PImage calibrateScreen2;
+  private PImage calibrateScreen3;
   //PImage countdownScreen
-  PImage countdownScreen1;
-  PImage countdownScreen2;
-  PImage countdownScreen3;
-  PImage betweenLevels;
-  PImage FcountdownScreen1;
-  PImage FcountdownScreen2;
-  PImage FcountdownScreen3;
-  PImage rules;
+  private PImage countdownScreen1;
+  private PImage countdownScreen2;
+  private PImage countdownScreen3;
+  private PImage betweenLevels;
+  private PImage FcountdownScreen1;
+  private PImage FcountdownScreen2;
+  private PImage FcountdownScreen3;
+  private PImage rules;
  //PImage health bars
-  PImage health1; 
-  PImage health2;
-  PImage health3;
-  PImage health4;
-  PImage health5;
-  PImage health6;
-  PImage health7;
+  private PImage health1; 
+  private PImage health2;
+  private PImage health3;
+  private PImage health4;
+  private PImage health5;
+  private PImage health6;
+  private PImage health7;
   //PImage Between levels
-  PImage between;
-  PImage betweenf;
+  private PImage between;
+  private PImage betweenf;
 
-  int counter = 0;
+  private int counter = 0;
   
   //static images(gifs were too large)
-  PImage rockPlatformOne;
-  PImage rockPlatformTwo;
-  PImage rockPlatformThree;
-  PImage rockDetailOne;
-  PImage rockDetailTwo;
-  PImage rockDetailThree;
-  PImage lavaImg;
+  private PImage rockPlatformOne;
+  private PImage rockPlatformTwo;
+  private PImage rockPlatformThree;
+  private PImage rockDetailOne;
+  private PImage rockDetailTwo;
+  private PImage rockDetailThree;
+  private PImage lavaImg;
   
-  int frameLife = 800;
-  int index = 0; // stores the current index of the memory array
-  boolean increment = false; // Indicates whether we are incrementing or decrementing our index when running from memory
-  float[] tempX;
-  float[] tempY;
+  private int frameLife = 800;
+  private int index = 0; // stores the current index of the memory array
+  private boolean increment = false; // Indicates whether we are incrementing or decrementing our index when running from memory
+  private float[] tempX;
+  private float[] tempY;
+  
+  private final int winBubbles = 100;
+  private final int loseBubbles = 75;
+  private final int playBubbles = 500;
   
   //have an arrayList of Rocks while playerisSteppedOnRock and playerStepsOffRock
   
@@ -134,7 +138,7 @@ class View implements Observer {
     //lavaImg.resize(width, height); 
 
     // make View an observer of PlayerStepsOnRocksEvents
-    mapModel.collisionModel.playerStepsOnRockEvent().addObserver(this);
+    mapModel.getCollisionModel().playerStepsOnRockEvent().addObserver(this);
 
     // window stuff setup
     background (225);
@@ -159,7 +163,6 @@ class View implements Observer {
         break;
       case RULES:
         background(rules);
-        println("background triggered");
         break;
       case CALIBRATE1: 
         background(calibrateScreen1);
@@ -181,19 +184,16 @@ class View implements Observer {
         break;
       case FLIPPEDCOUNTDOWN1: 
         background(FcountdownScreen3);
-        println("FLIIPED");
         break;
       case FLIPPEDCOUNTDOWN2: 
         background(FcountdownScreen2);
-        println("FLIIPED");
         break;
       case FLIPPEDCOUNTDOWN3: 
         background(FcountdownScreen1);
-        println("FLIIPED");
         break;
       case BETWEENLEVEL:
         //change background
-        if (mapModel.level % 2 == 0){
+        if (mapModel.getLevel() % 2 == 0){
            //flipped background 
            background(betweenf);
            /*
@@ -225,41 +225,27 @@ class View implements Observer {
       case PLAY: 
          background(255, 92, 30);
          noStroke(); 
-        
+         float currentBubbles = playBubbles;
+         int factor = playBubbles;
         //Draw bubbles
+        //One method of feedback - how much health is left
+        //Less health = fewer bubbles
+        // health percentage * 500 = number of bubbles
         
-        for(Bubble bubble : mapModel.lava.bubbles){
-          //Get x,y vertices for the specific time indicated
-          tempX = bubble.getCurvesX(index);
-          tempY = bubble.getCurvesY(index);
-          beginShape();
-          fill(bubble.getColor());
-          //Draw each x,y curve
-          for (int i = 0; i < (bubble.getNumPoints() + 3); i++){
-            curveVertex(tempX[i], tempY[i]);
-          }
-          endShape(CLOSE);
-        }
-        //Increment or decrement our index
-        if (!increment && index > 0){
-          index -= 1;
-        }
-        else if (increment && index < frameLife - 1){
-          index += 1;
-        }
-        //If index is currently 0, start incrementing
-        if (index == 0){
-          increment = true;
-        }
-        //Otherwise if at frameLife -1, decrement
-        else if (index == (frameLife - 1)){
-        increment = false;
-        }      
+        for (PlayerModel p : mapModel.getPlayers()) {
+           if (p.getRemainingFrames() < p.getMaxHealth()) {
+             currentBubbles = ( ( float(p.getRemainingFrames()) / float(p.getMaxHealth()) ) * playBubbles );
+             factor = Math.round(currentBubbles);
+           } else {
+             factor = playBubbles;
+           }
+           makeBubbles(factor);   
+        }  
         
         //Draw Rocks
-        for (RockModel rock : mapModel.rocks) {
+        for (RockModel rock : mapModel.getRocks()) {
           imageMode(CENTER);
-          tint(255, rock.getRemainingFrames()/ (float) rock.DEFAULT_FRAMES * 255);
+          tint(255, rock.getRemainingFrames()/ (float) rock.getDefaultFrames() * 255);
           // FOR TESTING PURPOSES: draw circle that the player needs to
           //  be in to be "safe"
           //ellipseMode(CENTER);
@@ -282,12 +268,12 @@ class View implements Observer {
               break;
           }
           //top left corner size to make the image
-          image(rockImg, rock.cX, rock.cY, rock.w, rock.h);
-          image(rockDetail, rock.cX, rock.cY, rock.w, rock.h);
+          image(rockImg, rock.getCenterX(), rock.getCenterY(), rock.getWidth(), rock.getHeight());
+          image(rockDetail, rock.getCenterX(), rock.getCenterY(), rock.getWidth(), rock.getHeight());
         }
         //Display Health bars
         int playerNum = 0;
-        for (PlayerModel player : mapModel.players) {
+        for (PlayerModel player : mapModel.getPlayers()) {
           imageMode(CORNERS);
           noTint();
           playerNum++;
@@ -298,7 +284,6 @@ class View implements Observer {
           String display = "Player" + " " + playerNum;
           int health = (player.getRemainingFrames());
           PImage healthImage = health7;
-          print(health);
           if (health <= 15) {
            healthImage = health1;
           } else if (health <= 30) {
@@ -332,36 +317,7 @@ class View implements Observer {
         if (counter < 255){
             counter++;
         }
-        //bubbles
-         for (int j = 0; j < 100; j++) {
-          //Get x,y vertices for the specific time indicated
-          tempX = mapModel.lava.bubbles[j].getCurvesX(index);
-          tempY = mapModel.lava.bubbles[j].getCurvesY(index);
-          beginShape();
-          fill(mapModel.lava.bubbles[j].getColor());
-          //Draw each x,y curve
-          for (int i = 0; i < (mapModel.lava.bubbles[j].getNumPoints() + 3); i++){
-            curveVertex(tempX[i], tempY[i]);
-          }
-          endShape(CLOSE);
-        }
-        //Increment or decrement our index
-        if (!increment && index > 0){
-          index -= 1;
-        }
-        else if (increment && index < frameLife - 1){
-          index += 1;
-        }
-        //If index is currently 0, start incrementing
-        if (index == 0){
-          increment = true;
-        }
-        //Otherwise if at frameLife -1, decrement
-        else if (index == (frameLife - 1)){
-        increment = false;
-        }
-        
-        
+        makeBubbles(winBubbles);
         break;
         //there's no end state yet..
         //the rock should disappear regardless of someone being there.
@@ -375,14 +331,20 @@ class View implements Observer {
         if (counter < 255){
             counter++;
         }
-        for (int j = 0; j < 75; j++) {
+        makeBubbles(loseBubbles);
+        break;
+    }
+  }
+  
+   void makeBubbles(int numBubbles){
+    for (int j = 0; j < numBubbles; j++) {
           //Get x,y vertices for the specific time indicated
-          tempX = mapModel.lava.bubbles[j].getCurvesX(index);
-          tempY = mapModel.lava.bubbles[j].getCurvesY(index);
+          tempX = mapModel.getLava().getBubbles()[j].getCurvesX(index);
+          tempY = mapModel.getLava().getBubbles()[j].getCurvesY(index);
           beginShape();
-          fill(mapModel.lava.bubbles[j].getColor());
+          fill(mapModel.getLava().getBubbles()[j].getColor());
           //Draw each x,y curve
-          for (int i = 0; i < (mapModel.lava.bubbles[j].getNumPoints() + 3); i++){
+          for (int i = 0; i < (mapModel.getLava().getBubbles()[j].getNumPoints() + 3); i++){
             curveVertex(tempX[i], tempY[i]);
           }
           endShape(CLOSE);
@@ -401,17 +363,14 @@ class View implements Observer {
         //Otherwise if at frameLife -1, decrement
         else if (index == (frameLife - 1)){
         increment = false;
-        }      
-              
-        break;
-     }
-      
-  }
+        }       
+    }
+  
   public void onNotify(Event event) {
     if (event instanceof PlayerStepsOnRockEvent) {
       println("stepped on rock " + (System.identityHashCode(((PlayerStepsOnRockEvent) event).rockModel)));
       RockModel localRock = ((PlayerStepsOnRockEvent) event).rockModel;
-      localRock.bouncing = true;
+      localRock.setBouncing(true);
     }
   }
 }

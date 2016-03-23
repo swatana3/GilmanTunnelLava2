@@ -1,7 +1,7 @@
 // MapController - handles rock and map models
 
 class MapController {
-  MapModel mapModel;
+  private MapModel mapModel;
 
   // constructor
   MapController(MapModel mapModel) {
@@ -30,5 +30,9 @@ class MapController {
         }
         break;
     }
+  }
+  
+  MapModel getMapModel(){
+    return mapModel;
   }
 }

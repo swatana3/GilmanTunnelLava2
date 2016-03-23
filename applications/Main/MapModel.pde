@@ -4,20 +4,22 @@ class MapModel implements Observer {
 
   //State of map
   private GameState state; 
-  ArrayList<RockModel> rocks;
-  ArrayList<PlayerModel> players;
-  CollisionModel collisionModel;
-  int framesSinceCalibrate = 0;
-  int level = 1;
-  boolean win_reset = false;
-  Lava lava;
+  private ArrayList<RockModel> rocks;
+  private ArrayList<PlayerModel> players;
+  private CollisionModel collisionModel;
+  private int framesSinceCalibrate = 0;
+  private int level = 1;
+  private boolean win_reset = false;
+  private Lava lava;
+  private int original_num_rocks = 0;
 
   // number of players playing, used for player ID
-  int playerCount = 0;
+  private int playerCount = 0;
 
   public MapModel() {
     lava = new Lava();
     rocks = new ArrayList<RockModel>();
+    original_num_rocks = 0;
     players = new ArrayList<PlayerModel>();
     collisionModel = new CollisionModel(this);
     // TODO: get blob/dots from kinect and add those as players
@@ -33,6 +35,34 @@ class MapModel implements Observer {
     generateFullMap();
     state = GameState.START;
   }
+  
+  ArrayList<RockModel> getRocks(){
+    return rocks;
+  }
+  
+  ArrayList<PlayerModel> getPlayers(){
+    return players;
+  }
+  
+  CollisionModel getCollisionModel(){
+    return collisionModel;
+  }
+  
+  int getLevel(){
+    return level;
+  }
+  
+  Lava getLava(){
+    return lava;
+  }
+  
+  int getOriginal_num_rocks(){
+    return original_num_rocks;
+  }
+  
+  int getPlayerCount(){
+    return playerCount;
+  }
 
   public void onNotify(Event event) {
     if (event instanceof PlayerDeadEvent) {
@@ -43,6 +73,7 @@ class MapModel implements Observer {
   /* Resets the game after death/win*/
   void reset() {
     //Reset all counters and variables
+    original_num_rocks = 0;
     level = 1;
     playerCount = 0;
     framesSinceCalibrate = 0;
@@ -57,8 +88,7 @@ class MapModel implements Observer {
     //generateMap();
     generateFullMap();
     state = GameState.START;
-    
-    print(state);
+ 
   }
   
   public GameState getState() {
@@ -73,7 +103,6 @@ class MapModel implements Observer {
   
   public void beginRules() {
     state = GameState.RULES;
-    println("rules!!!!");
   }
 
   void update() {
@@ -83,11 +112,9 @@ class MapModel implements Observer {
     switch (state) {
       case START:
         //println("we reached the update method");
-        print("start");
         break;
       case RULES:
         //blah
-        print("rules");
         break;
       case CALIBRATE1:
         if (framesSinceCalibrate > 120) {
@@ -219,7 +246,6 @@ class MapModel implements Observer {
         }
         break;
       case WIN:
-        System.out.println("WIN!");
         if ((framesSinceCalibrate > 361) && (win_reset == false)){
           framesSinceCalibrate = 0;
           win_reset = true;
@@ -232,7 +258,6 @@ class MapModel implements Observer {
         break;
 
       case LOSE:
-        System.out.println("LOSE!");
         if ((framesSinceCalibrate > 361) && (win_reset == false)){
           framesSinceCalibrate = 0;
           win_reset = true;
@@ -261,6 +286,7 @@ class MapModel implements Observer {
     // pick a random distance away from the left hand edge of the window
     currentX = (int) random(MAX_STEP_SIZE) + RockModel.WIDTH/2;
     rocks.add(new RockModel(currentX, currentY));
+    original_num_rocks += 1;
     // while we are not within one STEP away from the RHS
     // closest way to get from the circle to the RHS is a straight line --->
     //The distance scales up with the level
@@ -287,6 +313,7 @@ class MapModel implements Observer {
       }
       if (clear) {
         rocks.add(new RockModel(currentX, currentY));
+        original_num_rocks += 1;
       }
     }
   } 
