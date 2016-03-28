@@ -33,8 +33,9 @@ class View implements Observer {
   private PImage health6;
   private PImage health7;
   //PImage Between levels
-  private PImage between;
-  private PImage betweenf;
+  private PImage level1;
+  private PImage level2;
+  private PImage level3;
 
   private int counter = 0;
   
@@ -125,11 +126,13 @@ class View implements Observer {
     health7.resize(width/5, height/10);  
 
     //between levels
-    between = loadImage("../../assets/New Screens/GT_LevelTemplate.png");
-    betweenf = loadImage("../../assets/New Screens/GT_LevelTemplateF.png");
+    level1 = loadImage("../../assets/New Screens/GT_Level1.png");
+    level2 = loadImage("../../assets/New Screens/GT_Level2.png");
+    level3 = loadImage("../../assets/New Screens/GT_Level3.png");
     
-    between.resize(width, height);
-    betweenf.resize(width, height);
+    level1.resize(width, height);
+    level2.resize(width, height);
+    level3.resize(width, height);
 
     //Added the Lava animation gif
     //myAnimation = new Gif(parent, "../../assets/Lava_Animation_AE_shorter.gif");
@@ -193,34 +196,17 @@ class View implements Observer {
         break;
       case BETWEENLEVEL:
         //change background
-        if (mapModel.getLevel() % 2 == 0){
-           //flipped background 
-           background(betweenf);
-           /*
-           fill(255,255,255);
-           textFont(createFont("Agency FB", 36, true));                  // Set the font
-           translate(width/2,height/2);  // Translate to the center
-           rotate(270);                // Rotate by theta
-           textAlign(CENTER);            
-            text(level,300,300);            
-           */ 
-           //TODO print out text
-        } else {
-          //normal background
-          background(between);
-           /*
-           fill(255,255,255);
-           textFont(createFont("Agency FB", 36, true));                  // Set the font
-           translate(width/2,height/2);  // Translate to the center
-           rotate(90);                // Rotate by theta
-           textAlign(CENTER);            
-            text(level,300,100);            
-           */ 
-          //TODO print out text
+        switch (mapModel.getLevel()){
+          case 1 : 
+            background(level1);
+            break;
+          case 2 : 
+            background(level2);
+            break;
+          case 3 : 
+            background(level3);
+            break;
         }
-        //print level number
-        //TODO FORMAT THIS  
-      
         break;
       case PLAY: 
          background(255, 92, 30);
@@ -368,7 +354,7 @@ class View implements Observer {
   
   public void onNotify(Event event) {
     if (event instanceof PlayerStepsOnRockEvent) {
-      println("stepped on rock " + (System.identityHashCode(((PlayerStepsOnRockEvent) event).rockModel)));
+      //println("stepped on rock " + (System.identityHashCode(((PlayerStepsOnRockEvent) event).rockModel)));
       RockModel localRock = ((PlayerStepsOnRockEvent) event).rockModel;
       localRock.setBouncing(true);
     }

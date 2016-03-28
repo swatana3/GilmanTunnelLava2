@@ -26,9 +26,11 @@ class MapModel implements Observer {
     // for now, just use the mouse (mouse is used in player)
     PlayerModel player = new PlayerModel(playerCount);
     player.playerDeadEvent().addObserver(this);
-    players.add(player);
-
-    playerCount += 1;
+    //Right now, only allow support for up to two players
+    if (players.size() < 2) {
+      players.add(player);
+      playerCount++;
+    }
 
     // procedurally generate rocks for the map
     //generateMap();
@@ -98,7 +100,8 @@ class MapModel implements Observer {
   public void beginCalibration() {
     // skip calibration
     //state = GameState.CALIBRATE1;
-    state = GameState.COUNTDOWN1;
+    state = GameState.BETWEENLEVEL;
+    //state = GameState.COUNTDOWN1;
   }
   
   public void beginRules() {
@@ -142,15 +145,18 @@ class MapModel implements Observer {
         if (framesSinceCalibrate > 360){
           framesSinceCalibrate = 0;
         }
-       
-        if(mapModel.rocks.size()==0) {
-          //Add rocks below each player
-          for (PlayerModel p : players){
-            rocks.add(new RockModel(p.getRawX(), p.getRawY()));
+        //Only do this if it's not the first level
+        if (mapModel.getLevel() != 1){
+          if(mapModel.rocks.size()==0) {
+            //Add rocks below each player
+            for (PlayerModel p : players){
+              rocks.add(new RockModel(p.getRawX(), p.getRawY()));
+            }
+            generateFullMap();
           }
-          generateFullMap();
         }
-        else if (framesSinceCalibrate > 120){
+        //else
+        if (framesSinceCalibrate > 120){
           //We want a flipped countdown
           if (level % 2 == 0){
             state = GameState.FLIPPEDCOUNTDOWN1;
@@ -227,7 +233,7 @@ class MapModel implements Observer {
         
         //another victory condition?
         if(mapModel.rocks.size()==0) {
-          if (level == 1){
+          if (level == 3){
             mapModel.state = GameState.WIN;
           } else {
             level++;

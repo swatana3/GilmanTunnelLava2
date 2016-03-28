@@ -48,7 +48,7 @@ class PlayerModel {
     } else {
       this.shield = min(this.shield + 1, MAX_SHIELD);
     } 
-    println("player " + id + " shield: " + this.shield + " x: " + this.mX + " y: " + this.mY);
+    //println("player " + id + " shield: " + this.shield + " x: " + this.mX + " y: " + this.mY);
   }
   
   public void setCollidingWithLava(boolean collide) {
