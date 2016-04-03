@@ -211,9 +211,9 @@ void createFloor(){
   println("floorLength2 is " + floorLength2);
   floorLength = ((floorLength1 + floorLength2)/2);
   println("floorLength is " + floorLength);
-//  stroke(0);          // Setting the outline (stroke) to black
-//  fill(150); 
-//  box (floorWidth, floorLength, floorHeight);
-//  translate(bottomLCorner.x, bottomLCorner.y, bottomLCorner.z); 
+  stroke(0);          // Setting the outline (stroke) to black
+  fill(150); 
+   translate(bottomLCorner.x, bottomLCorner.y, bottomLCorner.z); 
+  box (floorWidth, floorLength, floorHeight);
   //popMatrix(); 
 }
