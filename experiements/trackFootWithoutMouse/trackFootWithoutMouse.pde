@@ -17,10 +17,10 @@ void setup() {
   kinect.enableDepth();
   minim = new Minim(this);
   // load both audio files
-  snare = minim.loadSnippet("hat.wav"); 3
+  snare = minim.loadSnippet("hat.wav"); 
   kick = minim.loadSnippet("kick.wav");
   // initialize hotpoints with their origins (x,y,z) and their size
-  snareTrigger = new Hotpoint(200, 0, 600, 150); 4
+  snareTrigger = new Hotpoint(200, 0, 600, 150); 
   kickTrigger = new Hotpoint(-200, 0, 600, 150);
 }
 void draw() {
@@ -37,12 +37,12 @@ void draw() {
   for (int i = 0; i < depthPoints.length; i+=10) {
     PVector currentPoint = depthPoints[i];
     // have each hotpoint check to see if it includes the currentPoint
-    snareTrigger.check(currentPoint); 5
+    snareTrigger.check(currentPoint); 
     kickTrigger.check(currentPoint);
     point(currentPoint.x, currentPoint.y, currentPoint.z);
   }
-  println(snareTrigger.pointsIncluded); 6
-  if(snareTrigger.isHit()) { 7
+  println(snareTrigger.pointsIncluded); 
+  if(snareTrigger.isHit()) { 
     snare.play();
   }
   if(!snare.isPlaying()) {
@@ -55,9 +55,9 @@ void draw() {
     kick.rewind();
   }
   // display each hotpoint and clear its points
-  snareTrigger.draw(); 8
+  snareTrigger.draw(); 
   snareTrigger.clear();
-  kickTrigger.draw(); 9
+  kickTrigger.draw(); 
   kickTrigger.clear();
 }
 void stop()
