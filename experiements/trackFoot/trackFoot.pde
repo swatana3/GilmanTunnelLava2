@@ -9,7 +9,12 @@ void setup() {
   size(600, 400, OPENGL);
   kinect = new SimpleOpenNI(this);
   kinect.enableDepth();
-  // load both audio files
+  // enable skeleton generation for all joints
+  kinect.enableUser();
+  // draw thickness of drawer
+//  strokeWeight(3);
+  // smooth out drawing
+  smooth();
   // initialize hotpoints with their origins (x,y,z) and their width, height, length
   floor = new Hotpoint(0, -600, 2100, 2000, 50, 1500); 
 }
