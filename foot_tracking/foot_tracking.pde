@@ -54,6 +54,7 @@ float rightClosestY = 0;
 // diameter of feet drawn in pixels
 float feetSize = 200;
  
+private PImage startScreen; 
 // threshold of level of confidence
 float confidenceLevel = 0.5;
 // the current confidence level that the kinect is tracking
@@ -82,7 +83,10 @@ void setup()
   smooth();
  
   // create a window the size of the depth information
-  size(kinect.depthWidth(), kinect.depthHeight());
+  size(2200, 1000);
+  
+  startScreen = loadImage("GT_Start-78.png");
+   
 }
  
 /*---------------------------------------------------------------
@@ -94,19 +98,14 @@ void draw(){
   kinect.update();
   // get Kinect data
   kinectDepth = kinect.depthImage();
+  
    
   // draw depth image at coordinates (0,0)
-  image(kinectDepth,0,0); 
+  image(startScreen, 0, 0, width, height);
  
    // get all user IDs of tracked users
   userID = kinect.getUsers();
   
-  XnPlane3D plane; 
-        XnStatus st =  g_SceneAnalyzer.GetFloor(plane); 
-  printf("Plane point=(%f,%f,%f), vector=(%f,%f,%f)\n", plane.ptPoint.X, 
-  plane.ptPoint.Y, plane.ptPoint.Z, plane.vNormal.X, plane.vNormal.Y, 
-  plane.vNormal.Z); 
- 
   // loop through each user to see if tracking
   for(int i=0;i<userID.length;i++)
   {
@@ -128,8 +127,10 @@ void draw(){
         // draw the rest of the body
         drawSkeleton(userID[i]);
         //calculate and print x,y coordinates of right and left foot
-        println("Left Foot (x,y,z) : (" + leftFootPosition.x + "," + leftFootPosition.y + "," + leftFootPosition.z + ")");
-        println("Right Foot (x,y,z) : (" + rightFootPosition.x + "," + rightFootPosition.y + "," + rightFootPosition.z + ")");
+        if (mousePressed){
+          println("Left Foot (x,y,z) : (" + leftFootPosition.x + "," + leftFootPosition.y + "," + leftFootPosition.z + ")");
+          println("Right Foot (x,y,z) : (" + rightFootPosition.x + "," + rightFootPosition.y + "," + rightFootPosition.z + ")");
+        }
       }
     }
   }
