@@ -101,12 +101,6 @@ void draw(){
    // get all user IDs of tracked users
   userID = kinect.getUsers();
   
-  XnPlane3D plane; 
-        XnStatus st =  g_SceneAnalyzer.GetFloor(plane); 
-  printf("Plane point=(%f,%f,%f), vector=(%f,%f,%f)\n", plane.ptPoint.X, 
-  plane.ptPoint.Y, plane.ptPoint.Z, plane.vNormal.X, plane.vNormal.Y, 
-  plane.vNormal.Z); 
- 
   // loop through each user to see if tracking
   for(int i=0;i<userID.length;i++)
   {
@@ -128,8 +122,10 @@ void draw(){
         // draw the rest of the body
         drawSkeleton(userID[i]);
         //calculate and print x,y coordinates of right and left foot
-        println("Left Foot (x,y,z) : (" + leftFootPosition.x + "," + leftFootPosition.y + "," + leftFootPosition.z + ")");
-        println("Right Foot (x,y,z) : (" + rightFootPosition.x + "," + rightFootPosition.y + "," + rightFootPosition.z + ")");
+        if (mousePressed){
+          println("Left Foot (x,y,z) : (" + leftFootPosition.x + "," + leftFootPosition.y + "," + leftFootPosition.z + ")");
+          println("Right Foot (x,y,z) : (" + rightFootPosition.x + "," + rightFootPosition.y + "," + rightFootPosition.z + ")");
+        }
       }
     }
   }
