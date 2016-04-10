@@ -4,38 +4,95 @@ class MapModel implements Observer {
 
   //State of map
   private GameState state; 
-  ArrayList<RockModel> rocks;
-  ArrayList<PlayerModel> players;
-  CollisionModel collisionModel;
-  int framesSinceCalibrate = 0;
+  private ArrayList<RockModel> rocks;
+  private ArrayList<PlayerModel> players;
+  private CollisionModel collisionModel;
+  private int framesSinceCalibrate = 0;
+  private int level = 1;
+  private boolean win_reset = false;
+  private Lava lava;
+  private int original_num_rocks = 0;
 
   // number of players playing, used for player ID
-  int playerCount = 0;
+  private int playerCount = 0;
 
   public MapModel() {
+    lava = new Lava();
     rocks = new ArrayList<RockModel>();
+    original_num_rocks = 0;
     players = new ArrayList<PlayerModel>();
     collisionModel = new CollisionModel(this);
     // TODO: get blob/dots from kinect and add those as players
     // for now, just use the mouse (mouse is used in player)
     PlayerModel player = new PlayerModel(playerCount);
     player.playerDeadEvent().addObserver(this);
-    players.add(player);
-
-    playerCount += 1;
+    //Right now, only allow support for up to two players
+    if (players.size() < 2) {
+      players.add(player);
+      playerCount++;
+    }
 
     // procedurally generate rocks for the map
     //generateMap();
     generateFullMap();
     state = GameState.START;
   }
+  
+  ArrayList<RockModel> getRocks(){
+    return rocks;
+  }
+  
+  ArrayList<PlayerModel> getPlayers(){
+    return players;
+  }
+  
+  CollisionModel getCollisionModel(){
+    return collisionModel;
+  }
+  
+  int getLevel(){
+    return level;
+  }
+  
+  Lava getLava(){
+    return lava;
+  }
+  
+  int getOriginal_num_rocks(){
+    return original_num_rocks;
+  }
+  
+  int getPlayerCount(){
+    return playerCount;
+  }
 
   public void onNotify(Event event) {
     if (event instanceof PlayerDeadEvent) {
-      state = GameState.LOSE;
+      state = GameState.LOSE;  
     }
   }
 
+  /* Resets the game after death/win*/
+  void reset() {
+    //Reset all counters and variables
+    original_num_rocks = 0;
+    level = 1;
+    playerCount = 0;
+    framesSinceCalibrate = 0;
+    players.clear();
+    rocks.clear();
+    //Add the players
+    PlayerModel player = new PlayerModel(playerCount);
+    player.playerDeadEvent().addObserver(this);
+    players.add(player);
+    playerCount += 1;
+    // procedurally generate rocks for the map
+    //generateMap();
+    generateFullMap();
+    state = GameState.START;
+ 
+  }
+  
   public GameState getState() {
     return state;
   }
@@ -43,8 +100,12 @@ class MapModel implements Observer {
   public void beginCalibration() {
     // skip calibration
     //state = GameState.CALIBRATE1;
-    state = GameState.PLAY;
-
+    state = GameState.BETWEENLEVEL;
+    //state = GameState.COUNTDOWN1;
+  }
+  
+  public void beginRules() {
+    state = GameState.RULES;
   }
 
   void update() {
@@ -53,63 +114,118 @@ class MapModel implements Observer {
     // the countdown/calibration screens
     switch (state) {
       case START:
+        //println("we reached the update method");
+        break;
+      case RULES:
+        //blah
         break;
       case CALIBRATE1:
-        if (framesSinceCalibrate > 100) {
+        if (framesSinceCalibrate > 120) {
           state = GameState.CALIBRATE2;
         } else {
           framesSinceCalibrate++;
         }
         break;
       case CALIBRATE2:
-        if (framesSinceCalibrate > 200) {
+        if (framesSinceCalibrate > 240) {
           state = GameState.CALIBRATE3;
         } else {
           framesSinceCalibrate++;
         }
         break;
       case CALIBRATE3:
-        if (framesSinceCalibrate > 300) {
+        if (framesSinceCalibrate > 360) {
           state = GameState.COUNTDOWN1;
+          framesSinceCalibrate = 0;
+        } else {
+          framesSinceCalibrate++;
+        }
+        break;
+      case BETWEENLEVEL:
+        if (framesSinceCalibrate > 360){
+          framesSinceCalibrate = 0;
+        }
+        //Only do this if it's not the first level
+        if (mapModel.getLevel() != 1){
+          if(mapModel.rocks.size()==0) {
+            //Add rocks below each player
+            for (PlayerModel p : players){
+              rocks.add(new RockModel(p.getRawX(), p.getRawY()));
+            }
+            generateFullMap();
+          }
+        }
+        //else
+        if (framesSinceCalibrate > 120){
+          //We want a flipped countdown
+          if (level % 2 == 0){
+            state = GameState.FLIPPEDCOUNTDOWN1;
+            framesSinceCalibrate = 0;
+          } else {
+            state = GameState.COUNTDOWN1;
+            framesSinceCalibrate = 0;
+          }  
         } else {
           framesSinceCalibrate++;
         }
         break;
       case COUNTDOWN1:
-        if (framesSinceCalibrate > 400) {
+        if (framesSinceCalibrate > 120) {
           state = GameState.COUNTDOWN2;
         } else {
           framesSinceCalibrate++;
         }
         break;
       case COUNTDOWN2:
-        if (framesSinceCalibrate > 500) {
+        if (framesSinceCalibrate > 240) {
           state = GameState.COUNTDOWN3;
         } else {
           framesSinceCalibrate++;
         }
         break;
       case COUNTDOWN3:
-        if (framesSinceCalibrate > 600) {
+        if (framesSinceCalibrate > 360) {
+          state = GameState.PLAY;
+        } else {
+          framesSinceCalibrate++;
+        }
+        break;
+       case FLIPPEDCOUNTDOWN1:
+        if (framesSinceCalibrate > 120) {
+          state = GameState.FLIPPEDCOUNTDOWN2;
+        } else {
+          framesSinceCalibrate++;
+        }
+        break;
+      case FLIPPEDCOUNTDOWN2:
+        if (framesSinceCalibrate > 240) {
+          state = GameState.FLIPPEDCOUNTDOWN3;
+        } else {
+          framesSinceCalibrate++;
+        }
+        break;
+      case FLIPPEDCOUNTDOWN3:
+        if (framesSinceCalibrate > 360) {
           state = GameState.PLAY;
         } else {
           framesSinceCalibrate++;
         }
         break;
       case PLAY:
+        if (framesSinceCalibrate == 361) {
+           //add rocks below players if first iteration
+           for (PlayerModel p : players) {
+             rocks.add(new RockModel(p.getRawX(), p.getRawY(), true));
+          }
+          framesSinceCalibrate++;
+        }
         for (PlayerModel player : mapModel.players) {
           player.update();
-          //perform victory/death condition check here
-          // 3 pixel edge tolerance
-          //On notification player has crossed edge boundary
-          if (player.getRawX() >= width-3) {
-            state = GameState.WIN;
-          }
         }
         ArrayList<RockModel> rocksToDestroy = new ArrayList<RockModel>();
   
         for (RockModel rock : mapModel.rocks) {
-          rock.update();
+          rock.update(level);
           if (rock.isDestroyed()) {
             rocksToDestroy.add(rock);
           }
@@ -117,7 +233,15 @@ class MapModel implements Observer {
         
         //another victory condition?
         if(mapModel.rocks.size()==0) {
-          mapModel.state = GameState.WIN;
+          if (level == 3){
+            mapModel.state = GameState.WIN;
+          } else {
+            level++;
+            for (PlayerModel player : mapModel.players){
+              player.resetHealth();
+            }
+            mapModel.state = GameState.BETWEENLEVEL;
+          }
         }
         
         collisionModel.update();
@@ -128,10 +252,34 @@ class MapModel implements Observer {
         }
         break;
       case WIN:
-        System.out.println("WIN!");
+        if ((framesSinceCalibrate > 361) && (win_reset == false)){
+          framesSinceCalibrate = 0;
+          win_reset = true;
+        } else if ((framesSinceCalibrate > 540) && (win_reset)) {
+          state = GameState.RESET;
+          win_reset = false;
+        } else {
+          framesSinceCalibrate++;
+        }
         break;
+
+      case LOSE:
+        if ((framesSinceCalibrate > 361) && (win_reset == false)){
+          framesSinceCalibrate = 0;
+          win_reset = true;
+        } else if ((framesSinceCalibrate > 540) && (win_reset)) {
+          state = GameState.RESET;
+          win_reset = false;
+          
+        } else {
+          framesSinceCalibrate++;
+        }
+        break;
+       case RESET:
+         reset();
+         break;
     }
-    println("frames since called calibrate is" + framesSinceCalibrate);
+    //println("frames since called calibrate is" + framesSinceCalibrate);
   }
 
   // add to rocks so someone can get across
@@ -144,11 +292,13 @@ class MapModel implements Observer {
     // pick a random distance away from the left hand edge of the window
     currentX = (int) random(MAX_STEP_SIZE) + RockModel.WIDTH/2;
     rocks.add(new RockModel(currentX, currentY));
+    original_num_rocks += 1;
     // while we are not within one STEP away from the RHS
     // closest way to get from the circle to the RHS is a straight line --->
-    while (currentX + RockModel.WIDTH/2 < width - MAX_STEP_SIZE) {
+    //The distance scales up with the level
+    while (currentX + RockModel.WIDTH/2 < width - (1 + float(level/10) - .1) * MAX_STEP_SIZE) {
       // only works since the height and the width are the same
-      dist = RockModel.HEIGHT + random(MIN_STEP_SIZE, MAX_STEP_SIZE);
+      dist = RockModel.HEIGHT + random(MIN_STEP_SIZE, (1 + float(level/10) - .1) * MAX_STEP_SIZE);
       // min and max angles using trig
       // subtract PI/2 to rotate 90 degrees CW
       angle = random(acos(min((currentY - RockModel.HEIGHT/2.0), dist)/dist), 
@@ -169,8 +319,9 @@ class MapModel implements Observer {
       }
       if (clear) {
         rocks.add(new RockModel(currentX, currentY));
+        original_num_rocks += 1;
       }
     }
-  }
+  } 
 }
 

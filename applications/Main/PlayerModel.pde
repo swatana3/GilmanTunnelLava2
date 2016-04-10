@@ -1,7 +1,7 @@
 class PlayerModel {
   private PlayerDeadEvent playerDeadEvent = new PlayerDeadEvent();
 
-  static final int MAX_SHIELD = 20;
+  static final int MAX_SHIELD = 25;
   // raw x and y coordinates
   private int mX, mY;
   // player id
@@ -13,13 +13,24 @@ class PlayerModel {
   // if colliding with lava
   private boolean collidingWithLava = false;
   private boolean dead = false;
+  final private int max_health = 105;
   
 
   PlayerModel(int id) {
     // aka health
     this.shield = MAX_SHIELD;
-    this.health = 100;
+    this.health = 105;
     this.id = id;
+  }
+  
+  /* Resets health and shield - for use in between levels */
+  void resetHealth(){
+    this.health = 105;
+    this.shield = MAX_SHIELD;  
+  }
+  
+  int getMaxHealth(){
+    return this.max_health;
   }
 
   void update() {
@@ -37,7 +48,7 @@ class PlayerModel {
     } else {
       this.shield = min(this.shield + 1, MAX_SHIELD);
     } 
-    println("player " + id + " shield: " + this.shield + " x: " + this.mX + " y: " + this.mY);
+    //println("player " + id + " shield: " + this.shield + " x: " + this.mX + " y: " + this.mY);
   }
   
   public void setCollidingWithLava(boolean collide) {
