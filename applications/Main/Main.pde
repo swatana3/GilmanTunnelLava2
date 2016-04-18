@@ -6,7 +6,7 @@ View view;
 
 
 void setup() {
-  size(600, 400);
+  size(2200, 1000);
   mapModel = new MapModel();
   mapController = new MapController(mapModel);
   //lava = new Lava();

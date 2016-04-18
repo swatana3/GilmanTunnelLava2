@@ -43,14 +43,10 @@ float leftLerpX = 0;
 float leftLerpY = 0;
 float leftLastX = 0;
 float leftLastY = 0;
-float leftClosestX = 0;
-float leftClosestY = 0;
 float rightLerpX = 0;
 float rightLerpY = 0;
 float rightLastX = 0;
 float rightLastY = 0;
-float rightClosestX = 0;
-float rightClosestY = 0;
 // diameter of feet drawn in pixels
 float feetSize = 200;
  
@@ -102,6 +98,7 @@ void draw(){
    
   // draw depth image at coordinates (0,0)
   image(startScreen, 0, 0, width, height);
+  //This was a test....
  
    // get all user IDs of tracked users
   userID = kinect.getUsers();

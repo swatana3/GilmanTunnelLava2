@@ -1,6 +1,6 @@
 class RockModel {
-  static final int WIDTH = 50;
-  static final int HEIGHT = 50;
+  static final int WIDTH = 300;
+  static final int HEIGHT = 300;
  
   // width and height of ellipse that represents rock
   private int w, h;
@@ -32,7 +32,7 @@ class RockModel {
   private boolean movingOffScreenX; 
   private boolean movingOffScreenY; 
   
-  static final private int DEFAULT_FRAMES = 100;
+  static final private int DEFAULT_FRAMES = 20;
   
   //State
   private int framesUntilDestroyed;
