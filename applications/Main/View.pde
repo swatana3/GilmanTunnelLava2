@@ -174,6 +174,8 @@ class View implements Observer {
         //println("Image supposedly rendered");
         break;
       case RULES:
+        jumpSound.play();
+        jumpSound.rewind();
         background(rules);
         break;
       case CALIBRATE1: 
@@ -324,8 +326,11 @@ class View implements Observer {
           String display = "Player" + " " + playerNum;
           int health = (player.getRemainingFrames());
           PImage healthImage = health7;
-          if (health <= 15) {
-           healthImage = health1;
+          if (health == 0) {
+            gameOverSound.play();
+            gameOverSound.rewind(); 
+          } else if (health <= 15) {
+            healthImage = health1;
           } else if (health <= 30) {
            healthImage = health2;
           } else if (health <= 45) {
