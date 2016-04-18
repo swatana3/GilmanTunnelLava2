@@ -15,16 +15,24 @@ class CollisionModel {
         // rock is an ellipse, calculate whether the player point is in it
         // is this actually faster to do this first?
         // check rectangle,
-        int pX = player.getRawX();
-        int pY = player.getRawY();
+        int pLX = player.getRawLX();
+        int pLY = player.getRawLY();
+        int pRX = player.getRawRX();
+        int pRY = player.getRawRY();
         int cX = rock.getRawX();
         int cY = rock.getRawY();
         int w = rock.getWidth();
         int h = rock.getHeight();
         //check rectangle
-        if (!(abs(pX - cX) > w/2.0 || abs(pY - cY) > h/2.0) &&
+        if (  (!(abs(pLX - cX) > w/2.0 || abs(pLY - cY) > h/2.0) &&
             //then check ellipse
-            (sq(pX - cX) / sq(w/2) + sq(pY - cY) / sq(h/2) <= 1)) {
+              (sq(pLX - cX) / sq(w/2) + sq(pLY - cY) / sq(h/2) <= 1)) ||
+              //check other rectangle
+              (!(abs(pRX - cX) > w/2.0 || abs(pRY - cY) > h/2.0) &&
+              //then check ellipse
+              (sq(pRX - cX) / sq(w/2) + sq(pRY - cY) / sq(h/2) <= 1))
+           )
+           {
             // if player wasn't on this rock before,
             if (!rock.collidingWithPlayer) {
               // create PlayerStepsOnRockEvent

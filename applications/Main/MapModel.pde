@@ -150,7 +150,8 @@ class MapModel implements Observer {
           if(mapModel.rocks.size()==0) {
             //Add rocks below each player
             for (PlayerModel p : players){
-              rocks.add(new RockModel(p.getRawX(), p.getRawY()));
+              rocks.add(new RockModel(p.getRawLX(), p.getRawLY()));
+              rocks.add(new RockModel(p.getRawRX(), p.getRawRY()));
             }
             generateFullMap();
           }
@@ -215,7 +216,8 @@ class MapModel implements Observer {
         if (framesSinceCalibrate == 361) {
            //add rocks below players if first iteration
            for (PlayerModel p : players) {
-             rocks.add(new RockModel(p.getRawX(), p.getRawY(), true));
+             rocks.add(new RockModel(p.getRawLX(), p.getRawLY(), true));
+             rocks.add(new RockModel(p.getRawRX(), p.getRawRY(), true));
           }
           framesSinceCalibrate++;
         }

@@ -3,7 +3,7 @@ class PlayerModel {
 
   static final int MAX_SHIELD = 25;
   // raw x and y coordinates
-  private int mX, mY;
+  private int mLX, mRX, mLY, mRY;
   // player id
   private int id;
   private int health;
@@ -55,18 +55,29 @@ class PlayerModel {
     this.collidingWithLava = collide;
   }
 
-  public void setRawX(int x) {
-    this.mX = x;
+  public void setRawLX(int x) {
+    this.mLX = x;
   }
-  public int getRawX() {
-    return mX;
+  public void setRawRX(int x) {
+    this.mRX = x;
   }
-  
-  public void setRawY(int y) {
-    this.mY = y;
+    public void setRawLY(int y) {
+    this.mLY = y;
   }
-  public int getRawY() {
-    return mY;
+  public void setRawRY(int y) {
+    this.mRY = y;
+  }
+  public int getRawLX() {
+    return mLX;
+  }
+  public int getRawRX() {
+    return mRX;
+  }
+  public int getRawLY() {
+    return mLY;
+  }
+  public int getRawRY() {
+    return mRY;
   }
   
   PlayerDeadEvent playerDeadEvent() {

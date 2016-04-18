@@ -161,9 +161,19 @@ class MapController {
         mapModel.beginCalibration();
         break;
       case PLAY:
-        for (PlayerModel player : mapModel.players) {
-          player.setRawX(mouseX);
-          player.setRawY(mouseY);
+        int[] userList = context.getUsers();
+        for (int i=0; i<userList.length; i++)
+          {
+            if (context.isTrackingSkeleton(userList[i]))
+              drawSkeletonCalibrated(userList[i]);
+          // finds the center of mass
+            PlayerModel player = mapModel.players.get(0);
+            //scale to processing coordinates
+            //Need to set x, set y....
+            player.setRawLX(leftFootPosCalibrate.x);
+            player.setRawLY(leftFootPosCalibrate.y);
+            player.setRawRX(rightFootPosCalibrate.x);
+            player.setRawRY(rightFootPosCalibrate.y);
         }
         break;
     }
