@@ -71,6 +71,8 @@ class MapController {
   // get 3D positions of feet
     context.getJointPositionSkeleton(userId, SimpleOpenNI.SKEL_LEFT_FOOT, leftFootPosition);
     context.getJointPositionSkeleton(userId, SimpleOpenNI.SKEL_RIGHT_FOOT, rightFootPosition);
+    
+    println("leftFootPosition is " + leftFootPosition);
     // convert real world point to projective space
     context.convertRealWorldToProjective(leftFootPosition, leftFootPosition);
     context.convertRealWorldToProjective(rightFootPosition, rightFootPosition);
@@ -114,6 +116,11 @@ class MapController {
     ellipse(leftFootPosCalibrate.x, leftFootPosCalibrate.y, distanceScalarL*feetSize,distanceScalarL*feetSize);
     ellipse(rightFootPosCalibrate.x, rightFootPosCalibrate.y, distanceScalarR*feetSize,distanceScalarR*feetSize);
     
+    if (mousePressed){
+      println(leftFootPosition + " ");
+      println(rightFootPosition + " ");
+    }
+    
     leftLastX = leftLerpX;
     leftLastY = leftLerpY;
     rightLastX = rightLerpX;
@@ -148,6 +155,7 @@ class MapController {
         if (rightFootPosCalibrate.x <= 430 && rightFootPosCalibrate.x >=70 ){
           if (rightFootPosCalibrate.y <= 440 && rightFootPosCalibrate.y >= 80){
             framesPressed++;
+            println("They are standing in the zone");
             fill(255,200,200);
             ellipse(leftFootPosCalibrate.x, leftFootPosCalibrate.y, distanceScalarL*feetSize,distanceScalarL*feetSize);
             ellipse(rightFootPosCalibrate.x, rightFootPosCalibrate.y, distanceScalarR*feetSize,distanceScalarR*feetSize);
@@ -169,13 +177,13 @@ class MapController {
         for (int i=0; i<userList.length; i++)
           {
             println("userList i is" + i);
-            if (context.isTrackingSkeleton(userList[i])) {
+            //if (context.isTrackingSkeleton(userList[i])) {
               drawSkeletonCalibrated(userList[i]);
               if (standingZone5sec()) {//standing in zone for at least 300 frames
                 framesPressed = 0;  
                 mapModel.beginRules();
               }
-            }
+            //}
         }
         break;
       case RULES:

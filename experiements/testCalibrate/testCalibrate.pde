@@ -148,10 +148,10 @@ void drawSkeleton(int userId){
     distanceScalarL = (525/leftFootPosition.z);
     distanceScalarR = (525/rightFootPosition.z);
     // draw the circle at the position of the head with the head size scaled by the distance scalar
-    leftLerpX = lerp(leftLastX, leftFootPosition.x, 0.3f);
-    leftLerpY = lerp(leftLastY, leftFootPosition.y, 0.3f);
-    rightLerpX = lerp(rightLastX, rightFootPosition.x, 0.3f);
-    rightLerpY = lerp(rightLastY, rightFootPosition.y, 0.3f);
+    leftLerpX = lerp(leftLastX, leftFootPosition.x, 0.5f);
+    leftLerpY = lerp(leftLastY, leftFootPosition.y, 0.5f);
+    rightLerpX = lerp(rightLastX, rightFootPosition.x, 0.5f);
+    rightLerpY = lerp(rightLastY, rightFootPosition.y, 0.5f);
     //covert these ellipse to the thing on the screen...
     // x range feet (16, 598) //range difference = 582
     // y range feet (343, 406) //range difference = 63
@@ -167,7 +167,7 @@ void drawSkeleton(int userId){
       leftFootPosCalibrate.x = 0;
     }
     if (leftFootPosCalibrate.y <0){
-      leftFootPosCalibrate.x = 0;
+      leftFootPosCalibrate.y = 0;
     }
     
     rightFootPosCalibrate.x = width - ((rightLerpX - 16.0) * (width/582.0));
@@ -178,7 +178,7 @@ void drawSkeleton(int userId){
       rightFootPosCalibrate.x = 0;
     }
     if (rightFootPosCalibrate.y <0){
-      rightFootPosCalibrate.x = 0;
+      rightFootPosCalibrate.y = 0;
     }
     
     ellipse(leftFootPosCalibrate.x, leftFootPosCalibrate.y, distanceScalarL*feetSize,distanceScalarL*feetSize);
