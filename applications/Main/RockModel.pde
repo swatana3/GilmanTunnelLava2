@@ -1,6 +1,6 @@
 class RockModel {
-  static final int WIDTH = 100;
-  static final int HEIGHT = 100;
+  static final int WIDTH = 200;
+  static final int HEIGHT = 200;
  
   // width and height of ellipse that represents rock
   private int w, h;
@@ -79,8 +79,8 @@ class RockModel {
     storeH = h;
     
     //currrently setting radius manually
-    this.radiusX = 75;
-    this.radiusY = 75;
+    this.radiusX = 100;
+    this.radiusY = 100;
     
     //angle of ellipse
     this.theta =0; 

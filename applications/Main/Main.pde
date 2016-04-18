@@ -21,7 +21,7 @@ AudioPlayer levelUpSound;
 //AudioPlayer winSound;
 
 void setup() {
-  size(600, 400);
+  size(2200, 1000);
   
   // sound stuff
   minim = new Minim(this);

@@ -9,7 +9,7 @@ Simulates the moving lava background.
 class Lava {
   
 /** Global Variables - to be used across all classes **/
-private final int numBubbles  = 500; // Sets the number of bubbles to appear on the screen
+private final int numBubbles  = 800; // Sets the number of bubbles to appear on the screen
 private final int frameLife = 800; //Indicates how large the memory is in frames; 60 frames = 1 second
 private Bubble[] bubbles = new Bubble[numBubbles]; // Holds the bubble objects
 private int frameCounter = 1; //Keeps track of frames

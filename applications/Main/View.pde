@@ -72,16 +72,16 @@ class View implements Observer {
     rockDetailOne = loadImage("../../assets/rockDetail1.png");
     rockDetailTwo = loadImage("../../assets/rockDetail2.png");
     rockDetailThree = loadImage("../../assets/rockDetail3.png");
-    flamingoDetail = loadImage("../../assets/Final Screens/GT_Level3_FlamingoObject.png");
-    natureDetail = loadImage("../../assets/Final Screens/GT_Level2_NatureObject.png");
-    flamingoBackground = loadImage("../../assets/Final Screens/GT_Level3_FlamingoBackground.png");
-    natureBackground = loadImage("../../assets/Final Screens/GT_Level2_NatureBackground.png");
-    startScreen = loadImage("../../assets/Final Screens/GT_1_Start.png");
-    endScreen = loadImage("../../assets/Final Screens/GT_19_GameOver1.png");
-    FendScreen = loadImage("../../assets/Final Screens/GT_20_GameOver2.png");
-    winScreen = loadImage("../../assets/Final Screens/GT_22_YouWin2.png");
-    winScreen2 = loadImage("../../assets/Final Screens/GT_21_YouWin1.png");
-    rules = loadImage("../../assets/Final Screens/GT_5_Rules.png");
+    flamingoDetail = loadImage("../../assets/Final Graphics Small/GT_Level3_FlamingoObject.png");
+    natureDetail = loadImage("../../assets/Final Graphics Small/GT_Level2_NatureObject.png");
+    flamingoBackground = loadImage("../../assets/Final Graphics Small/GT_Level3_FlamingoBackground.png");
+    natureBackground = loadImage("../../assets/Final Graphics Small/GT_Level2_NatureBackground.png");
+    startScreen = loadImage("../../assets/Final Graphics Small/GT_1_Start.png");
+    endScreen = loadImage("../../assets/Final Graphics Small/GT_19_GameOver1.png");
+    FendScreen = loadImage("../../assets/Final Graphics Small/GT_20_GameOver2.png");
+    winScreen = loadImage("../../assets/Final Graphics Small/GT_YouWin1.png");
+    winScreen2 = loadImage("../../assets/Final Graphics Small/GT_YouWin2.png");
+    rules = loadImage("../../assets/Final Graphics Small/GT_5_Rules.png");
 
     endScreen.resize(width, height);
     FendScreen.resize(width, height);
@@ -90,18 +90,18 @@ class View implements Observer {
     rules.resize(width, height);
 
     //calibrateScreen
-    calibrateScreen1 = loadImage("../../assets/Final Screens/GT_2_Calibration1.png");
-    calibrateScreen2 = loadImage("../../assets/Final Screens/GT_3_Calibration2.png");
-    calibrateScreen3  = loadImage("../../assets/Final Screens/GT_4_Calibration3.png");
+    calibrateScreen1 = loadImage("../../assets/Final Graphics Small/GT_2_Calibration1.png");
+    calibrateScreen2 = loadImage("../../assets/Final Graphics Small/GT_3_Calibration2.png");
+    calibrateScreen3  = loadImage("../../assets/Final Graphics Small/GT_4_Calibration3.png");
 
     calibrateScreen1.resize(width, height);
     calibrateScreen2.resize(width, height);
     calibrateScreen3.resize(width, height);
 
     //countdownScreen
-    countdownScreen1 = loadImage("../../assets/Final Screens/GT_8_Countdown3.png");
-    countdownScreen2 = loadImage("../../assets/Final Screens/GT_7_Countdown2.png");
-    countdownScreen3 = loadImage("../../assets/Final Screens/GT_6_Countdown1.png");
+    countdownScreen1 = loadImage("../../assets/Final Graphics Small/GT_8_Countdown3.png");
+    countdownScreen2 = loadImage("../../assets/Final Graphics Small/GT_7_Countdown2.png");
+    countdownScreen3 = loadImage("../../assets/Final Graphics Small/GT_6_Countdown1.png");
     FcountdownScreen1 = loadImage("../../assets/Final Screens/GT_8_Countdown3_F.png");
     FcountdownScreen2 = loadImage("../../assets/Final Screens/GT_7_Countdown2_F.png");
     FcountdownScreen3 = loadImage("../../assets/Final Screens/GT_6_Countdown1_F.png");
@@ -118,13 +118,13 @@ class View implements Observer {
     natureBackground.resize(width, height);
     
     //health bars
-    health1 = loadImage("../../assets/New Screens/GT_Health1.png");
-    health2 = loadImage("../../assets/New Screens/GT_Health2.png");
-    health3 = loadImage("../../assets/New Screens/GT_Health3.png");
-    health4 = loadImage("../../assets/New Screens/GT_Health4.png");
-    health5 = loadImage("../../assets/New Screens/GT_Health5.png");
-    health6 = loadImage("../../assets/New Screens/GT_Health6.png");
-    health7 = loadImage("../../assets/New Screens/GT_Health7.png");
+    health1 = loadImage("../../assets/Final Graphics Small/GT_Health1.png");
+    health2 = loadImage("../../assets/Final Graphics Small/GT_Health2.png");
+    health3 = loadImage("../../assets/Final Graphics Small/GT_Health3.png");
+    health4 = loadImage("../../assets/Final Graphics Small/GT_Health4.png");
+    health5 = loadImage("../../assets/Final Graphics Small/GT_Health5.png");
+    health6 = loadImage("../../assets/Final Graphics Small/GT_Health6.png");
+    health7 = loadImage("../../assets/Final Graphics Small/GT_Health7.png");
     
     health1.resize(width/5, height/10);
     health2.resize(width/5, height/10);
@@ -419,19 +419,4 @@ class View implements Observer {
     }
   }
 }
-/*
-class PlayAudio {
-  private AudioSample sample;
-  private AudioSnippet snippet;
-  
-  PlayAudio(String filepath, Minim minim) {
-    sample = minim.loadSample(filepath, 512);
-    snippet = minim.loadSnippet(filepath);
-  }
-
-  void playSnippet() {
-    sample.trigger();
-    snippet.play();
-  } 
-}*/
 
