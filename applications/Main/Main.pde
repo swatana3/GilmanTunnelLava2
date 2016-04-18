@@ -6,21 +6,33 @@ View view;
 Minim minim;
 //Lava lava;
 
+/* begin sound setup
+ * todo:
+ * convert die, rocks, and win to .wav
+ * fix rockSplash bit depth
+ */ 
 AudioPlayer gameOverSound;
+AudioPlayer collectSound;
+//AudioPlayer dieSound;
+AudioPlayer jumpSound;
+AudioPlayer levelUpSound;
+//AudioPlayer rocksSound;
+//AudioPlayer rockSplashSound;
+//AudioPlayer winSound;
 
 void setup() {
   size(600, 400);
   
   // sound stuff
   minim = new Minim(this);
-//  collectSound = minim.loadfile("Collect.wav");
-//  dieSound = minim.loadfile("die.flac");
+  collectSound = minim.loadFile("Collect.wav");
+//  dieSound = minim.loadFile("Die.flac");
   gameOverSound = minim.loadFile("GameOver.wav");
-//  jumpSound = minim.loadfile("Jump.wav");
-//  levelUpSound = minim.loadfile("LevelUp.wav");
-//  rocksSound = minim.loadfile("Rocks.flac");
-//  rockSplashSound = minim.loadfile("RockSplash.wav");
-//  winSound = minim.loadfile("Win.aiff");
+  jumpSound = minim.loadFile("Jump.wav");
+  levelUpSound = minim.loadFile("LevelUp.wav");
+//  rocksSound = minim.loadFile("Rocks.flac");
+//  rockSplashSound = minim.loadFile("RockSplash.wav");
+//  winSound = minim.loadFile("Win.aiff");
   // end sound stuff
   
   mapModel = new MapModel();
