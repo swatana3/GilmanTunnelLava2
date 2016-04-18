@@ -87,7 +87,7 @@ class MapController {
     //float: x-coordinate of the ellipse, float: y-coordinate of the ellipse
     //float: width of the ellipse by default,  float: height of the ellipse by default
    
-    leftFootPosCalibrate.x = (leftLerpX - 16.0) * (width/582.0);
+    leftFootPosCalibrate.x = width - ((leftLerpX - 16.0) * (width/582.0));
     leftFootPosCalibrate.y = (leftLerpY - 343.0) * (height/63.0);
     leftFootPosCalibrate.z = 0;
     //make sure nothing is neg
@@ -95,18 +95,18 @@ class MapController {
       leftFootPosCalibrate.x = 0;
     }
     if (leftFootPosCalibrate.y <0){
-      leftFootPosCalibrate.x = 0;
+      leftFootPosCalibrate.y = 0;
     }
     
-    rightFootPosCalibrate.x = (rightLerpX - 55.0) * (width/500.0);
-    rightFootPosCalibrate.y = (righttLerpY - 320.0) * (height/70.0);
+    rightFootPosCalibrate.x = width - (rightLerpX - 16.0) * (width/582.0);
+    rightFootPosCalibrate.y = (righttLerpY - 343.0) * (height/63.0);
     rightFootPosCalibrate.z = 0;
     //make sure nothing is neg
     if (rightFootPosCalibrate.x <0){
       rightFootPosCalibrate.x = 0;
     }
     if (rightFootPosCalibrate.y <0){
-      rightFootPosCalibrate.x = 0;
+      rightFootPosCalibrate.y = 0;
     }
     
     ellipse(leftFootPosCalibrate.x, leftFootPosCalibrate.y, distanceScalarL*feetSize,distanceScalarL*feetSize);
@@ -139,21 +139,39 @@ class MapController {
   }
 
   //figures out if user is standing in that 1 zone...
-  //deals with frames pressed
-  void standingZone5sec(){
-    //have a slightly widerzone
-    
-    if (leftFootPosCalibrate.x <= 600 && leftFootPosCalibrate.x >= 250){
-    framesPressed++
-    return true:
+  //deals with frames pressed, and gives a wider range for error
+  boolean standingZone5sec(){
+    if (leftFootPosCalibrate.x <= 430 && leftFootPosCalibrate.x >=70 ){
+      if (leftFootPosCalibrate.y <= 440 && leftFootPosCalibrate.y >= 80){
+        if (rightFootPosCalibrate.x <= 430 && rightFootPosCalibrate.x >=70 ){
+          if (rightFootPosCalibrate.y <= 440 && rightFootPosCalibrate.y >= 80){
+            framesPressed++;
+            fill(255,200,200);
+            ellipse(leftFootPosCalibrate.x, leftFootPosCalibrate.y, distanceScalarL*feetSize,distanceScalarL*feetSize);
+            ellipse(rightFootPosCalibrate.x, righttFootPosCalibrate.y, distanceScalarR*feetSize,distanceScalarR*feetSize);
+          }
+        }
+      }
+    } else{
+      framesPressed = 0;
+    }
+    if (framesPressed >= 600){
+      return true;
+    }
+    return false:
   }
   void update() {
     switch(mapModel.getState()) {
       case START:
-        //Only start if the player has been standing for 5 consecutive seconds.
-        if (standingZone5sec()) {//standing in zone for at least 300 frames
-          framesPressed = 0;  
-          mapModel.beginRules();
+        for (int i=0; i<userList.length; i++)
+          {
+            if (context.isTrackingSkeleton(userList[i])) {
+              drawSkeletonCalibrated(userList[i]);
+              if (standingZone5sec()) {//standing in zone for at least 300 frames
+                framesPressed = 0;  
+                mapModel.beginRules();
+              }
+            }
         }
         break;
       case RULES:
