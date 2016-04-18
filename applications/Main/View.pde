@@ -1,7 +1,20 @@
 import java.util.Map;
+import ddf.minim.*;
 
 class View implements Observer {
-  private MapModel mapModel;
+   private MapModel mapModel;
+  //Sounds and audio player
+  
+  /*
+  private PlayAudio Collect;
+  private PlayAudio Die;
+  private PlayAudio GameOver;
+  private PlayAudio Jump;
+  private PlayAudio LevelUp;
+  private PlayAudio Rocks;
+  private PlayAudio RockSplash;
+  private PlayAudio Win; */
+  
   //Lava lava;
   //PImage rockPlatform;
   private PImage startScreen;
@@ -53,7 +66,6 @@ class View implements Observer {
   private boolean increment = false; // Indicates whether we are incrementing or decrementing our index when running from memory
   private float[] tempX;
   private float[] tempY;
-  
   private final int winBubbles = 100;
   private final int loseBubbles = 75;
   private final int playBubbles = 500;
@@ -61,8 +73,32 @@ class View implements Observer {
   //have an arrayList of Rocks while playerisSteppedOnRock and playerStepsOffRock
   
 
-  View(PApplet parent, MapModel mapModel) {
+  View(PApplet parent, MapModel mapModel, Minim minim) {
     this.mapModel = mapModel;
+    //sounds
+    
+    //Collect = new PlayAudio("../../assets/Sounds/Collect.wav", minim);
+    //Die = new PlayAudio("../../assets/Sounds/Die.flac", minim);*/
+    //GameOver = new PlayAudio("../../assets/Sounds/GameOver.wav", minim);
+    //Jump = new PlayAudio("../../assets/Sounds/Jump.wav", minim);
+    //LevelUp = new PlayAudio("../../assets/Sounds/LevelUp.wav", minim);
+    //Rocks = new PlayAudio("../../assets/Sounds/Rocks.flac", minim);
+    //RockSplash = new PlayAudio("../../assets/Sounds/RockSplash.wav", minim);
+    //Win = new PlayAudio("../../assets/Sounds/Win.aiff", minim);
+    //Collect = minim.loadSnippet("../../assets/Sounds/Collect.wav");
+    //Die = minim.loadSnippet("../../assets/Sounds/Die.flac");
+    //GameOver = minim.loadFile("../../assets/Sounds/GameOver.wav");
+    /*
+    Jump = minim.loadSnippet("../../assets/Sounds/Jump.wav");
+    LevelUp = minim.loadSnippet("../../assets/Sounds/LevelUp.wav");
+    Rocks = minim.loadSnippet("../../assets/Sounds/Rocks.flac");
+    RockSplash = minim.loadSnippet("../../assets/Sounds/RockSplash.wav");
+    Win = minim.loadSnippet("../../assets/Sounds/Win.aiff");
+    */
+          
+    
+    
+    
     //this.lava = lava;
     rockPlatformOne = loadImage("../../assets/rockPlatform1.png");
     rockPlatformTwo = loadImage("../../assets/rockPlatform2.png");
@@ -73,8 +109,8 @@ class View implements Observer {
     startScreen = loadImage("../../assets/New Screens/GT_Start-78.png");
     endScreen = loadImage("../../assets/New Screens/GT_GameOver.png");
     FendScreen = loadImage("../../assets/New Screens/GT_GameOver_Hover.png");
-    winScreen = loadImage("../../assets/New Screens/GT_YouWin.png");
-    winScreen2 = loadImage("../../assets/New Screens/GT_YouWin2.png");
+    winScreen = loadImage("../../assets/New Screens/GT_YouWin_2.png");
+    winScreen2 = loadImage("../../assets/New Screens/GT_YouWin_1.png");
     rules = loadImage("../../assets/New Screens/GT_Rules-82.png");
 
     endScreen.resize(width, height);
@@ -360,4 +396,19 @@ class View implements Observer {
     }
   }
 }
+/*
+class PlayAudio {
+  private AudioSample sample;
+  private AudioSnippet snippet;
+  
+  PlayAudio(String filepath, Minim minim) {
+    sample = minim.loadSample(filepath, 512);
+    snippet = minim.loadSnippet(filepath);
+  }
+
+  void playSnippet() {
+    sample.trigger();
+    snippet.play();
+  } 
+}*/
 
