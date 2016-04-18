@@ -148,19 +148,19 @@ void drawSkeleton(int userId){
     distanceScalarL = (525/leftFootPosition.z);
     distanceScalarR = (525/rightFootPosition.z);
     // draw the circle at the position of the head with the head size scaled by the distance scalar
-    leftLerpX = lerp(leftLastX, leftFootPosition.x, 1.0f);
-    leftLerpY = lerp(leftLastY, leftFootPosition.y, 1.0f);
-    rightLerpX = lerp(rightLastX, rightFootPosition.x, 1.0f);
-    rightLerpY = lerp(rightLastY, rightFootPosition.y, 1.0f);
+    leftLerpX = lerp(leftLastX, leftFootPosition.x, 0.3f);
+    leftLerpY = lerp(leftLastY, leftFootPosition.y, 0.3f);
+    rightLerpX = lerp(rightLastX, rightFootPosition.x, 0.3f);
+    rightLerpY = lerp(rightLastY, rightFootPosition.y, 0.3f);
     //covert these ellipse to the thing on the screen...
-    // x range feet (40, 580) //range difference = 540
-    // y range feet (310, 395) //range difference = 85
-    //convert cordinates 500x70 to 2200x100
+    // x range feet (16, 598) //range difference = 582
+    // y range feet (343, 406) //range difference = 63
+    //convert cordinates 582x63 to 2200x100
     //float: x-coordinate of the ellipse, float: y-coordinate of the ellipse
     //float: width of the ellipse by default,  float: height of the ellipse by default
    
-    leftFootPosCalibrate.x = width - ((leftLerpX - 40.0) * (width/540.0));
-    leftFootPosCalibrate.y = (leftLerpY - 310.0) * (height/85.0);
+    leftFootPosCalibrate.x = width - ((leftLerpX - 16.0) * (width/582.0));
+    leftFootPosCalibrate.y = (leftLerpY - 343.0) * (height/63.0);
     leftFootPosCalibrate.z = 0;
     //make sure nothing is neg
     if (leftFootPosCalibrate.x <0){
@@ -170,8 +170,8 @@ void drawSkeleton(int userId){
       leftFootPosCalibrate.x = 0;
     }
     
-    rightFootPosCalibrate.x = width - ((rightLerpX - 40.0) * (width/540.0));
-    rightFootPosCalibrate.y = (rightLerpY - 310.0) * (height/85.0);
+    rightFootPosCalibrate.x = width - ((rightLerpX - 16.0) * (width/582.0));
+    rightFootPosCalibrate.y = (rightLerpY - 343.0) * (height/63.0);
     rightFootPosCalibrate.z = 0;
     //make sure nothing is neg
     if (rightFootPosCalibrate.x <0){

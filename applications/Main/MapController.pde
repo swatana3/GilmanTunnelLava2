@@ -42,12 +42,12 @@ color[] userColor = new color[]{ color(255,0,0), color(0,255,0), color(0,0,255),
 
 class MapController {
   private MapModel mapModel;
-  //private int framesPressed;
+  private int framesPressed;
 
   // constructor
   MapController(MapModel mapModel, PApplet main) {
     this.mapModel = mapModel;
-    //framesPressed = 0;
+    framesPressed = 0;
     
     context = new SimpleOpenNI(main);
       if (context.isInit() == false) {
@@ -76,19 +76,19 @@ class MapController {
     distanceScalarL = (525/leftFootPosition.z);
     distanceScalarR = (525/rightFootPosition.z);
     // draw the circle at the position of the head with the head size scaled by the distance scalar
-    leftLerpX = lerp(leftLastX, leftFootPosition.x, 0.5f);
-    leftLerpY = lerp(leftLastY, leftFootPosition.y, 0.5f);
+    leftLerpX = lerp(leftLastX, leftFootPosition.x, 0.3f);
+    leftLerpY = lerp(leftLastY, leftFootPosition.y, 0.3f);
     rightLerpX = lerp(rightLastX, rightFootPosition.x, 0.3f);
     rightLerpY = lerp(rightLastY, rightFootPosition.y, 0.3f);
     //covert these ellipse to the thing on the screen...
-    // x range feet (55, 550) //range difference = 500
-    // y range feet (320, 390) //range difference = 70
+    // x range feet (16, 598) //range difference = 582
+    // y range feet (343, 406) //range difference = 63
     //convert cordinates 500x70 to 2200x100
     //float: x-coordinate of the ellipse, float: y-coordinate of the ellipse
     //float: width of the ellipse by default,  float: height of the ellipse by default
    
-    leftFootPosCalibrate.x = (leftLerpX - 55.0) * (width/500.0);
-    leftFootPosCalibrate.y = (leftLerpY - 320.0) * (height/70.0);
+    leftFootPosCalibrate.x = (leftLerpX - 16.0) * (width/582.0);
+    leftFootPosCalibrate.y = (leftLerpY - 343.0) * (height/63.0);
     leftFootPosCalibrate.z = 0;
     //make sure nothing is neg
     if (leftFootPosCalibrate.x <0){
@@ -111,7 +111,6 @@ class MapController {
     
     ellipse(leftFootPosCalibrate.x, leftFootPosCalibrate.y, distanceScalarL*feetSize,distanceScalarL*feetSize);
     ellipse(rightFootPosCalibrate.x, righttFootPosCalibrate.y, distanceScalarR*feetSize,distanceScalarR*feetSize);
-    
     
     leftLastX = leftLerpX;
     leftLastY = leftLerpY;
@@ -140,31 +139,26 @@ class MapController {
   }
 
   //figures out if user is standing in that 1 zone...
-  void isStandingZone(){
+  //deals with frames pressed
+  void standingZone5sec(){
+    //have a slightly widerzone
     
+    if (leftFootPosCalibrate.x <= 600 && leftFootPosCalibrate.x >= 250){
+    framesPressed++
+    return true:
   }
   void update() {
     switch(mapModel.getState()) {
       case START:
-       //Only start if the player has been standing for 5 consecutive seconds.
-       if (isStandingZone()) {
-          if (framesPressed < 300) {
-           framesPressed++;
-          //Start the game
-          } else { 
-            framesPressed = 0;  
-            mapModel.beginRules();
-            mousePressed = false;
-          }
-       //Otherwise, reset the second counter if not consecutive
-       } else {
-         framesPressed = 0;
-       }
+        //Only start if the player has been standing for 5 consecutive seconds.
+        if (standingZone5sec()) {//standing in zone for at least 300 frames
+          framesPressed = 0;  
+          mapModel.beginRules();
+        }
         break;
       case RULES:
-        if (mousePressed) {
-          mapModel.beginCalibration();
-        }
+        //should add an if case, haven't yet, got rid of mousePressed
+        mapModel.beginCalibration();
         break;
       case PLAY:
         for (PlayerModel player : mapModel.players) {

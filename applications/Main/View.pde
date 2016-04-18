@@ -70,7 +70,7 @@ class View implements Observer {
     rockDetailOne = loadImage("../../assets/rockDetail1.png");
     rockDetailTwo = loadImage("../../assets/rockDetail2.png");
     rockDetailThree = loadImage("../../assets/rockDetail3.png");
-    startScreen = loadImage("../../assets/New Screens/GT_Start-78.png");
+    startScreen = loadImage("../../assets/Final Screens/GT_1_Start.png");
     endScreen = loadImage("../../assets/New Screens/GT_GameOver.png");
     FendScreen = loadImage("../../assets/New Screens/GT_GameOver_Hover.png");
     winScreen = loadImage("../../assets/New Screens/GT_YouWin.png");
