@@ -11,6 +11,7 @@ Minim minim;
  * convert die, rocks, and win to .wav
  * fix rockSplash bit depth
  */ 
+AudioPlayer beepSound;
 AudioPlayer gameOverSound;
 AudioPlayer collectSound;
 //AudioPlayer dieSound;
@@ -25,6 +26,7 @@ void setup() {
   
   // sound stuff
   minim = new Minim(this);
+  beepSound = minim.loadFile("Beep.mp3");
   collectSound = minim.loadFile("Collect.wav");
 //  dieSound = minim.loadFile("Die.flac");
   gameOverSound = minim.loadFile("GameOver.wav");

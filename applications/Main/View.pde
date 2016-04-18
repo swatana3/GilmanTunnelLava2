@@ -15,7 +15,9 @@ class View implements Observer {
   private PImage winScreen2;
   // add variable to keep track of page visit to enable sound playback
   boolean startSoundNotPlayed = true;    
-
+  boolean countdown1SoundNotPlayed = true;
+  boolean countdown2SoundNotPlayed = true;
+  boolean countdown3SoundNotPlayed = true;
 
   //PImage calibrateScreen
   private PImage calibrateScreen1;
@@ -218,13 +220,28 @@ class View implements Observer {
         background(calibrateScreen3);
         break;
       case COUNTDOWN1: 
+        if(countdown1SoundNotPlayed) {
+          beepSound.play();
+          beepSound.rewind();
+        }
         background(countdownScreen3);
+        countdown3SoundNotPlayed = false;
         break;
       case COUNTDOWN2: 
+        if(countdown2SoundNotPlayed) {
+          beepSound.play();
+          beepSound.rewind();
+        }
         background(countdownScreen2);
+        countdown2SoundNotPlayed = false;
         break;
       case COUNTDOWN3: 
+        if(countdown1SoundNotPlayed) {
+          beepSound.play();
+          beepSound.rewind();
+        }
         background(countdownScreen1);
+        countdown1SoundNotPlayed = false;
         break;
       case FLIPPEDCOUNTDOWN1: 
         background(FcountdownScreen3);
@@ -327,6 +344,9 @@ class View implements Observer {
             gameOverSound.play();
             gameOverSound.rewind(); 
             startSoundNotPlayed = true;
+            countdown1SoundNotPlayed = true;
+            countdown2SoundNotPlayed = true;
+            countdown3SoundNotPlayed = true;
           } else if (health <= 15 && healthLevel == 1) {
             jumpSound.play();
             jumpSound.rewind();
