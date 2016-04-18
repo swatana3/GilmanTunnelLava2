@@ -1,4 +1,5 @@
 // MapController - handles rock and map models
+import SimpleOpenNI.*;
 
 boolean useOpenNI = false; //for testing only
 
@@ -21,6 +22,7 @@ PVector leftFootPosition = new PVector();
 //calibrated Left Right Position
 PVector rightFootPosCalibrate = new PVector();
 PVector leftFootPosCalibrate = new PVector();
+int[] userList;
 // turn feet into scalar form
 float distanceScalarL;
 float distanceScalarR;
@@ -99,7 +101,7 @@ class MapController {
     }
     
     rightFootPosCalibrate.x = width - (rightLerpX - 16.0) * (width/582.0);
-    rightFootPosCalibrate.y = (righttLerpY - 343.0) * (height/63.0);
+    rightFootPosCalibrate.y = (rightLerpY - 343.0) * (height/63.0);
     rightFootPosCalibrate.z = 0;
     //make sure nothing is neg
     if (rightFootPosCalibrate.x <0){
@@ -110,7 +112,7 @@ class MapController {
     }
     
     ellipse(leftFootPosCalibrate.x, leftFootPosCalibrate.y, distanceScalarL*feetSize,distanceScalarL*feetSize);
-    ellipse(rightFootPosCalibrate.x, righttFootPosCalibrate.y, distanceScalarR*feetSize,distanceScalarR*feetSize);
+    ellipse(rightFootPosCalibrate.x, rightFootPosCalibrate.y, distanceScalarR*feetSize,distanceScalarR*feetSize);
     
     leftLastX = leftLerpX;
     leftLastY = leftLerpY;
@@ -148,7 +150,7 @@ class MapController {
             framesPressed++;
             fill(255,200,200);
             ellipse(leftFootPosCalibrate.x, leftFootPosCalibrate.y, distanceScalarL*feetSize,distanceScalarL*feetSize);
-            ellipse(rightFootPosCalibrate.x, righttFootPosCalibrate.y, distanceScalarR*feetSize,distanceScalarR*feetSize);
+            ellipse(rightFootPosCalibrate.x, rightFootPosCalibrate.y, distanceScalarR*feetSize,distanceScalarR*feetSize);
           }
         }
       }
@@ -158,13 +160,15 @@ class MapController {
     if (framesPressed >= 600){
       return true;
     }
-    return false:
+    return false;
   }
   void update() {
     switch(mapModel.getState()) {
       case START:
+        userList  = context.getUsers();
         for (int i=0; i<userList.length; i++)
           {
+            println("userList i is" + i);
             if (context.isTrackingSkeleton(userList[i])) {
               drawSkeletonCalibrated(userList[i]);
               if (standingZone5sec()) {//standing in zone for at least 300 frames
@@ -179,7 +183,7 @@ class MapController {
         mapModel.beginCalibration();
         break;
       case PLAY:
-        int[] userList = context.getUsers();
+        userList = context.getUsers();
         for (int i=0; i<userList.length; i++)
           {
             if (context.isTrackingSkeleton(userList[i]))
@@ -188,10 +192,10 @@ class MapController {
             PlayerModel player = mapModel.players.get(0);
             //scale to processing coordinates
             //Need to set x, set y....
-            player.setRawLX(leftFootPosCalibrate.x);
-            player.setRawLY(leftFootPosCalibrate.y);
-            player.setRawRX(rightFootPosCalibrate.x);
-            player.setRawRY(rightFootPosCalibrate.y);
+            player.setRawLX((int)leftFootPosCalibrate.x);
+            player.setRawLY((int)leftFootPosCalibrate.y);
+            player.setRawRX((int)rightFootPosCalibrate.x);
+            player.setRawRY((int)rightFootPosCalibrate.y);
         }
         break;
     }
