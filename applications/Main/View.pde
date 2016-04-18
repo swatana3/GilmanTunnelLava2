@@ -3,18 +3,7 @@ import ddf.minim.*;
 
 class View implements Observer {
    private MapModel mapModel;
-  //Sounds and audio player
-  
-  /*
-  private PlayAudio Collect;
-  private PlayAudio Die;
-  private PlayAudio GameOver;
-  private PlayAudio Jump;
-  private PlayAudio LevelUp;
-  private PlayAudio Rocks;
-  private PlayAudio RockSplash;
-  private PlayAudio Win; */
-  
+
   //Lava lava;
   //PImage rockPlatform;
   private PImage startScreen;
@@ -24,6 +13,10 @@ class View implements Observer {
   private PImage FendScreen;
   private PImage winScreen;
   private PImage winScreen2;
+  // add variable to keep track of page visit to enable sound playback
+  boolean startSoundNotPlayed = true;    
+
+
   //PImage calibrateScreen
   private PImage calibrateScreen1;
   private PImage calibrateScreen2;
@@ -37,7 +30,12 @@ class View implements Observer {
   private PImage FcountdownScreen2;
   private PImage FcountdownScreen3;
   private PImage rules;
- //PImage health bars
+ /* PImage health bars 
+  * added: health level transition check (7 health levels)
+  * added: initialize healthImage here to avoid overwriting
+  *        updated healthImage for player when looping for game
+  */
+  private int healthLevel = 7;
   private PImage health1; 
   private PImage health2;
   private PImage health3;
@@ -45,6 +43,7 @@ class View implements Observer {
   private PImage health5;
   private PImage health6;
   private PImage health7;
+  private PImage healthImage;
   //PImage Between levels
   private PImage level1;
   private PImage level2;
@@ -112,7 +111,7 @@ class View implements Observer {
     winScreen = loadImage("../../assets/New Screens/GT_YouWin_2.png");
     winScreen2 = loadImage("../../assets/New Screens/GT_YouWin_1.png");
     rules = loadImage("../../assets/New Screens/GT_Rules-82.png");
-
+    
     endScreen.resize(width, height);
     FendScreen.resize(width, height);
     winScreen.resize(width, height);
@@ -152,6 +151,7 @@ class View implements Observer {
     health5 = loadImage("../../assets/New Screens/GT_Health5.png");
     health6 = loadImage("../../assets/New Screens/GT_Health6.png");
     health7 = loadImage("../../assets/New Screens/GT_Health7.png");
+    healthImage = health7;
     
     health1.resize(width/5, height/10);
     health2.resize(width/5, height/10);
@@ -195,14 +195,17 @@ class View implements Observer {
 
     switch (mapModel.getState()) {
       case START:
+      if (startSoundNotPlayed) {
+        levelUpSound.play();
+        levelUpSound.rewind();
+        startSoundNotPlayed = false;
+      }
         //println("we reached the render method");
         imageMode(CORNER);
         image(startScreen, 0, 0, width, height);
         //println("Image supposedly rendered");
         break;
       case RULES:
-        jumpSound.play();
-        jumpSound.rewind();
         background(rules);
         break;
       case CALIBRATE1: 
@@ -307,24 +310,58 @@ class View implements Observer {
           }
           String display = "Player" + " " + playerNum;
           int health = (player.getRemainingFrames());
-          PImage healthImage = health7;
+          /* Previously, on every pass through these if statements,
+           * the healthImage was being set every single time,
+           * which wasn't visible because there would only be a
+           * noticeable change when the healthImage itself changed.
+           * This resulted in issues with playing sounds, because
+           * the if statement would be entered so many times that
+           * the sound file would essentially be looping the entire
+           * time that the game was active. By adding a variable to
+           * keep track of the next healthLevel, each if statement
+           * can only be entered at the time of transition, rather
+           * than continuously while at a given healthLevel. This
+           * will save computing power and allow sound to be played.
+           */
           if (health == 0) {
             gameOverSound.play();
             gameOverSound.rewind(); 
-          } else if (health <= 15) {
+            startSoundNotPlayed = true;
+          } else if (health <= 15 && healthLevel == 1) {
+            jumpSound.play();
+            jumpSound.rewind();
             healthImage = health1;
-          } else if (health <= 30) {
+            healthLevel = 0;
+          } else if (health <= 30 && healthLevel == 2) {
+            jumpSound.play();
+            jumpSound.rewind();
            healthImage = health2;
-          } else if (health <= 45) {
+           healthLevel = 1;
+          } else if (health <= 45 && healthLevel == 3) {
+            jumpSound.play();
+            jumpSound.rewind();
            healthImage = health3;
-          }else if (health <= 60) {
+           healthLevel = 2;
+          }else if (health <= 60 && healthLevel == 4) {
+            jumpSound.play();
+            jumpSound.rewind();
            healthImage = health4;
-          }else if (health <= 75) {
+           healthLevel = 3;
+          }else if (health <= 75 && healthLevel == 5) {
+            jumpSound.play();
+            jumpSound.rewind();
             healthImage = health5;
-          }else if (health <= 90) {
+            healthLevel = 4;
+          }else if (health <= 90 && healthLevel == 6) {
+            jumpSound.play();
+            jumpSound.rewind();
             healthImage = health6;
-          }else if (health == 105) {
+            healthLevel = 5;
+          }else if (health == 105 && healthLevel == 7) {
+            collectSound.play();
+            collectSound.rewind();
             healthImage = health7;
+            healthLevel = 6;
           }
           image(healthImage, (600 - 80 * playerNum), 0, (600 - 80 * (playerNum - 1)), 40);
           fill(255, 255, 255);
@@ -349,6 +386,9 @@ class View implements Observer {
         //there's no end state yet..
         //the rock should disappear regardless of someone being there.
       case LOSE:
+        // messes up game over sound, but adds new game sound
+//        levelUpSound.play();
+//        levelUpSound.rewind();
         imageMode(CORNER);
         background(endScreen);
         frameRate(120);
