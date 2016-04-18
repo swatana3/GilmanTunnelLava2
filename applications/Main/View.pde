@@ -344,6 +344,10 @@ class View implements Observer {
         //there's no end state yet..
         //the rock should disappear regardless of someone being there.
       case LOSE:
+        // begin sound
+        gameOverSound.play();
+        gameOverSound.rewind();
+        // end sound 
         imageMode(CORNER);
         background(endScreen);
         frameRate(120);
