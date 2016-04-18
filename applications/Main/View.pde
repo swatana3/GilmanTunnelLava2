@@ -11,6 +11,11 @@ class View implements Observer {
   private PImage FendScreen;
   private PImage winScreen;
   private PImage winScreen2;
+  // add variable to keep track of page visit to enable sound playback
+  boolean startSoundNotPlayed = true;    
+  boolean countdown1SoundNotPlayed = true;
+  boolean countdown2SoundNotPlayed = true;
+  boolean countdown3SoundNotPlayed = true;
   //PImage calibrateScreen
   private PImage calibrateScreen1;
   private PImage calibrateScreen2;
@@ -178,33 +183,54 @@ class View implements Observer {
         jumpSound.rewind();
         background(rules);
         break;
-      case CALIBRATE1: 
-        background(calibrateScreen1);
-        break;
-      case CALIBRATE2:
-        background(calibrateScreen2);
-        break;
-      case CALIBRATE3: 
-        background(calibrateScreen3);
-        break;
-      case COUNTDOWN1: 
-        background(countdownScreen3);
-        break;
-      case COUNTDOWN2: 
-        background(countdownScreen2);
-        break;
-      case COUNTDOWN3: 
-        background(countdownScreen1);
-        break;
+       case COUNTDOWN1: 
+       if(countdown1SoundNotPlayed) {
+           beepSound.play();
+           beepSound.rewind();
+         }
+         background(countdownScreen3);
+         countdown3SoundNotPlayed = false;
+         break;
+       case COUNTDOWN2: 
+         if(countdown2SoundNotPlayed) {
+           beepSound.play();
+           beepSound.rewind();
+         }
+         background(countdownScreen2);
+         countdown2SoundNotPlayed = false;
+         break;
+       case COUNTDOWN3: 
+         if(countdown1SoundNotPlayed) {
+           beepSound.play();
+           beepSound.rewind();
+         }
+         background(countdownScreen1);
+         countdown1SoundNotPlayed = false;
+         break;
       case FLIPPEDCOUNTDOWN1: 
-        background(FcountdownScreen3);
-        break;
+        if(countdown1SoundNotPlayed) {
+           beepSound.play();
+           beepSound.rewind();
+         }
+         background(FcountdownScreen3);
+         countdown1SoundNotPlayed = false;
+         break;
       case FLIPPEDCOUNTDOWN2: 
-        background(FcountdownScreen2);
-        break;
+        if(countdown2SoundNotPlayed) {
+           beepSound.play();
+           beepSound.rewind();
+         }
+         background(FcountdownScreen2);
+         countdown2SoundNotPlayed = false;
+         break;
       case FLIPPEDCOUNTDOWN3: 
-        background(FcountdownScreen1);
-        break;
+        if(countdown3SoundNotPlayed) {
+           beepSound.play();
+           beepSound.rewind();
+         }
+         background(FcountdownScreen1);
+         countdown3SoundNotPlayed = false;
+         break;
       case BETWEENLEVEL:
         //change background
         switch (mapModel.getLevel()){
@@ -329,6 +355,9 @@ class View implements Observer {
           if (health == 0) {
             gameOverSound.play();
             gameOverSound.rewind(); 
+            countdown1SoundNotPlayed = true;
+            countdown2SoundNotPlayed = true;
+            countdown3SoundNotPlayed = true;
           } else if (health <= 15) {
             healthImage = health1;
           } else if (health <= 30) {
