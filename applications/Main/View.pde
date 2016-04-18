@@ -2,21 +2,8 @@ import java.util.Map;
 import ddf.minim.*;
 
 class View implements Observer {
-   private MapModel mapModel;
-  //Sounds and audio player
-  
-  /*
-  private PlayAudio Collect;
-  private PlayAudio Die;
-  private PlayAudio GameOver;
-  private PlayAudio Jump;
-  private PlayAudio LevelUp;
-  private PlayAudio Rocks;
-  private PlayAudio RockSplash;
-  private PlayAudio Win; */
-  
-  //Lava lava;
-  //PImage rockPlatform;
+  private MapModel mapModel;
+
   private PImage startScreen;
   private PImage loseScreen;
   private PImage FloseScreen;
@@ -36,6 +23,8 @@ class View implements Observer {
   private PImage FcountdownScreen1;
   private PImage FcountdownScreen2;
   private PImage FcountdownScreen3;
+  private PImage flamingoBackground;
+  private PImage natureBackground;
   private PImage rules;
  //PImage health bars
   private PImage health1; 
@@ -59,7 +48,8 @@ class View implements Observer {
   private PImage rockDetailOne;
   private PImage rockDetailTwo;
   private PImage rockDetailThree;
-  private PImage lavaImg;
+  private PImage flamingoDetail;
+  private PImage natureDetail;
   
   private int frameLife = 800;
   private int index = 0; // stores the current index of the memory array
@@ -75,43 +65,23 @@ class View implements Observer {
 
   View(PApplet parent, MapModel mapModel, Minim minim) {
     this.mapModel = mapModel;
-    //sounds
-    
-    //Collect = new PlayAudio("../../assets/Sounds/Collect.wav", minim);
-    //Die = new PlayAudio("../../assets/Sounds/Die.flac", minim);*/
-    //GameOver = new PlayAudio("../../assets/Sounds/GameOver.wav", minim);
-    //Jump = new PlayAudio("../../assets/Sounds/Jump.wav", minim);
-    //LevelUp = new PlayAudio("../../assets/Sounds/LevelUp.wav", minim);
-    //Rocks = new PlayAudio("../../assets/Sounds/Rocks.flac", minim);
-    //RockSplash = new PlayAudio("../../assets/Sounds/RockSplash.wav", minim);
-    //Win = new PlayAudio("../../assets/Sounds/Win.aiff", minim);
-    //Collect = minim.loadSnippet("../../assets/Sounds/Collect.wav");
-    //Die = minim.loadSnippet("../../assets/Sounds/Die.flac");
-    //GameOver = minim.loadFile("../../assets/Sounds/GameOver.wav");
-    /*
-    Jump = minim.loadSnippet("../../assets/Sounds/Jump.wav");
-    LevelUp = minim.loadSnippet("../../assets/Sounds/LevelUp.wav");
-    Rocks = minim.loadSnippet("../../assets/Sounds/Rocks.flac");
-    RockSplash = minim.loadSnippet("../../assets/Sounds/RockSplash.wav");
-    Win = minim.loadSnippet("../../assets/Sounds/Win.aiff");
-    */
-          
-    
-    
-    
-    //this.lava = lava;
+
     rockPlatformOne = loadImage("../../assets/rockPlatform1.png");
     rockPlatformTwo = loadImage("../../assets/rockPlatform2.png");
     rockPlatformThree = loadImage("../../assets/rockPlatform3.png");
     rockDetailOne = loadImage("../../assets/rockDetail1.png");
     rockDetailTwo = loadImage("../../assets/rockDetail2.png");
     rockDetailThree = loadImage("../../assets/rockDetail3.png");
-    startScreen = loadImage("../../assets/New Screens/GT_Start-78.png");
-    endScreen = loadImage("../../assets/New Screens/GT_GameOver.png");
-    FendScreen = loadImage("../../assets/New Screens/GT_GameOver_Hover.png");
-    winScreen = loadImage("../../assets/New Screens/GT_YouWin_2.png");
-    winScreen2 = loadImage("../../assets/New Screens/GT_YouWin_1.png");
-    rules = loadImage("../../assets/New Screens/GT_Rules-82.png");
+    flamingoDetail = loadImage("../../assets/Final Screens/GT_Level3_FlamingoObject.png");
+    natureDetail = loadImage("../../assets/Final Screens/GT_Level2_NatureObject.png");
+    flamingoBackground = loadImage("../../assets/Final Screens/GT_Level3_FlamingoBackground.png");
+    natureBackground = loadImage("../../assets/Final Screens/GT_Level2_NatureBackground.png");
+    startScreen = loadImage("../../assets/Final Screens/GT_1_Start.png");
+    endScreen = loadImage("../../assets/Final Screens/GT_19_GameOver1.png");
+    FendScreen = loadImage("../../assets/Final Screens/GT_20_GameOver2.png");
+    winScreen = loadImage("../../assets/Final Screens/GT_22_YouWin2.png");
+    winScreen2 = loadImage("../../assets/Final Screens/GT_21_YouWin1.png");
+    rules = loadImage("../../assets/Final Screens/GT_5_Rules.png");
 
     endScreen.resize(width, height);
     FendScreen.resize(width, height);
@@ -120,21 +90,22 @@ class View implements Observer {
     rules.resize(width, height);
 
     //calibrateScreen
-    calibrateScreen1 = loadImage("../../assets/New Screens/GT_C1.png");
-    calibrateScreen2 = loadImage("../../assets/New Screens/GT_C2.png");
-    calibrateScreen3  = loadImage("../../assets/New Screens/GT_C3.png");
+    calibrateScreen1 = loadImage("../../assets/Final Screens/GT_2_Calibration1.png");
+    calibrateScreen2 = loadImage("../../assets/Final Screens/GT_3_Calibration2.png");
+    calibrateScreen3  = loadImage("../../assets/Final Screens/GT_4_Calibration3.png");
 
     calibrateScreen1.resize(width, height);
     calibrateScreen2.resize(width, height);
     calibrateScreen3.resize(width, height);
 
     //countdownScreen
-    countdownScreen1 = loadImage("../../assets/New Screens/GT_1.png");
-    countdownScreen2 = loadImage("../../assets/New Screens/GT_2.png");
-    countdownScreen3 = loadImage("../../assets/New Screens/GT_3.png");
-    FcountdownScreen1 = loadImage("../../assets/New Screens/GT_1_F.png");
-    FcountdownScreen2 = loadImage("../../assets/New Screens/GT_2_F.png");
-    FcountdownScreen3 = loadImage("../../assets/New Screens/GT_3_F.png");
+    countdownScreen1 = loadImage("../../assets/Final Screens/GT_8_Countdown3.png");
+    countdownScreen2 = loadImage("../../assets/Final Screens/GT_7_Countdown2.png");
+    countdownScreen3 = loadImage("../../assets/Final Screens/GT_6_Countdown1.png");
+    FcountdownScreen1 = loadImage("../../assets/Final Screens/GT_8_Countdown3_F.png");
+    FcountdownScreen2 = loadImage("../../assets/Final Screens/GT_7_Countdown2_F.png");
+    FcountdownScreen3 = loadImage("../../assets/Final Screens/GT_6_Countdown1_F.png");
+    
 
     
     countdownScreen1.resize(width, height);
@@ -143,6 +114,8 @@ class View implements Observer {
     FcountdownScreen1.resize(width, height);
     FcountdownScreen2.resize(width, height);
     FcountdownScreen3.resize(width, height);
+    flamingoBackground.resize(width, height);
+    natureBackground.resize(width, height);
     
     //health bars
     health1 = loadImage("../../assets/New Screens/GT_Health1.png");
@@ -163,8 +136,8 @@ class View implements Observer {
 
     //between levels
     level1 = loadImage("../../assets/New Screens/GT_Level1.png");
-    level2 = loadImage("../../assets/New Screens/GT_Level2.png");
-    level3 = loadImage("../../assets/New Screens/GT_Level3.png");
+    level2 = loadImage("../../assets/Final Screens/GT_Level2_NatureStart.png");
+    level3 = loadImage("../../assets/Final Screens/GT_Level3_FlamingoStart.png");
     
     level1.resize(width, height);
     level2.resize(width, height);
@@ -245,7 +218,20 @@ class View implements Observer {
         }
         break;
       case PLAY: 
-         background(255, 92, 30);
+         switch (mapModel.getLevel()) {
+           case 1:
+             background(255, 92, 30);
+             break;
+           case 2:
+              background(natureBackground);
+              break;
+           case 3:
+               background(flamingoBackground);
+               break;
+           default:
+               background(255, 92, 30);
+               break;
+         }
          noStroke(); 
          float currentBubbles = playBubbles;
          int factor = playBubbles;
@@ -253,15 +239,16 @@ class View implements Observer {
         //One method of feedback - how much health is left
         //Less health = fewer bubbles
         // health percentage * 500 = number of bubbles
-        
-        for (PlayerModel p : mapModel.getPlayers()) {
-           if (p.getRemainingFrames() < p.getMaxHealth()) {
-             currentBubbles = ( ( float(p.getRemainingFrames()) / float(p.getMaxHealth()) ) * playBubbles );
-             factor = Math.round(currentBubbles);
-           } else {
-             factor = playBubbles;
-           }
-           makeBubbles(factor);   
+        if ((mapModel.getLevel() == 1) || (mapModel.getLevel() > 3)) {
+          for (PlayerModel p : mapModel.getPlayers()) {
+             if (p.getRemainingFrames() < p.getMaxHealth()) {
+               currentBubbles = ( ( float(p.getRemainingFrames()) / float(p.getMaxHealth()) ) * playBubbles );
+               factor = Math.round(currentBubbles);
+             } else {
+               factor = playBubbles;
+             }
+             makeBubbles(factor);   
+          }
         }  
         
         //Draw Rocks
@@ -275,24 +262,55 @@ class View implements Observer {
           
           PImage rockImg;
           PImage rockDetail;
-          switch (rock.getType()) {
-            case 0:
-              rockImg = rockPlatformOne;
-              rockDetail = rockDetailOne;
-              break;
+          //Switch based on level
+          switch (mapModel.getLevel()){
             case 1:
-              rockImg = rockPlatformTwo;
-              rockDetail = rockDetailTwo;
+              switch (rock.getType()) {
+                case 0:
+                  rockImg = rockPlatformOne;
+                  rockDetail = rockDetailOne;
+                  break;
+                case 1:
+                  rockImg = rockPlatformTwo;
+                  rockDetail = rockDetailTwo;
+                  break;
+                default:
+                  rockImg = rockPlatformThree;
+                  rockDetail = rockDetailThree;
+                  break;
+              }
+              //top left corner size to make the image
+              image(rockImg, rock.getCenterX(), rock.getCenterY(), rock.getWidth(), rock.getHeight());
+              image(rockDetail, rock.getCenterX(), rock.getCenterY(), rock.getWidth(), rock.getHeight());
               break;
-            default:
-              rockImg = rockPlatformThree;
-              rockDetail = rockDetailThree;
-              break;
-          }
-          //top left corner size to make the image
-          image(rockImg, rock.getCenterX(), rock.getCenterY(), rock.getWidth(), rock.getHeight());
-          image(rockDetail, rock.getCenterX(), rock.getCenterY(), rock.getWidth(), rock.getHeight());
+           case 2:
+             rockImg = natureDetail;
+             image(rockImg, rock.getCenterX(), rock.getCenterY(), rock.getWidth(), rock.getHeight());
+             break;
+           case 3:
+             rockImg = flamingoDetail;
+             image(rockImg, rock.getCenterX(), rock.getCenterY(), rock.getWidth(), rock.getHeight());
+             break;
+           default:
+            switch (rock.getType()) {
+              case 0:
+                rockImg = rockPlatformOne;
+                rockDetail = rockDetailOne;
+                break;
+              case 1:
+                rockImg = rockPlatformTwo;
+                rockDetail = rockDetailTwo;
+                break;
+              default:
+                rockImg = rockPlatformThree;
+                rockDetail = rockDetailThree;
+                break;
+            }
+            image(rockImg, rock.getCenterX(), rock.getCenterY(), rock.getWidth(), rock.getHeight());
+            image(rockDetail, rock.getCenterX(), rock.getCenterY(), rock.getWidth(), rock.getHeight());
+            break;
         }
+      }
         //Display Health bars
         int playerNum = 0;
         for (PlayerModel player : mapModel.getPlayers()) {
@@ -300,7 +318,7 @@ class View implements Observer {
           noTint();
           playerNum++;
           //Wrap later instead of breaking
-          if ((600 - 80 * playerNum) < 0){
+          if ((width - 80 * playerNum) < 0){
             break;
           }
           String display = "Player" + " " + playerNum;
@@ -321,10 +339,10 @@ class View implements Observer {
           }else if (health == 105) {
             healthImage = health7;
           }
-          image(healthImage, (600 - 80 * playerNum), 0, (600 - 80 * (playerNum - 1)), 40);
+          image(healthImage, (width - 80 * playerNum), 0, (width - 80 * (playerNum - 1)), 40);
           fill(255, 255, 255);
           textFont(createFont("Agency FB", 12, true));
-          text(display, 600 -  80*playerNum + 20, 50);
+          text(display, width -  80*playerNum + 20, 50);
         }
         break;
       case WIN:

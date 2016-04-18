@@ -1,6 +1,6 @@
 class RockModel {
-  static final int WIDTH = 50;
-  static final int HEIGHT = 50;
+  static final int WIDTH = 100;
+  static final int HEIGHT = 100;
  
   // width and height of ellipse that represents rock
   private int w, h;
@@ -32,7 +32,7 @@ class RockModel {
   private boolean movingOffScreenX; 
   private boolean movingOffScreenY; 
   
-  static final private int DEFAULT_FRAMES = 100;
+  static final private int DEFAULT_FRAMES = 60;
   
   //State
   private int framesUntilDestroyed;
@@ -69,7 +69,7 @@ class RockModel {
     //variables for bounce in view
     sineScale = 1;
     amplitude = 0.10;
-    decay = 0.002;
+    decay = 0.001;
     minScale = 1.0;
     t=0;
     bouncing = false;
@@ -79,8 +79,8 @@ class RockModel {
     storeH = h;
     
     //currrently setting radius manually
-    this.radiusX = 50;
-    this.radiusY = 100;
+    this.radiusX = 75;
+    this.radiusY = 75;
     
     //angle of ellipse
     this.theta =0; 

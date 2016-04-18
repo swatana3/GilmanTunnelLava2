@@ -19,7 +19,7 @@ Lava(){
  frameCounter = 1;
  // Give each bubble its beginning x,y coordinates
  for (int a = 0 ; a < bubbles.length; a++){
-   bubbles[a] = new Bubble(random(-60,660),random(-60, 460), a);
+   bubbles[a] = new Bubble(random(-60, (width +60)),random(-60, (height + 60)), a);
  }
  for (int i = 1; i <= frameLife; i++){
    for (Bubble bubble : bubbles){
