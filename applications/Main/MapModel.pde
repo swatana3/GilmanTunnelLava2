@@ -17,6 +17,7 @@ class MapModel implements Observer {
   private int playerCount = 0;
 
   public MapModel() {
+    level = 1;
     lava = new Lava();
     rocks = new ArrayList<RockModel>();
     original_num_rocks = 0;
@@ -76,7 +77,6 @@ class MapModel implements Observer {
   void reset() {
     //Reset all counters and variables
     original_num_rocks = 0;
-    level = 1;
     playerCount = 0;
     framesSinceCalibrate = 0;
     players.clear();
@@ -150,7 +150,7 @@ class MapModel implements Observer {
           if(mapModel.rocks.size()==0) {
             //Add rocks below each player
             for (PlayerModel p : players){
-              rocks.add(new RockModel(p.getRawX(), p.getRawY()));
+              rocks.add(new RockModel(p.getRawX(), p.getRawY(), mapModel.getLevel()));
             }
             generateFullMap();
           }
@@ -215,7 +215,7 @@ class MapModel implements Observer {
         if (framesSinceCalibrate == 361) {
            //add rocks below players if first iteration
            for (PlayerModel p : players) {
-             rocks.add(new RockModel(p.getRawX(), p.getRawY(), true));
+             rocks.add(new RockModel(p.getRawX(), p.getRawY(), mapModel.getLevel(), true));
           }
           framesSinceCalibrate++;
         }
@@ -291,7 +291,7 @@ class MapModel implements Observer {
     currentY = (int) random(RockModel.HEIGHT/2, height - RockModel.HEIGHT/2);
     // pick a random distance away from the left hand edge of the window
     currentX = (int) random(MAX_STEP_SIZE) + RockModel.WIDTH/2;
-    rocks.add(new RockModel(currentX, currentY));
+    rocks.add(new RockModel(currentX, currentY, getLevel()));
     original_num_rocks += 1;
     // while we are not within one STEP away from the RHS
     // closest way to get from the circle to the RHS is a straight line --->
@@ -318,7 +318,7 @@ class MapModel implements Observer {
         }
       }
       if (clear) {
-        rocks.add(new RockModel(currentX, currentY));
+        rocks.add(new RockModel(currentX, currentY, getLevel()));
         original_num_rocks += 1;
       }
     }

@@ -32,7 +32,7 @@ class RockModel {
   private boolean movingOffScreenX; 
   private boolean movingOffScreenY; 
   
-  static final private int DEFAULT_FRAMES = 60;
+  private int DEFAULT_FRAMES;
   
   //State
   private int framesUntilDestroyed;
@@ -57,7 +57,11 @@ class RockModel {
   private boolean left = false;
   
   
-  RockModel(int cX, int cY, boolean Start){
+  RockModel(int cX, int cY, int level, boolean Start){
+    DEFAULT_FRAMES = 30;
+    if (level == 1) {
+      DEFAULT_FRAMES = 5;
+    }
     this.cX = cX;
     this.cY = cY;
     this.centerX = cX;
@@ -93,7 +97,11 @@ class RockModel {
   }
     
 
-  RockModel(int cX, int cY) {
+  RockModel(int cX, int cY, int level) {
+     DEFAULT_FRAMES = 30;
+    if (level == 1) {
+      DEFAULT_FRAMES = 10;
+    }
     this.cX = cX;
     this.cY = cY;
     this.centerX = cX;
@@ -247,7 +255,7 @@ void bouncingMovement() {
 
 //only updates velcocity if it's a moving rock 
   void updateVelocity(int level) {
-    float scaled_t = level * .005 + (random(0, 1001) / 10000000);
+    float scaled_t = level * .01 + (random(0, 1001) / 10000000);
     this.theta += (.01 + scaled_t);
    
      //CHANGE COORDINATES BASED ON MOVEMENT TYPE

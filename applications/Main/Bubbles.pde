@@ -42,7 +42,7 @@ class Bubble{
     angles = new float[n];
     radius = new dimmer[n];
     float degree = 360.0/n;
-    float raydebase = random(5, 150);
+    float raydebase = random(10, 150);
     respiration = new dimmer(-5.5, 5.5, 200,random(360));
     
     //Set speed of bubble center movement. Bubble center is at (x, y). vY is speed in y-direction. vX is speed in x-direction.
