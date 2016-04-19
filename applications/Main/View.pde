@@ -140,19 +140,13 @@ class View implements Observer {
     health7.resize(width/5, height/10);  
 
     //between levels
-    level1 = loadImage("../../assets/New Screens/GT_Level1.png");
-    level2 = loadImage("../../assets/Final Screens/GT_Level2_NatureStart.png");
-    level3 = loadImage("../../assets/Final Screens/GT_Level3_FlamingoStart.png");
+    level1 = loadImage("../../assets/Final Graphics Small/GT_9_Level1.png");
+    level2 = loadImage("../../assets/Final Graphics Small/GT_Level2_NatureStart.png");
+    level3 = loadImage("../../assets/Final Graphics Small/GT_Level3_FlamingoStart.png");
     
     level1.resize(width, height);
     level2.resize(width, height);
     level3.resize(width, height);
-
-    //Added the Lava animation gif
-    //myAnimation = new Gif(parent, "../../assets/Lava_Animation_AE_shorter.gif");
-    //lavaImg = loadImage("../../assets/lavabkgd.png" );   
-            
-    //lavaImg.resize(width, height); 
 
     // make View an observer of PlayerStepsOnRocksEvents
     mapModel.getCollisionModel().playerStepsOnRockEvent().addObserver(this);
