@@ -15,7 +15,7 @@ class MapController {
       case START:
        //Only start if the player has been standing for 5 consecutive seconds.
        if (mousePressed) {
-          if (framesPressed < 50) {
+          if (framesPressed < 300) {
            framesPressed++;
           //Start the game
           } else { 
