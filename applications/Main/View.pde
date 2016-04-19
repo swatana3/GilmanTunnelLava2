@@ -107,9 +107,9 @@ class View implements Observer {
     countdownScreen1 = loadImage("../../assets/Final Graphics Small/GT_8_Countdown3.png");
     countdownScreen2 = loadImage("../../assets/Final Graphics Small/GT_7_Countdown2.png");
     countdownScreen3 = loadImage("../../assets/Final Graphics Small/GT_6_Countdown1.png");
-    FcountdownScreen1 = loadImage("../../assets/Final Screens/GT_8_Countdown3_F.png");
-    FcountdownScreen2 = loadImage("../../assets/Final Screens/GT_7_Countdown2_F.png");
-    FcountdownScreen3 = loadImage("../../assets/Final Screens/GT_6_Countdown1_F.png");
+    FcountdownScreen1 = loadImage("../../assets/Final Graphics Small/GT_8_Countdown3_F.png");
+    FcountdownScreen2 = loadImage("../../assets/Final Graphics Small/GT_7_Countdown2_F.png");
+    FcountdownScreen3 = loadImage("../../assets/Final Graphics Small/GT_6_Countdown1_F.png");
     
 
     
