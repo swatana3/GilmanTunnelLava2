@@ -301,7 +301,7 @@ void bouncingMovement() {
         this.cX = this.w/2;
         this.left = false;
       } else {
-        this.cX = (width - this.w/2);
+        this.cX = (width - (this.w/2));
         this.left = true;
       }
     
@@ -317,7 +317,7 @@ void bouncingMovement() {
         this.cY = this.h / 2;
         this.down = false;
       } else {
-        this.cY = (height - this.h/2);
+        this.cY = (height - (this.h/2));
         this.down = true;
       }
     

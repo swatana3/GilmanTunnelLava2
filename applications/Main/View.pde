@@ -28,6 +28,12 @@ class View implements Observer {
   private PImage FcountdownScreen1;
   private PImage FcountdownScreen2;
   private PImage FcountdownScreen3;
+  private PImage flamingoCountdown1;
+  private PImage flamingoCountdown2;
+  private PImage flamingoCountdown3;
+  private PImage natureCountdown1;
+  private PImage natureCountdown2;
+  private PImage natureCountdown3;
   private PImage flamingoBackground;
   private PImage natureBackground;
   private PImage rules;
@@ -87,6 +93,7 @@ class View implements Observer {
     winScreen = loadImage("../../assets/Final Graphics Small/GT_YouWin1.png");
     winScreen2 = loadImage("../../assets/Final Graphics Small/GT_YouWin2.png");
     rules = loadImage("../../assets/Final Graphics Small/GT_5_Rules.png");
+    
 
     endScreen.resize(width, height);
     FendScreen.resize(width, height);
@@ -110,8 +117,12 @@ class View implements Observer {
     FcountdownScreen1 = loadImage("../../assets/Final Graphics Small/GT_8_Countdown3_F.png");
     FcountdownScreen2 = loadImage("../../assets/Final Graphics Small/GT_7_Countdown2_F.png");
     FcountdownScreen3 = loadImage("../../assets/Final Graphics Small/GT_6_Countdown1_F.png");
-    
-
+    flamingoCountdown1 = loadImage("../../assets/Final Graphics Small/GT_Level3_Flamingo_1.png");
+    flamingoCountdown2 = loadImage("../../assets/Final Graphics Small/GT_Level3_Flamingo_2.png");
+    flamingoCountdown3 = loadImage("../../assets/Final Graphics Small/GT_Level3_Flamingo_3.png");
+    natureCountdown1 = loadImage("../../assets/Final Graphics Small/GT_Level2_Nature_1.png");
+    natureCountdown2 = loadImage("../../assets/Final Graphics Small/GT_Level2_Nature_2.png");
+    natureCountdown3 = loadImage("../../assets/Final Graphics Small/GT_Level2_Nature_3.png");
     
     countdownScreen1.resize(width, height);
     countdownScreen2.resize(width, height);
@@ -119,6 +130,12 @@ class View implements Observer {
     FcountdownScreen1.resize(width, height);
     FcountdownScreen2.resize(width, height);
     FcountdownScreen3.resize(width, height);
+    flamingoCountdown1.resize(width, height);
+    flamingoCountdown2.resize(width, height);
+    flamingoCountdown3.resize(width, height);
+    natureCountdown1.resize(width, height);
+    natureCountdown2.resize(width, height);
+    natureCountdown3.resize(width, height);
     flamingoBackground.resize(width, height);
     natureBackground.resize(width, height);
     
@@ -182,7 +199,17 @@ class View implements Observer {
            beepSound.play();
            beepSound.rewind();
          }
-         background(countdownScreen3);
+         switch (mapModel.getLevel()){
+           case 1:
+             background(countdownScreen3);
+             break;
+           case 3:
+             background(flamingoCountdown3);
+             break;
+           default:
+             background(countdownScreen3);
+             break;
+         }         
          countdown3SoundNotPlayed = false;
          countdown2SoundNotPlayed = true;
          break;
@@ -191,7 +218,17 @@ class View implements Observer {
            beepSound.play();
            beepSound.rewind();
          }
-         background(countdownScreen2);
+         switch (mapModel.getLevel()){
+           case 1:
+             background(countdownScreen2);
+             break;
+           case 3:
+             background(flamingoCountdown2);
+             break;
+           default:
+             background(countdownScreen2);
+             break;
+         } 
          countdown2SoundNotPlayed = false;
          countdown1SoundNotPlayed = true;
          break;
@@ -200,7 +237,17 @@ class View implements Observer {
            beepSound.play();
            beepSound.rewind();
          }
-         background(countdownScreen1);
+         switch (mapModel.getLevel()){
+           case 1:
+             background(countdownScreen1);
+             break;
+           case 3:
+             background(flamingoCountdown1);
+             break;
+           default:
+             background(countdownScreen1);
+             break;
+         } 
          countdown1SoundNotPlayed = false;
          countdown3SoundNotPlayed = true;
          break;
@@ -209,7 +256,14 @@ class View implements Observer {
            beepSound.play();
            beepSound.rewind();
          }
-         background(FcountdownScreen3);
+         switch (mapModel.getLevel()){
+           case 2:
+             background(natureCountdown3);
+             break;
+           default:
+             background(FcountdownScreen3);
+             break;
+         } 
          countdown3SoundNotPlayed = false;
          countdown2SoundNotPlayed = true;
          break;
@@ -218,7 +272,14 @@ class View implements Observer {
            beepSound.play();
            beepSound.rewind();
          }
-         background(FcountdownScreen2);
+         switch (mapModel.getLevel()){
+           case 2:
+             background(natureCountdown2);
+             break;
+           default:
+             background(FcountdownScreen2);
+             break;
+         } 
          countdown2SoundNotPlayed = false;
          countdown1SoundNotPlayed = true;
          break;
@@ -227,7 +288,14 @@ class View implements Observer {
            beepSound.play();
            beepSound.rewind();
          }
-         background(FcountdownScreen1);
+         switch (mapModel.getLevel()){
+           case 2:
+             background(natureCountdown1);
+             break;
+           default:
+             background(FcountdownScreen1);
+             break;
+         } 
          countdown1SoundNotPlayed = false;
          countdown3SoundNotPlayed = true;
          break;
