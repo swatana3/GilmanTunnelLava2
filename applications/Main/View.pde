@@ -173,8 +173,8 @@ class View implements Observer {
         //println("Image supposedly rendered");
         break;
       case RULES:
-        jumpSound.play();
-        jumpSound.rewind();
+        //jumpSound.play();
+        //jumpSound.rewind();
         background(rules);
         break;
        case COUNTDOWN1: 
@@ -184,6 +184,7 @@ class View implements Observer {
          }
          background(countdownScreen3);
          countdown3SoundNotPlayed = false;
+         countdown2SoundNotPlayed = true;
          break;
        case COUNTDOWN2: 
          if(countdown2SoundNotPlayed) {
@@ -192,6 +193,7 @@ class View implements Observer {
          }
          background(countdownScreen2);
          countdown2SoundNotPlayed = false;
+         countdown1SoundNotPlayed = true;
          break;
        case COUNTDOWN3: 
          if(countdown1SoundNotPlayed) {
@@ -200,14 +202,16 @@ class View implements Observer {
          }
          background(countdownScreen1);
          countdown1SoundNotPlayed = false;
+         countdown3SoundNotPlayed = true;
          break;
       case FLIPPEDCOUNTDOWN1: 
-        if(countdown1SoundNotPlayed) {
+        if(countdown3SoundNotPlayed) {
            beepSound.play();
            beepSound.rewind();
          }
          background(FcountdownScreen3);
-         countdown1SoundNotPlayed = false;
+         countdown3SoundNotPlayed = false;
+         countdown2SoundNotPlayed = true;
          break;
       case FLIPPEDCOUNTDOWN2: 
         if(countdown2SoundNotPlayed) {
@@ -216,26 +220,34 @@ class View implements Observer {
          }
          background(FcountdownScreen2);
          countdown2SoundNotPlayed = false;
+         countdown1SoundNotPlayed = true;
          break;
       case FLIPPEDCOUNTDOWN3: 
-        if(countdown3SoundNotPlayed) {
+        if(countdown1SoundNotPlayed) {
            beepSound.play();
            beepSound.rewind();
          }
          background(FcountdownScreen1);
-         countdown3SoundNotPlayed = false;
+         countdown1SoundNotPlayed = false;
+         countdown3SoundNotPlayed = true;
          break;
       case BETWEENLEVEL:
         //change background
         switch (mapModel.getLevel()){
           case 1 : 
             background(level1);
+            //levelUpSound.play();
+            //levelUpSound.rewind();
             break;
           case 2 : 
             background(level2);
+            //levelUpSound.play();
+            //levelUpSound.rewind();
             break;
           case 3 : 
             background(level3);
+            //levelUpSound.play();
+            //levelUpSound.rewind();
             break;
         }
         break;
@@ -277,6 +289,10 @@ class View implements Observer {
         for (RockModel rock : mapModel.getRocks()) {
           imageMode(CENTER);
           tint(255, rock.getRemainingFrames()/ (float) rock.getDefaultFrames() * 255);
+          if (rock.getRemainingFrames() == 0){
+            rocksSound.play();
+            rocksSound.rewind();
+          }
           // FOR TESTING PURPOSES: draw circle that the player needs to
           //  be in to be "safe"
           //ellipseMode(CENTER);
@@ -347,8 +363,10 @@ class View implements Observer {
           int health = (player.getRemainingFrames());
           PImage healthImage = health7;
           if (health == 0) {
-            gameOverSound.play();
-            gameOverSound.rewind(); 
+            //gameOverSound.play();
+            //gameOverSound.rewind(); 
+            dieSound.play();
+            dieSound.rewind();
             countdown1SoundNotPlayed = true;
             countdown2SoundNotPlayed = true;
             countdown3SoundNotPlayed = true;
@@ -373,9 +391,9 @@ class View implements Observer {
           text(display, width -  80*playerNum + 20, 50);
         }
         break;
-      case WIN:
-        //prevent gif from looping in background can test with myAnimation.isPlaying()
-        ///myAnimation.noLoop(); 
+      case WIN: 
+        winSound.play();
+        winSound.rewind();
         imageMode(CORNER);
         background(winScreen);
         frameRate(120);
@@ -390,6 +408,8 @@ class View implements Observer {
         //there's no end state yet..
         //the rock should disappear regardless of someone being there.
       case LOSE:
+        gameOverSound.play();
+        gameOverSound.rewind();
         imageMode(CORNER);
         background(endScreen);
         frameRate(120);
@@ -438,6 +458,8 @@ class View implements Observer {
     if (event instanceof PlayerStepsOnRockEvent) {
       //println("stepped on rock " + (System.identityHashCode(((PlayerStepsOnRockEvent) event).rockModel)));
       RockModel localRock = ((PlayerStepsOnRockEvent) event).rockModel;
+      //rockSplashSound.play();
+      //rockSplashSound.rewind();
       localRock.setBouncing(true);
     }
   }
