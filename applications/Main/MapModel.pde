@@ -76,11 +76,13 @@ class MapModel implements Observer {
   /* Resets the game after death/win*/
   void reset() {
     //Reset all counters and variables
+    level = 1;
     original_num_rocks = 0;
     playerCount = 0;
     framesSinceCalibrate = 0;
     players.clear();
     rocks.clear();
+    //lava = new Lava();
     //Add the players
     PlayerModel player = new PlayerModel(playerCount);
     player.playerDeadEvent().addObserver(this);
@@ -255,7 +257,7 @@ class MapModel implements Observer {
         if ((framesSinceCalibrate > 361) && (win_reset == false)){
           framesSinceCalibrate = 0;
           win_reset = true;
-        } else if ((framesSinceCalibrate > 540) && (win_reset)) {
+        } else if ((framesSinceCalibrate > 360) && (win_reset)) {
           state = GameState.RESET;
           win_reset = false;
         } else {
@@ -267,7 +269,7 @@ class MapModel implements Observer {
         if ((framesSinceCalibrate > 361) && (win_reset == false)){
           framesSinceCalibrate = 0;
           win_reset = true;
-        } else if ((framesSinceCalibrate > 540) && (win_reset)) {
+        } else if ((framesSinceCalibrate > 360) && (win_reset)) {
           state = GameState.RESET;
           win_reset = false;
           
