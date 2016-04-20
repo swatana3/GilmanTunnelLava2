@@ -82,14 +82,11 @@ class MapModel implements Observer {
     framesSinceCalibrate = 0;
     players.clear();
     rocks.clear();
-    //lava = new Lava();
     //Add the players
     PlayerModel player = new PlayerModel(playerCount);
     player.playerDeadEvent().addObserver(this);
     players.add(player);
     playerCount += 1;
-    // procedurally generate rocks for the map
-    //generateMap();
     generateFullMap();
     state = GameState.START;
  
@@ -111,12 +108,8 @@ class MapModel implements Observer {
   }
 
   void update() {
-    //consider just using a calibrate state and a countdown state,
-    // and let the view fire an event when it's done cycling through
-    // the countdown/calibration screens
     switch (state) {
       case START:
-        //println("we reached the update method");
         break;
       case RULES:
         //blah
@@ -232,8 +225,7 @@ class MapModel implements Observer {
             rocksToDestroy.add(rock);
           }
         }
-        
-        //another victory condition?
+        //Victory condition
         if(mapModel.rocks.size()==0) {
           if (level == 3){
             mapModel.state = GameState.WIN;
@@ -281,11 +273,9 @@ class MapModel implements Observer {
          reset();
          break;
     }
-    //println("frames since called calibrate is" + framesSinceCalibrate);
   }
 
-  // add to rocks so someone can get across
-  // doesn't use grid for rocks
+  //Create rocks
   private void generateFullMap() {
     int currentY, currentX;
     float angle, dist;

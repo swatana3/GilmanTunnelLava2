@@ -286,6 +286,10 @@ class View implements Observer {
         }  
         
         //Draw Rocks
+        if ((mapModel.getRocks().size() == 0) && mapModel.getLevel() == 3){
+          winSound.play();
+          winSound.rewind();
+        }
         for (RockModel rock : mapModel.getRocks()) {
           imageMode(CENTER);
           tint(255, rock.getRemainingFrames()/ (float) rock.getDefaultFrames() * 255);
@@ -362,14 +366,11 @@ class View implements Observer {
           String display = "Player" + " " + playerNum;
           int health = (player.getRemainingFrames());
           PImage healthImage = health7;
-          if (health == 0) {
-            //gameOverSound.play();
-            //gameOverSound.rewind(); 
+          if (health == 0) { 
             dieSound.play();
             dieSound.rewind();
-            countdown1SoundNotPlayed = true;
-            countdown2SoundNotPlayed = true;
-            countdown3SoundNotPlayed = true;
+            gameOverSound.play();
+            gameOverSound.rewind();
           } else if (health <= 15) {
             healthImage = health1;
           } else if (health <= 30) {
@@ -392,8 +393,6 @@ class View implements Observer {
         }
         break;
       case WIN: 
-        winSound.play();
-        winSound.rewind();
         imageMode(CORNER);
         background(winScreen);
         frameRate(120);
@@ -408,8 +407,6 @@ class View implements Observer {
         //there's no end state yet..
         //the rock should disappear regardless of someone being there.
       case LOSE:
-        gameOverSound.play();
-        gameOverSound.rewind();
         imageMode(CORNER);
         background(endScreen);
         frameRate(120);
