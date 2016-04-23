@@ -178,7 +178,7 @@ class MapController {
     context.update();
     switch(mapModel.getState()) {
       case START:
-//        println("hello");
+        println("hello");
         userList  = context.getUsers();
 //        println("userList is " + userList);
         for (int i=0; i<userList.length; i++)
