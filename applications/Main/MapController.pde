@@ -1,5 +1,4 @@
 // MapController - handles rock and map models
-import SimpleOpenNI.*;
 
 boolean useOpenNI = false; //for testing only
 
@@ -69,10 +68,11 @@ class MapController {
   //need to claibrate to where the screen is..
   void drawSkeletonCalibrated(int userId){
   // get 3D positions of feet
+    println("in draw slekelton " + userId);
     context.getJointPositionSkeleton(userId, SimpleOpenNI.SKEL_LEFT_FOOT, leftFootPosition);
     context.getJointPositionSkeleton(userId, SimpleOpenNI.SKEL_RIGHT_FOOT, rightFootPosition);
     
-    println("leftFootPosition is " + leftFootPosition);
+    println("draw skeleton leftFootPosition is " + leftFootPosition);
     // convert real world point to projective space
     context.convertRealWorldToProjective(leftFootPosition, leftFootPosition);
     context.convertRealWorldToProjective(rightFootPosition, rightFootPosition);
@@ -163,6 +163,10 @@ class MapController {
         }
       }
     } else{
+      println("not in standing zone");
+      println("not standing zone leftPosCalibrate is " + leftFootPosCalibrate);
+      println("not standing zone rightPosCalibrate is " + rightFootPosCalibrate);
+      
       framesPressed = 0;
     }
     if (framesPressed >= 600){
@@ -171,19 +175,23 @@ class MapController {
     return false;
   }
   void update() {
+    context.update();
     switch(mapModel.getState()) {
       case START:
+//        println("hello");
         userList  = context.getUsers();
+//        println("userList is " + userList);
         for (int i=0; i<userList.length; i++)
           {
-            println("userList i is" + i);
-            //if (context.isTrackingSkeleton(userList[i])) {
+//            println("userList i is" + i);
+//            if (context.isTrackingSkeleton(userList[i])) {
+              println("user is being tracked");
               drawSkeletonCalibrated(userList[i]);
               if (standingZone5sec()) {//standing in zone for at least 300 frames
                 framesPressed = 0;  
                 mapModel.beginRules();
               }
-            //}
+//            }
         }
         break;
       case RULES:

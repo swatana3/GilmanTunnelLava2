@@ -1,3 +1,5 @@
+import SimpleOpenNI.*;
+
 //Main
 MapController mapController;
 MapModel mapModel;
