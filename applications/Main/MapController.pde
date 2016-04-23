@@ -221,14 +221,14 @@ class MapController {
         for (int i=0; i<userList.length; i++)
           {
 //            println("userList i is" + i);
-//            if (context.isTrackingSkeleton(userList[i])) {
-//              println("user is being tracked");
+            if (context.isTrackingSkeleton(userList[i])) {
+              println("user is being tracked");
               drawSkeletonCalibrated(userList[i]);
               if (standingZone5sec(userList[i])) {//standing in zone for at least 300 frames
                 framesPressed = 0;  
                 mapModel.beginRules();
               }
-//            }
+            }
         }
         break;
       case RULES:
