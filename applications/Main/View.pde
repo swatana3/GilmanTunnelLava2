@@ -58,6 +58,12 @@ class View implements Observer {
   private final int loseBubbles = 75;
   private final int playBubbles = 500;
   
+  //for feet ellipse
+  float feetSize = 200;
+  
+  color[] userColor = new color[]{ color(255,0,0), color(0,255,0), color(0,0,255),
+                                 color(255,255,0), color(255,0,255), color(0,255,255)};
+  
   //have an arrayList of Rocks while playerisSteppedOnRock and playerStepsOffRock
   
 
@@ -162,6 +168,12 @@ class View implements Observer {
         //println("we reached the render method");
         imageMode(CORNER);
         image(startScreen, 0, 0, width, height);
+        for (PlayerModel p : mapModel.getPlayers()) {
+          ellipse(p.getRawLX(), p.getRawLY(), p.getDistanceScalarL()*feetSize,p.getDistanceScalarL()*feetSize);
+          ellipse(p.getRawRX(), p.getRawRY(), p.getDistanceScalarR()*feetSize,p.getDistanceScalarR()*feetSize);
+          println ("cooridnates of ellipse is " + p.getRawLX() + " " +  p.getRawLY() + " "+ p.getDistanceScalarL() + " " + p.getDistanceScalarL());
+        }
+        
         //println("Image supposedly rendered");
         break;
       case RULES:

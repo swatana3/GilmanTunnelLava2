@@ -4,6 +4,9 @@ class PlayerModel {
   static final int MAX_SHIELD = 25;
   // raw x and y coordinates
   private int mLX, mRX, mLY, mRY;
+  private float distanceScalarL,  distanceScalarR;
+//  private float leftLerpX, leftLerpY, rightLerpX, rightLerpY;
+  private float leftLastX, leftLastY, rightLastX, rightLastY;
   // player id
   private int id;
   private int health;
@@ -21,6 +24,15 @@ class PlayerModel {
     this.shield = MAX_SHIELD;
     this.health = 105;
     this.id = id;
+//    this.leftLerp = 0.0;
+//    this.leftLerpY= 0.0;
+//    this.rightLerpX = 0.0;
+//    this.rightLerpY = 0.0;
+    this.leftLastX = 0.0;
+    this.leftLastY = 0.0;
+    this.rightLastX = 0.0;
+    this. rightLastY = 0.0;
+    
   }
   
   /* Resets health and shield - for use in between levels */
@@ -67,6 +79,26 @@ class PlayerModel {
   public void setRawRY(int y) {
     this.mRY = y;
   }
+  public void setDistanceScalarL (float l){
+    this.distanceScalarL = l;
+  }
+  public void setDistanceScalarR (float r){
+    this.distanceScalarR = r;
+  }
+  //to know last location of users for smoothness
+  public void setLeftLastX(float lx){
+    this.leftLastX = lx;
+  }
+  public void setLeftLastY(float ly){
+    this.leftLastY = ly;
+  }
+  public void setRighttLastX(float rx){
+    this.rightLastX = rx;
+  }
+  public void setRighttLastY(float ry){
+    this.rightLastY = ry;
+  }
+  
   public int getRawLX() {
     return mLX;
   }
@@ -78,6 +110,24 @@ class PlayerModel {
   }
   public int getRawRY() {
     return mRY;
+  }
+  public float getDistanceScalarL (){
+    return distanceScalarL;
+  }
+  public float getDistanceScalarR (){
+    return distanceScalarR;
+  }
+ public float getLeftLastX(){
+    return leftLastX;
+  }
+  public float getLeftLastY(){
+    return leftLastY;
+  }
+  public float getRighttLastX(){
+    return rightLastX;
+  }
+  public float getRighttLastY(){
+    return rightLastY;
   }
   
   PlayerDeadEvent playerDeadEvent() {
