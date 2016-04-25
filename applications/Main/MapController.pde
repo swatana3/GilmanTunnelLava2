@@ -71,10 +71,10 @@ class MapController {
     player.setDistanceScalarL(distanceScalarR);
     
     
-    float leftLerpX = lerp(leftLastX, leftFootPosition.x, 0.3f);
-    float leftLerpY = lerp(leftLastY, leftFootPosition.y, 0.3f);
-    float rightLerpX = lerp(rightLastX, rightFootPosition.x, 0.3f);
-    float rightLerpY = lerp(rightLastY, rightFootPosition.y, 0.3f);
+    float leftLerpX = lerp(leftLastX, leftFootPosition.x, 0.5f);
+    float leftLerpY = lerp(leftLastY, leftFootPosition.y, 0.5f);
+    float rightLerpX = lerp(rightLastX, rightFootPosition.x, 0.5f);
+    float rightLerpY = lerp(rightLastY, rightFootPosition.y, 0.5f);
 
 
     //covert these ellipse to the thing on the screen...
@@ -140,13 +140,16 @@ class MapController {
     println("frames Pressed is " + p.getFramesPressed());
     if (p.getRawLX() <= 430 && p.getRawLX() >=70 ){
       if (p.getRawLY() <= 920 && p.getRawLY() >= 560){
-        if (p.getRawRX()<= 430 && p.getRawRX() >=70 ){
-          if (p.getRawRY() <= 920 && p.getRawRY()  >= 560){
             p.incrementFramesPressed();
-            println("They are standing in the zone");
+            println("They are standing in the zonel");
             p.setInStandingZone(true);
           }
         }
+       else if (p.getRawRX()<= 430 && p.getRawRX() >=70 ){
+          if (p.getRawRY() <= 920 && p.getRawRY()  >= 560){
+            p.incrementFramesPressed();
+            println("They are standing in the zoneR");
+            p.setInStandingZone(true);
       }
     } else{
       println("not in standing zone");
@@ -155,9 +158,9 @@ class MapController {
 //      println("pRx is " + p.getRawRX());
 //      println("pRy is " + p.getRawRY());
       
-      p.resetFramesPressed();
+//      p.resetFramesPressed();
     }
-    if (p.getFramesPressed() >= 300){
+    if (p.getFramesPressed() >= 60){
       return true;
     }
     return false;
