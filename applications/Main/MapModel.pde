@@ -26,8 +26,8 @@ class MapModel implements Observer {
     // for now, just use the mouse (mouse is used in player)
     PlayerModel player = new PlayerModel(playerCount);
     player.playerDeadEvent().addObserver(this);
-    //Right now, only allow support for up to two players
-    if (players.size() < 2) {
+    //Right now, only allow support for up to ten players
+    if (players.size() < 10) {
       players.add(player);
       playerCount++;
     }

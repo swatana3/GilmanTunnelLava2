@@ -17,6 +17,9 @@ class PlayerModel {
   private boolean collidingWithLava = false;
   private boolean dead = false;
   final private int max_health = 105;
+  private int framesPressed = 0;
+  
+  private boolean inStandingZone = false;
   
 
   PlayerModel(int id) {
@@ -92,12 +95,26 @@ class PlayerModel {
   public void setLeftLastY(float ly){
     this.leftLastY = ly;
   }
-  public void setRighttLastX(float rx){
+  public void setRightLastX(float rx){
     this.rightLastX = rx;
   }
-  public void setRighttLastY(float ry){
+  public void setRightLastY(float ry){
     this.rightLastY = ry;
   }
+  public void setInStandingZone(boolean s){
+    inStandingZone = s;
+  }
+  //for framesPressed in another thing
+  public void incrementFramesPressed(){
+    framesPressed++;
+  }
+  public void resetFramesPressed(){
+    framesPressed = 0;
+  }
+  public int getFramesPressed(){
+    return framesPressed;
+  }
+  
   
   public int getRawLX() {
     return mLX;
@@ -123,11 +140,14 @@ class PlayerModel {
   public float getLeftLastY(){
     return leftLastY;
   }
-  public float getRighttLastX(){
+  public float getRightLastX(){
     return rightLastX;
   }
-  public float getRighttLastY(){
+  public float getRightLastY(){
     return rightLastY;
+  }
+  public boolean getInStandingZone(){
+    return inStandingZone;
   }
   
   PlayerDeadEvent playerDeadEvent() {

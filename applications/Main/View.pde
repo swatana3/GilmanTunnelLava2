@@ -1,4 +1,5 @@
 import java.util.Map;
+//not sure why second ellipse doesn't show up? 
 
 class View implements Observer {
   private MapModel mapModel;
@@ -51,6 +52,7 @@ class View implements Observer {
   private int frameLife = 800;
   private int index = 0; // stores the current index of the memory array
   private boolean increment = false; // Indicates whether we are incrementing or decrementing our index when running from memory
+
   private float[] tempX;
   private float[] tempY;
   
@@ -168,10 +170,28 @@ class View implements Observer {
         //println("we reached the render method");
         imageMode(CORNER);
         image(startScreen, 0, 0, width, height);
+        fill(0,100,0); 
+        //get where the standing zone is 
+        ellipse(250, 740, 360, 360);
         for (PlayerModel p : mapModel.getPlayers()) {
-          ellipse(p.getRawLX(), p.getRawLY(), p.getDistanceScalarL()*feetSize,p.getDistanceScalarL()*feetSize);
-          ellipse(p.getRawRX(), p.getRawRY(), p.getDistanceScalarR()*feetSize,p.getDistanceScalarR()*feetSize);
-          println ("cooridnates of ellipse is " + p.getRawLX() + " " +  p.getRawLY() + " "+ p.getDistanceScalarL() + " " + p.getDistanceScalarL());
+          if (p.getInStandingZone()){
+            ellipseMode(CENTER);
+            fill(255,0,255); 
+            ellipse(p.getRawLX(), p.getRawLY(), p.getDistanceScalarL()*feetSize,p.getDistanceScalarL()*feetSize);
+            println ("cooridnates of Rellipse is " + p.getRawRX() + " " +  p.getRawRY() + " "+ p.getDistanceScalarR());
+            ellipseMode(CENTER);
+            ellipse(p.getRawRX(), p.getRawRY(), p.getDistanceScalarR()*feetSize,p.getDistanceScalarR()*feetSize);
+            println ("cooridnates of Lellipse is " + p.getRawLX() + " " +  p.getRawLY() + " "+ p.getDistanceScalarL());
+          }
+          else{
+            ellipseMode(CENTER);
+            fill(255,200,200); 
+            ellipse(p.getRawLX(), p.getRawLY(), p.getDistanceScalarL()*feetSize,p.getDistanceScalarL()*feetSize);
+            println ("cooridnates of Rellipse is " + p.getRawRX() + " " +  p.getRawRY() + " "+ p.getDistanceScalarR());
+            ellipseMode(CENTER);
+            ellipse(p.getRawRX(), p.getRawRY(), p.getDistanceScalarR()*feetSize,p.getDistanceScalarR()*feetSize);
+            println ("cooridnates of Lellipse is " + p.getRawLX() + " " +  p.getRawLY() + " "+ p.getDistanceScalarL());
+          }
         }
         
         //println("Image supposedly rendered");

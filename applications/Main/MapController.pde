@@ -15,12 +15,10 @@ color[] userColor = new color[]{ color(255,0,0), color(0,255,0), color(0,0,255),
 
 class MapController {
   private MapModel mapModel;
-  private int framesPressed;
 
   // constructor
   MapController(MapModel mapModel, PApplet main) {
     this.mapModel = mapModel;
-    framesPressed = 0;
     
     context = new SimpleOpenNI(main);
       if (context.isInit() == false) {
@@ -86,26 +84,36 @@ class MapController {
     //float: x-coordinate of the ellipse, float: y-coordinate of the ellipse
     //float: width of the ellipse by default,  float: height of the ellipse by default
    
-    leftFootPosCalibrate.x = width - ((leftLerpX - 16.0) * (width/582.0));
-    leftFootPosCalibrate.y = (leftLerpY - 343.0) * (height/63.0);
-    leftFootPosCalibrate.z = 0;
+    float lx = width - ((leftLerpX - 16.0) * (width/582.0));
+    float ly = (leftLerpY - 343.0) * (height/63.0);
     //make sure nothing is neg
-    if (leftFootPosCalibrate.x <0){
-      leftFootPosCalibrate.x = 0;
+    if (lx <0){
+      lx = 0;
     }
-    if (leftFootPosCalibrate.y <0){
-      leftFootPosCalibrate.y = 0;
+    if (ly <0){
+      ly = 0;
+    }
+    if (lx > 2200){
+      lx = 2200;
+    }
+    if (ly > 2200){
+      ly = 2200;
     }
     
-    rightFootPosCalibrate.x = width - (rightLerpX - 16.0) * (width/582.0);
-    rightFootPosCalibrate.y = (rightLerpY - 343.0) * (height/63.0);
-    rightFootPosCalibrate.z = 0;
+    float rx = width - (rightLerpX - 16.0) * (width/582.0);
+    float ry = (rightLerpY - 343.0) * (height/63.0);
     //make sure nothing is neg
-    if (rightFootPosCalibrate.x <0){
-      rightFootPosCalibrate.x = 0;
+    if (rx <0){
+      rx = 0;
     }
-    if (rightFootPosCalibrate.y <0){
-      rightFootPosCalibrate.y = 0;
+    if (ry <0){
+      ry = 0;
+    }
+     if (rx > 2200){
+      rx = 2200;
+    }
+    if (ry > 2200){
+      ry = 2200;
     }
       
     leftLastX = leftLerpX;
@@ -113,10 +121,10 @@ class MapController {
     rightLastX = rightLerpX;
     rightLastY = rightLerpY;
     
-    player.setRawLX(leftFootPosCalibrate.x);
-    player.setRawLY(leftFootPosCalibrate.y);
-    player.setRawRX(rightFootPosCalibrate.x);
-    player.setRawRY(rightFootPosCalibrate.y);
+    player.setRawLX((int)lx);
+    player.setRawLY((int)ly);
+    player.setRawRX((int)rx);
+    player.setRawRY((int)ry);
      
     player.setLeftLastX(leftLastX);
     player.setLeftLastY(leftLastY);
@@ -127,33 +135,33 @@ class MapController {
 
   //figures out if user is standing in that 1 zone...
   //deals with frames pressed, and gives a wider range for error
-//  boolean standingZone5sec(int userId){
-//    PVector leftFootPosCalibrate = leftFootPosCalibrates.get(userId-1);
-//    PVector rightFootPosCalibrate = rightFootPosCalibrates.get(userId -1);
-//    if (leftFootPosCalibrate.x <= 430 && leftFootPosCalibrate.x >=70 ){
-//      if (leftFootPosCalibrate.y <= 440 && leftFootPosCalibrate.y >= 80){
-//        if (rightFootPosCalibrate.x <= 430 && rightFootPosCalibrate.x >=70 ){
-//          if (rightFootPosCalibrate.y <= 440 && rightFootPosCalibrate.y >= 80){
-//            framesPressed++;
-////            println("They are standing in the zone");
-//            fill(255,200,200);
-//            ellipse(leftFootPosCalibrate.x, leftFootPosCalibrate.y, distanceScalarL*feetSize,distanceScalarL*feetSize);
-//            ellipse(rightFootPosCalibrate.x, rightFootPosCalibrate.y, distanceScalarR*feetSize,distanceScalarR*feetSize);
-//          }
-//        }
-//      }
-//    } else{
-////      println("not in standing zone");
-////      println("not standing zone leftPosCalibrate is " + leftFootPosCalibrate);
-////      println("not standing zone rightPosCalibrate is " + rightFootPosCalibrate);
-//      
-//      framesPressed = 0;
-//    }
-//    if (framesPressed >= 60){
-//      return true;
-//    }
-//    return false;
-//  }
+  boolean standingZone5sec(int userId){
+    PlayerModel p = mapModel.players.get(userId -1);
+    println("frames Pressed is " + p.getFramesPressed());
+    if (p.getRawLX() <= 430 && p.getRawLX() >=70 ){
+      if (p.getRawLY() <= 920 && p.getRawLY() >= 560){
+        if (p.getRawRX()<= 430 && p.getRawRX() >=70 ){
+          if (p.getRawRY() <= 920 && p.getRawRY()  >= 560){
+            p.incrementFramesPressed();
+            println("They are standing in the zone");
+            p.setInStandingZone(true);
+          }
+        }
+      }
+    } else{
+      println("not in standing zone");
+//      println("pLx is " + p.getRawLX());
+//      println("pLy is " + p.getRawLY());
+//      println("pRx is " + p.getRawRX());
+//      println("pRy is " + p.getRawRY());
+      
+      p.resetFramesPressed();
+    }
+    if (p.getFramesPressed() >= 300){
+      return true;
+    }
+    return false;
+  }
   void update() {
     context.update();
     switch(mapModel.getState()) {
@@ -165,8 +173,7 @@ class MapController {
             if (context.isTrackingSkeleton(userList[i])){
               //sets the playerRaw values 
                getLeftRightFoot(userList[i]);
-//              if (standingZone5sec(userList[i])) {//standing in zone for at least 300 frames
-                framesPressed = 0;  
+              if (standingZone5sec(userList[i])) {//standing in zone for at least 300 frames
                 mapModel.beginRules();
               }
             }
@@ -180,9 +187,9 @@ class MapController {
         userList = context.getUsers();
         for (int i=0; i<userList.length; i++)
           {
-            if (context.isTrackingSkeleton(userList[i])) (
-            getLeftRightFoot(userList[i]);
-            PlayerModel player = mapModel.players.get(0);
+            if (context.isTrackingSkeleton(userList[i])) {
+              getLeftRightFoot(userList[i]);
+            }
         }
         break;
     }
