@@ -140,13 +140,16 @@ class MapController {
     println("frames Pressed is " + p.getFramesPressed());
     if (p.getRawLX() <= 430 && p.getRawLX() >=70 ){
       if (p.getRawLY() <= 920 && p.getRawLY() >= 560){
-        if (p.getRawRX()<= 430 && p.getRawRX() >=70 ){
-          if (p.getRawRY() <= 920 && p.getRawRY()  >= 560){
             p.incrementFramesPressed();
             println("They are standing in the zone");
             p.setInStandingZone(true);
           }
         }
+        else if (p.getRawRX()<= 430 && p.getRawRX() >=70 ){
+          if (p.getRawRY() <= 920 && p.getRawRY()  >= 560){
+            p.incrementFramesPressed();
+            println("They are standing in the zone");
+            p.setInStandingZone(true);
       }
     } else{
       println("not in standing zone");
@@ -155,9 +158,9 @@ class MapController {
 //      println("pRx is " + p.getRawRX());
 //      println("pRy is " + p.getRawRY());
       
-      p.resetFramesPressed();
+//      p.resetFramesPressed();
     }
-    if (p.getFramesPressed() >= 300){
+    if (p.getFramesPressed() >= 60){
       return true;
     }
     return false;
@@ -166,8 +169,6 @@ class MapController {
     context.update();
     switch(mapModel.getState()) {
       case START:
-<<<<<<< HEAD
-//        println("hello");
         userList  = context.getUsers();
         for (int i=0; i<userList.length; i++)
         {
@@ -179,22 +180,6 @@ class MapController {
               }
             }
         }
-=======
-       //Only start if the player has been standing for 5 consecutive seconds.
-       if (mousePressed) {
-          if (framesPressed < 50) {
-           framesPressed++;
-          //Start the game
-          } else { 
-            framesPressed = 0;  
-            mapModel.beginRules();
-            mousePressed = false;
-          }
-       //Otherwise, reset the second counter if not consecutive
-       } else {
-         framesPressed = 0;
-       }
->>>>>>> master
         break;
       case RULES:
         //should add an if case, haven't yet, got rid of mousePressed

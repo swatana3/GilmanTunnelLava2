@@ -375,6 +375,24 @@ class View implements Observer {
         // health percentage * 500 = number of bubbles
         if ((mapModel.getLevel() == 1) || (mapModel.getLevel() > 3)) {
           for (PlayerModel p : mapModel.getPlayers()) {
+            if (p.getInStandingZone()){
+              ellipseMode(CENTER);
+              fill(255,0,255); 
+              ellipse(p.getRawLX(), p.getRawLY(), p.getDistanceScalarL()*feetSize,p.getDistanceScalarL()*feetSize);
+              println ("cooridnates of Rellipse is " + p.getRawRX() + " " +  p.getRawRY() + " "+ p.getDistanceScalarR());
+              ellipseMode(CENTER);
+              ellipse(p.getRawRX(), p.getRawRY(), p.getDistanceScalarR()*feetSize,p.getDistanceScalarR()*feetSize);
+              println ("cooridnates of Lellipse is " + p.getRawLX() + " " +  p.getRawLY() + " "+ p.getDistanceScalarL());
+            }
+            else{
+              ellipseMode(CENTER);
+              fill(255,200,200); 
+              ellipse(p.getRawLX(), p.getRawLY(), p.getDistanceScalarL()*feetSize,p.getDistanceScalarL()*feetSize);
+              println ("cooridnates of Rellipse is " + p.getRawRX() + " " +  p.getRawRY() + " "+ p.getDistanceScalarR());
+              ellipseMode(CENTER);
+              ellipse(p.getRawRX(), p.getRawRY(), p.getDistanceScalarR()*feetSize,p.getDistanceScalarR()*feetSize);
+              println ("cooridnates of Lellipse is " + p.getRawLX() + " " +  p.getRawLY() + " "+ p.getDistanceScalarL());
+            }
              if (p.getRemainingFrames() < p.getMaxHealth()) {
                currentBubbles = ( ( float(p.getRemainingFrames()) / float(p.getMaxHealth()) ) * playBubbles );
                factor = Math.round(currentBubbles);

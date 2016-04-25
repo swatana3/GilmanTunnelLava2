@@ -29,7 +29,7 @@ void setup() {
   mapController = new MapController(mapModel, this);
   //lava = new Lava();
   //view = new View(this, mapModel, lava);
-  view = new View(this, mapModel);
+  view = new View(this, mapModel, minim);
   
   // sound stuff
   minim = new Minim(this);
