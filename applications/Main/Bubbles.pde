@@ -42,12 +42,12 @@ class Bubble{
     angles = new float[n];
     radius = new dimmer[n];
     float degree = 360.0/n;
-    float raydebase = random(5, 55);
+    float raydebase = random(10, 150);
     respiration = new dimmer(-5.5, 5.5, 200,random(360));
     
     //Set speed of bubble center movement. Bubble center is at (x, y). vY is speed in y-direction. vX is speed in x-direction.
-    vY =- random(100 - raydebase)*0.012;
-    vX = random(-0.03,0.03);
+    vY =- random(100 - raydebase)*0.2;
+    vX = random(-0.1,0.1);
 
     // Initialize each point with its initial angle and radius. Center of bubble is at (x, y).
     for ( int a = 0; a < n; a++){
@@ -162,8 +162,8 @@ class Bubble{
       memory_curvesX[n+2] = fx3;
       memory_curvesY[n+2] = fy3;
       if(nothing==true){
-        y=700 ;
-        x=random(-20,520);
+        y= (height + 20) ;
+        x=random(-20, (width + 20));
       }
       //Set the bubble's curve data for this frame
       setCurves(memory_curvesX, memory_curvesY, getFrame() - 1);

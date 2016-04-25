@@ -9,7 +9,7 @@ Simulates the moving lava background.
 class Lava {
   
 /** Global Variables - to be used across all classes **/
-private final int numBubbles  = 500; // Sets the number of bubbles to appear on the screen
+private final int numBubbles  = 750; // Sets the number of bubbles to appear on the screen
 private final int frameLife = 800; //Indicates how large the memory is in frames; 60 frames = 1 second
 private Bubble[] bubbles = new Bubble[numBubbles]; // Holds the bubble objects
 private int frameCounter = 1; //Keeps track of frames
@@ -19,7 +19,7 @@ Lava(){
  frameCounter = 1;
  // Give each bubble its beginning x,y coordinates
  for (int a = 0 ; a < bubbles.length; a++){
-   bubbles[a] = new Bubble(random(-60,660),random(-60, 460), a);
+   bubbles[a] = new Bubble(random(-60, (width +60)),random(-60, (height + 60)), a);
  }
  for (int i = 1; i <= frameLife; i++){
    for (Bubble bubble : bubbles){

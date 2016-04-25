@@ -23,7 +23,6 @@ class PlayerModel {
   
 
   PlayerModel(int id) {
-    // aka health
     this.shield = MAX_SHIELD;
     this.health = 105;
     this.id = id;
@@ -63,7 +62,6 @@ class PlayerModel {
     } else {
       this.shield = min(this.shield + 1, MAX_SHIELD);
     } 
-    //println("player " + id + " shield: " + this.shield + " x: " + this.mX + " y: " + this.mY);
   }
   
   public void setCollidingWithLava(boolean collide) {

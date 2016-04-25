@@ -1,6 +1,7 @@
 class RockModel {
   static final int WIDTH = 300;
   static final int HEIGHT = 300;
+
  
   // width and height of ellipse that represents rock
   private int w, h;
@@ -32,7 +33,7 @@ class RockModel {
   private boolean movingOffScreenX; 
   private boolean movingOffScreenY; 
   
-  static final private int DEFAULT_FRAMES = 20;
+  private int DEFAULT_FRAMES;
   
   //State
   private int framesUntilDestroyed;
@@ -57,7 +58,11 @@ class RockModel {
   private boolean left = false;
   
   
-  RockModel(int cX, int cY, boolean Start){
+  RockModel(int cX, int cY, int level, boolean Start){
+    DEFAULT_FRAMES = 30;
+    if (level == 1) {
+      DEFAULT_FRAMES = 5;
+    }
     this.cX = cX;
     this.cY = cY;
     this.centerX = cX;
@@ -69,7 +74,7 @@ class RockModel {
     //variables for bounce in view
     sineScale = 1;
     amplitude = 0.10;
-    decay = 0.002;
+    decay = 0.001;
     minScale = 1.0;
     t=0;
     bouncing = false;
@@ -79,7 +84,7 @@ class RockModel {
     storeH = h;
     
     //currrently setting radius manually
-    this.radiusX = 50;
+    this.radiusX = 100;
     this.radiusY = 100;
     
     //angle of ellipse
@@ -93,7 +98,11 @@ class RockModel {
   }
     
 
-  RockModel(int cX, int cY) {
+  RockModel(int cX, int cY, int level) {
+     DEFAULT_FRAMES = 30;
+    if (level == 1) {
+      DEFAULT_FRAMES = 10;
+    }
     this.cX = cX;
     this.cY = cY;
     this.centerX = cX;
@@ -247,7 +256,7 @@ void bouncingMovement() {
 
 //only updates velcocity if it's a moving rock 
   void updateVelocity(int level) {
-    float scaled_t = level * .005 + (random(0, 1001) / 10000000);
+    float scaled_t = level * .01 + (random(0, 1001) / 10000000);
     this.theta += (.01 + scaled_t);
    
      //CHANGE COORDINATES BASED ON MOVEMENT TYPE
@@ -293,7 +302,7 @@ void bouncingMovement() {
         this.cX = this.w/2;
         this.left = false;
       } else {
-        this.cX = (width - this.w/2);
+        this.cX = (width - (this.w/2));
         this.left = true;
       }
     
@@ -309,7 +318,7 @@ void bouncingMovement() {
         this.cY = this.h / 2;
         this.down = false;
       } else {
-        this.cY = (height - this.h/2);
+        this.cY = (height - (this.h/2));
         this.down = true;
       }
     

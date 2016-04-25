@@ -166,6 +166,7 @@ class MapController {
     context.update();
     switch(mapModel.getState()) {
       case START:
+<<<<<<< HEAD
 //        println("hello");
         userList  = context.getUsers();
         for (int i=0; i<userList.length; i++)
@@ -178,6 +179,22 @@ class MapController {
               }
             }
         }
+=======
+       //Only start if the player has been standing for 5 consecutive seconds.
+       if (mousePressed) {
+          if (framesPressed < 50) {
+           framesPressed++;
+          //Start the game
+          } else { 
+            framesPressed = 0;  
+            mapModel.beginRules();
+            mousePressed = false;
+          }
+       //Otherwise, reset the second counter if not consecutive
+       } else {
+         framesPressed = 0;
+       }
+>>>>>>> master
         break;
       case RULES:
         //should add an if case, haven't yet, got rid of mousePressed

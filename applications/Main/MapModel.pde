@@ -17,6 +17,7 @@ class MapModel implements Observer {
   private int playerCount = 0;
 
   public MapModel() {
+    level = 1;
     lava = new Lava();
     rocks = new ArrayList<RockModel>();
     original_num_rocks = 0;
@@ -75,8 +76,8 @@ class MapModel implements Observer {
   /* Resets the game after death/win*/
   void reset() {
     //Reset all counters and variables
-    original_num_rocks = 0;
     level = 1;
+    original_num_rocks = 0;
     playerCount = 0;
     framesSinceCalibrate = 0;
     players.clear();
@@ -86,8 +87,6 @@ class MapModel implements Observer {
     player.playerDeadEvent().addObserver(this);
     players.add(player);
     playerCount += 1;
-    // procedurally generate rocks for the map
-    //generateMap();
     generateFullMap();
     state = GameState.START;
  
@@ -109,12 +108,8 @@ class MapModel implements Observer {
   }
 
   void update() {
-    //consider just using a calibrate state and a countdown state,
-    // and let the view fire an event when it's done cycling through
-    // the countdown/calibration screens
     switch (state) {
       case START:
-        //println("we reached the update method");
         break;
       case RULES:
         //blah
@@ -232,8 +227,7 @@ class MapModel implements Observer {
             rocksToDestroy.add(rock);
           }
         }
-        
-        //another victory condition?
+        //Victory condition
         if(mapModel.rocks.size()==0) {
           if (level == 3){
             mapModel.state = GameState.WIN;
@@ -257,7 +251,7 @@ class MapModel implements Observer {
         if ((framesSinceCalibrate > 361) && (win_reset == false)){
           framesSinceCalibrate = 0;
           win_reset = true;
-        } else if ((framesSinceCalibrate > 540) && (win_reset)) {
+        } else if ((framesSinceCalibrate > 360) && (win_reset)) {
           state = GameState.RESET;
           win_reset = false;
         } else {
@@ -269,7 +263,7 @@ class MapModel implements Observer {
         if ((framesSinceCalibrate > 361) && (win_reset == false)){
           framesSinceCalibrate = 0;
           win_reset = true;
-        } else if ((framesSinceCalibrate > 540) && (win_reset)) {
+        } else if ((framesSinceCalibrate > 360) && (win_reset)) {
           state = GameState.RESET;
           win_reset = false;
           
@@ -281,11 +275,9 @@ class MapModel implements Observer {
          reset();
          break;
     }
-    //println("frames since called calibrate is" + framesSinceCalibrate);
   }
 
-  // add to rocks so someone can get across
-  // doesn't use grid for rocks
+  //Create rocks
   private void generateFullMap() {
     int currentY, currentX;
     float angle, dist;
@@ -293,7 +285,7 @@ class MapModel implements Observer {
     currentY = (int) random(RockModel.HEIGHT/2, height - RockModel.HEIGHT/2);
     // pick a random distance away from the left hand edge of the window
     currentX = (int) random(MAX_STEP_SIZE) + RockModel.WIDTH/2;
-    rocks.add(new RockModel(currentX, currentY));
+    rocks.add(new RockModel(currentX, currentY, getLevel()));
     original_num_rocks += 1;
     // while we are not within one STEP away from the RHS
     // closest way to get from the circle to the RHS is a straight line --->
@@ -320,7 +312,7 @@ class MapModel implements Observer {
         }
       }
       if (clear) {
-        rocks.add(new RockModel(currentX, currentY));
+        rocks.add(new RockModel(currentX, currentY, getLevel()));
         original_num_rocks += 1;
       }
     }
