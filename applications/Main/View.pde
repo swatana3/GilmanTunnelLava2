@@ -201,7 +201,7 @@ class View implements Observer {
         for (PlayerModel p : mapModel.getPlayers()) {
           if (p.getInStandingZone()){
             ellipseMode(CENTER);
-            fill(255,0,255); 
+            fill(0,0,0); 
             ellipse(p.getRawLX(), p.getRawLY(), p.getDistanceScalarL()*feetSize,p.getDistanceScalarL()*feetSize);
             println ("cooridnates of Rellipse is " + p.getRawRX() + " " +  p.getRawRY() + " "+ p.getDistanceScalarR());
             ellipseMode(CENTER);
@@ -210,7 +210,7 @@ class View implements Observer {
           }
           else{
             ellipseMode(CENTER);
-            fill(255,200,200); 
+            fill(0,0,0); 
             ellipse(p.getRawLX(), p.getRawLY(), p.getDistanceScalarL()*feetSize,p.getDistanceScalarL()*feetSize);
             println ("cooridnates of Rellipse is " + p.getRawRX() + " " +  p.getRawRY() + " "+ p.getDistanceScalarR());
             ellipseMode(CENTER);
@@ -377,7 +377,7 @@ class View implements Observer {
           for (PlayerModel p : mapModel.getPlayers()) {
             if (p.getInStandingZone()){
               ellipseMode(CENTER);
-              fill(255,0,255); 
+              fill(0,0,0); 
               ellipse(p.getRawLX(), p.getRawLY(), p.getDistanceScalarL()*feetSize,p.getDistanceScalarL()*feetSize);
               println ("cooridnates of Rellipse is " + p.getRawRX() + " " +  p.getRawRY() + " "+ p.getDistanceScalarR());
               ellipseMode(CENTER);
@@ -386,7 +386,7 @@ class View implements Observer {
             }
             else{
               ellipseMode(CENTER);
-              fill(255,200,200); 
+              fill(0,0,0); 
               ellipse(p.getRawLX(), p.getRawLY(), p.getDistanceScalarL()*feetSize,p.getDistanceScalarL()*feetSize);
               println ("cooridnates of Rellipse is " + p.getRawRX() + " " +  p.getRawRY() + " "+ p.getDistanceScalarR());
               ellipseMode(CENTER);

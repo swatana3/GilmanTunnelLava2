@@ -1,7 +1,7 @@
 class PlayerModel {
   private PlayerDeadEvent playerDeadEvent = new PlayerDeadEvent();
 
-  static final int MAX_SHIELD = 25;
+  static final int MAX_SHIELD = 1000;
   // raw x and y coordinates
   private int mLX, mRX, mLY, mRY;
   private float distanceScalarL,  distanceScalarR;
