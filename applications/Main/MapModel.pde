@@ -18,6 +18,7 @@ class MapModel implements Observer {
 
   public MapModel() {
     level = 1;
+    framesSinceCalibrate = 0;
     lava = new Lava();
     rocks = new ArrayList<RockModel>();
     original_num_rocks = 0;
@@ -33,10 +34,25 @@ class MapModel implements Observer {
       playerCount++;
     }
 
-    // procedurally generate rocks for the map
-    //generateMap();
     generateFullMap();
     state = GameState.START;
+  }
+  
+  /** Adds a new player to the player list*/
+  void addPlayer(int id, int x1, int x2, int y1, int y2){
+    PlayerModel player = new PlayerModel(id);
+    if (players.size() < 2) {
+      players.add(player);
+      playerCount++;
+    }
+    player.setRawX(x1);
+    player.setRawY(y1);
+  }
+  
+  /** Removes player from playerlist given id*/
+  void removePlayer(int id){
+    players.remove(id);
+    playerCount--; 
   }
   
   ArrayList<RockModel> getRocks(){
@@ -82,7 +98,7 @@ class MapModel implements Observer {
     framesSinceCalibrate = 0;
     players.clear();
     rocks.clear();
-    //Add the players
+    //Add the players TODO get from Kinect
     PlayerModel player = new PlayerModel(playerCount);
     player.playerDeadEvent().addObserver(this);
     players.add(player);
@@ -97,10 +113,7 @@ class MapModel implements Observer {
   }
 
   public void beginCalibration() {
-    // skip calibration
-    //state = GameState.CALIBRATE1;
     state = GameState.BETWEENLEVEL;
-    //state = GameState.COUNTDOWN1;
   }
   
   public void beginRules() {
@@ -112,7 +125,6 @@ class MapModel implements Observer {
       case START:
         break;
       case RULES:
-        //blah
         break;
       case CALIBRATE1:
         if (framesSinceCalibrate > 120) {
@@ -181,6 +193,7 @@ class MapModel implements Observer {
       case COUNTDOWN3:
         if (framesSinceCalibrate > 360) {
           state = GameState.PLAY;
+          framesSinceCalibrate = 0;
         } else {
           framesSinceCalibrate++;
         }
@@ -202,12 +215,13 @@ class MapModel implements Observer {
       case FLIPPEDCOUNTDOWN3:
         if (framesSinceCalibrate > 360) {
           state = GameState.PLAY;
+          framesSinceCalibrate = 0;
         } else {
           framesSinceCalibrate++;
         }
         break;
       case PLAY:
-        if (framesSinceCalibrate == 361) {
+        if (framesSinceCalibrate == 0) {
            //add rocks below players if first iteration
            for (PlayerModel p : players) {
              rocks.add(new RockModel(p.getRawX(), p.getRawY(), mapModel.getLevel(), true));
@@ -244,9 +258,11 @@ class MapModel implements Observer {
         for (RockModel rock : rocksToDestroy) {
           rocks.remove(rock);
         }
+        rocksToDestroy.clear();
+        
         break;
       case WIN:
-        if ((framesSinceCalibrate > 361) && (win_reset == false)){
+        if ((framesSinceCalibrate > 0) && (win_reset == false)){
           framesSinceCalibrate = 0;
           win_reset = true;
         } else if ((framesSinceCalibrate > 360) && (win_reset)) {
@@ -258,7 +274,7 @@ class MapModel implements Observer {
         break;
 
       case LOSE:
-        if ((framesSinceCalibrate > 361) && (win_reset == false)){
+        if ((framesSinceCalibrate > 0) && (win_reset == false)){
           framesSinceCalibrate = 0;
           win_reset = true;
         } else if ((framesSinceCalibrate > 360) && (win_reset)) {

@@ -4,6 +4,7 @@ import ddf.minim.*;
 class View implements Observer {
   private MapModel mapModel;
 
+  // Screens and Backgrounds
   private PImage startScreen;
   private PImage loseScreen;
   private PImage FloseScreen;
@@ -11,16 +12,9 @@ class View implements Observer {
   private PImage FendScreen;
   private PImage winScreen;
   private PImage winScreen2;
-  // add variable to keep track of page visit to enable sound playback
-  boolean startSoundNotPlayed = true;    
-  boolean countdown1SoundNotPlayed = true;
-  boolean countdown2SoundNotPlayed = true;
-  boolean countdown3SoundNotPlayed = true;
-  //PImage calibrateScreen
   private PImage calibrateScreen1;
   private PImage calibrateScreen2;
   private PImage calibrateScreen3;
-  //PImage countdownScreen
   private PImage countdownScreen1;
   private PImage countdownScreen2;
   private PImage countdownScreen3;
@@ -37,22 +31,21 @@ class View implements Observer {
   private PImage flamingoBackground;
   private PImage natureBackground;
   private PImage rules;
- //PImage health bars
+  // Between Level Screens
+  private PImage level1;
+  private PImage level2;
+  private PImage level3;
+
+  // Health Bar Images 
   private PImage health1; 
   private PImage health2;
   private PImage health3;
   private PImage health4;
   private PImage health5;
   private PImage health6;
-  private PImage health7;
-  //PImage Between levels
-  private PImage level1;
-  private PImage level2;
-  private PImage level3;
-
-  private int counter = 0;
+  private PImage health7; 
   
-  //static images(gifs were too large)
+  // Rock Images
   private PImage rockPlatformOne;
   private PImage rockPlatformTwo;
   private PImage rockPlatformThree;
@@ -62,6 +55,14 @@ class View implements Observer {
   private PImage flamingoDetail;
   private PImage natureDetail;
   
+  // Sound Playback
+  private boolean startSoundNotPlayed = true;    
+  private boolean countdown1SoundNotPlayed = true;
+  private boolean countdown2SoundNotPlayed = true;
+  private boolean countdown3SoundNotPlayed = true;
+  
+  // Other counters and variables needed for view logic
+  private int counter = 0;
   private int frameLife = 800;
   private int index = 0; // stores the current index of the memory array
   private boolean increment = false; // Indicates whether we are incrementing or decrementing our index when running from memory
@@ -70,13 +71,11 @@ class View implements Observer {
   private final int winBubbles = 100;
   private final int loseBubbles = 75;
   private final int playBubbles = 500;
-  
-  //have an arrayList of Rocks while playerisSteppedOnRock and playerStepsOffRock
-  
 
   View(PApplet parent, MapModel mapModel, Minim minim) {
     this.mapModel = mapModel;
-
+    
+    // Load graphics
     rockPlatformOne = loadImage("../../assets/rockPlatform1.png");
     rockPlatformTwo = loadImage("../../assets/rockPlatform2.png");
     rockPlatformThree = loadImage("../../assets/rockPlatform3.png");
@@ -93,24 +92,9 @@ class View implements Observer {
     winScreen = loadImage("../../assets/Final Graphics Small/GT_YouWin1.png");
     winScreen2 = loadImage("../../assets/Final Graphics Small/GT_YouWin2.png");
     rules = loadImage("../../assets/Final Graphics Small/GT_5_Rules.png");
-    
-
-    endScreen.resize(width, height);
-    FendScreen.resize(width, height);
-    winScreen.resize(width, height);
-    winScreen2.resize(width, height);
-    rules.resize(width, height);
-
-    //calibrateScreen
     calibrateScreen1 = loadImage("../../assets/Final Graphics Small/GT_2_Calibration1.png");
     calibrateScreen2 = loadImage("../../assets/Final Graphics Small/GT_3_Calibration2.png");
     calibrateScreen3  = loadImage("../../assets/Final Graphics Small/GT_4_Calibration3.png");
-
-    calibrateScreen1.resize(width, height);
-    calibrateScreen2.resize(width, height);
-    calibrateScreen3.resize(width, height);
-
-    //countdownScreen
     countdownScreen1 = loadImage("../../assets/Final Graphics Small/GT_8_Countdown3.png");
     countdownScreen2 = loadImage("../../assets/Final Graphics Small/GT_7_Countdown2.png");
     countdownScreen3 = loadImage("../../assets/Final Graphics Small/GT_6_Countdown1.png");
@@ -123,7 +107,26 @@ class View implements Observer {
     natureCountdown1 = loadImage("../../assets/Final Graphics Small/GT_Level2_Nature_1.png");
     natureCountdown2 = loadImage("../../assets/Final Graphics Small/GT_Level2_Nature_2.png");
     natureCountdown3 = loadImage("../../assets/Final Graphics Small/GT_Level2_Nature_3.png");
+    health1 = loadImage("../../assets/Final Graphics Small/GT_Health1.png");
+    health2 = loadImage("../../assets/Final Graphics Small/GT_Health2.png");
+    health3 = loadImage("../../assets/Final Graphics Small/GT_Health3.png");
+    health4 = loadImage("../../assets/Final Graphics Small/GT_Health4.png");
+    health5 = loadImage("../../assets/Final Graphics Small/GT_Health5.png");
+    health6 = loadImage("../../assets/Final Graphics Small/GT_Health6.png");
+    health7 = loadImage("../../assets/Final Graphics Small/GT_Health7.png");
+    level1 = loadImage("../../assets/Final Graphics Small/GT_9_Level1.png");
+    level2 = loadImage("../../assets/Final Graphics Small/GT_Level2_NatureStart.png");
+    level3 = loadImage("../../assets/Final Graphics Small/GT_Level3_FlamingoStart.png");
     
+    // Resize graphics
+    endScreen.resize(width, height);
+    FendScreen.resize(width, height);
+    winScreen.resize(width, height);
+    winScreen2.resize(width, height);
+    rules.resize(width, height);
+    calibrateScreen1.resize(width, height);
+    calibrateScreen2.resize(width, height);
+    calibrateScreen3.resize(width, height);
     countdownScreen1.resize(width, height);
     countdownScreen2.resize(width, height);
     countdownScreen3.resize(width, height);
@@ -138,29 +141,13 @@ class View implements Observer {
     natureCountdown3.resize(width, height);
     flamingoBackground.resize(width, height);
     natureBackground.resize(width, height);
-    
-    //health bars
-    health1 = loadImage("../../assets/Final Graphics Small/GT_Health1.png");
-    health2 = loadImage("../../assets/Final Graphics Small/GT_Health2.png");
-    health3 = loadImage("../../assets/Final Graphics Small/GT_Health3.png");
-    health4 = loadImage("../../assets/Final Graphics Small/GT_Health4.png");
-    health5 = loadImage("../../assets/Final Graphics Small/GT_Health5.png");
-    health6 = loadImage("../../assets/Final Graphics Small/GT_Health6.png");
-    health7 = loadImage("../../assets/Final Graphics Small/GT_Health7.png");
-    
     health1.resize(width/5, height/10);
     health2.resize(width/5, height/10);
     health3.resize(width/5, height/10);
     health4.resize(width/5, height/10);
     health5.resize(width/5, height/10);
     health6.resize(width/5, height/10);
-    health7.resize(width/5, height/10);  
-
-    //between levels
-    level1 = loadImage("../../assets/Final Graphics Small/GT_9_Level1.png");
-    level2 = loadImage("../../assets/Final Graphics Small/GT_Level2_NatureStart.png");
-    level3 = loadImage("../../assets/Final Graphics Small/GT_Level3_FlamingoStart.png");
-    
+    health7.resize(width/5, height/10);     
     level1.resize(width, height);
     level2.resize(width, height);
     level3.resize(width, height);
@@ -168,7 +155,7 @@ class View implements Observer {
     // make View an observer of PlayerStepsOnRocksEvents
     mapModel.getCollisionModel().playerStepsOnRockEvent().addObserver(this);
 
-    // window stuff setup
+    // Set up background color
     background (225);
     
   }
@@ -179,19 +166,17 @@ class View implements Observer {
   
 
   void render() {
-    // redraw background for each frame
+    // Redraw background for each frame
     background (225);
 
     switch (mapModel.getState()) {
       case START:
-        //println("we reached the render method");
         imageMode(CORNER);
         image(startScreen, 0, 0, width, height);
-        //println("Image supposedly rendered");
         break;
       case RULES:
-        //jumpSound.play();
-        //jumpSound.rewind();
+        jumpSound.play();
+        jumpSound.rewind();
         background(rules);
         break;
        case COUNTDOWN1: 
@@ -338,7 +323,6 @@ class View implements Observer {
          float currentBubbles = playBubbles;
          int factor = playBubbles;
         //Draw bubbles
-        //One method of feedback - how much health is left
         //Less health = fewer bubbles
         // health percentage * 500 = number of bubbles
         if ((mapModel.getLevel() == 1) || (mapModel.getLevel() > 3)) {
@@ -365,10 +349,6 @@ class View implements Observer {
             rocksSound.play();
             rocksSound.rewind();
           }
-          // FOR TESTING PURPOSES: draw circle that the player needs to
-          //  be in to be "safe"
-          //ellipseMode(CENTER);
-          //ellipse(rock.cX, rock.cY, rock.w, rock.h);
           
           PImage rockImg;
           PImage rockDetail;
@@ -472,8 +452,6 @@ class View implements Observer {
         }
         makeBubbles(winBubbles);
         break;
-        //there's no end state yet..
-        //the rock should disappear regardless of someone being there.
       case LOSE:
         imageMode(CORNER);
         background(endScreen);
@@ -521,7 +499,6 @@ class View implements Observer {
   
   public void onNotify(Event event) {
     if (event instanceof PlayerStepsOnRockEvent) {
-      //println("stepped on rock " + (System.identityHashCode(((PlayerStepsOnRockEvent) event).rockModel)));
       RockModel localRock = ((PlayerStepsOnRockEvent) event).rockModel;
       //rockSplashSound.play();
       //rockSplashSound.rewind();

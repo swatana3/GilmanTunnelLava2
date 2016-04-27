@@ -1,16 +1,13 @@
 class PlayerModel {
   private PlayerDeadEvent playerDeadEvent = new PlayerDeadEvent();
 
-  static final int MAX_SHIELD = 25;
+  static final int MAX_SHIELD = 50;
   // raw x and y coordinates
   private int mX, mY;
   // player id
   private int id;
   private int health;
-  // shield provides some tolerance of time before a player
-  // starts taking damage to their health
   private int shield;
-  // if colliding with lava
   private boolean collidingWithLava = false;
   private boolean dead = false;
   final private int max_health = 105;
