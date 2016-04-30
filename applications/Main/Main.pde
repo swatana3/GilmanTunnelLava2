@@ -40,7 +40,7 @@ void setup() {
   jumpSound = minim.loadFile("../../assets/Sounds/Jump.wav");
   levelUpSound = minim.loadFile("../../assets/Sounds/LevelUp.wav");
   rocksSound = minim.loadFile("../../assets/Sounds/Rocks.wav");
-  //rockSplashSound = minim.loadFile("../../assets/Sounds/RockSplash.wav");
+//  rockSplashSound = minim.loadFile("../../assets/Sounds/RockSplash.wav");
   winSound = minim.loadFile("../../assets/Sounds/Win.wav");
   // end sound stuff
   

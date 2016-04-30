@@ -18,6 +18,7 @@ class MapModel implements Observer {
 
   public MapModel() {
     level = 1;
+    framesSinceCalibrate = 0;
     lava = new Lava();
     rocks = new ArrayList<RockModel>();
     original_num_rocks = 0;
@@ -36,8 +37,6 @@ class MapModel implements Observer {
 //      playerCount++;
 //    }
 
-    // procedurally generate rocks for the map
-    //generateMap();
     generateFullMap();
     state = GameState.START;
   }
@@ -57,6 +56,7 @@ class MapModel implements Observer {
      playerCount--; 
      println("removed players!");
    }
+  
   
   ArrayList<RockModel> getRocks(){
     return rocks;
@@ -101,7 +101,7 @@ class MapModel implements Observer {
     framesSinceCalibrate = 0;
     players.clear();
     rocks.clear();
-    //Add the players
+    //Add the players TODO get from Kinect
     PlayerModel player = new PlayerModel(playerCount);
     player.playerDeadEvent().addObserver(this);
     players.add(player);
@@ -116,10 +116,7 @@ class MapModel implements Observer {
   }
 
   public void beginCalibration() {
-    // skip calibration
-    //state = GameState.CALIBRATE1;
     state = GameState.BETWEENLEVEL;
-    //state = GameState.COUNTDOWN1;
   }
   
   public void beginRules() {
@@ -131,7 +128,6 @@ class MapModel implements Observer {
       case START:
         break;
       case RULES:
-        //blah
         break;
       case CALIBRATE1:
         if (framesSinceCalibrate > 120) {

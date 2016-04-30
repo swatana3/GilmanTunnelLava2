@@ -11,10 +11,7 @@ class PlayerModel {
   // player id
   private int id;
   private int health;
-  // shield provides some tolerance of time before a player
-  // starts taking damage to their health
   private int shield;
-  // if colliding with lava
   private boolean collidingWithLava = false;
   private boolean dead = false;
   final private int max_health = 105;

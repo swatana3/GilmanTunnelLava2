@@ -84,11 +84,11 @@ class RockModel {
     storeH = h;
     
     //currrently setting radius manually
-    this.radiusX = 100;
-    this.radiusY = 100;
+    this.radiusX = WIDTH/2;
+    this.radiusY = HEIGHT/2;
     
     //angle of ellipse
-    this.theta =0; 
+    this.theta = 0; 
 
 
     this.framesUntilDestroyed = DEFAULT_FRAMES;
@@ -136,7 +136,6 @@ class RockModel {
     this.imageType = (int) random(3);
     
     if ((int) random(3) ==0){
-      //println("Moving rock created!!");
       this.movingRock = true;
       
       this.move = (int) random(0, 6);
@@ -145,7 +144,6 @@ class RockModel {
       } else if (this.move == 5) {
         this.left = true;
       }
-      //this.move = 1;
       
       //use these variables if it's moving rock
       this.movingOffScreenX = false;
@@ -155,7 +153,6 @@ class RockModel {
       this.storecY = this.cY; 
       
     } else {
-      //println("not created!");
       this.movingRock = false;
     }
 
@@ -211,7 +208,8 @@ class RockModel {
 
   boolean isDestroyed() {
     if (framesUntilDestroyed == 0) {
-      //println("Rock destroyed.");
+      rocksSound.play();
+      rocksSound.rewind();
       return true;
     } else {
       return false;
@@ -220,10 +218,8 @@ class RockModel {
   
   void update(int level) {
     if (movingRock) {
-      //println("updating velocity");
       updateVelocity(level) ;
     } else {
-      //println("NOT updating velocity");
     }
     //change height and width of rock if its bouncing
     if (bouncing){
@@ -275,7 +271,7 @@ void bouncingMovement() {
         this.storecY = (int)( -1 * radiusY * sin( theta )) + centerY;
       } else {
         this.storecX = centerX;
-       this.storecY = (int)(radiusY * sin( theta )) + centerY;  
+        this.storecY = (int)(radiusY * sin( theta )) + centerY;  
       }
       //horizontal movement
     } else if (this.move == 4 || this.move == 5) {
@@ -284,7 +280,7 @@ void bouncingMovement() {
         this.storecY = centerY;
       } else {
         this.storecX = (int)(radiusX * sin( theta )) + centerX;
-       this.storecY = centerY;  
+        this.storecY = centerY;  
       }
     }
     
