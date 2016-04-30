@@ -59,7 +59,7 @@ class RockModel {
   
   
   RockModel(int cX, int cY, int level, boolean Start){
-    DEFAULT_FRAMES = 30;
+    DEFAULT_FRAMES = 15;
     if (level == 1) {
       DEFAULT_FRAMES = 5;
     }

@@ -57,12 +57,14 @@ void draw() {
   {
     println("onNewUser - userId: " + userId);
     println("\tstart tracking skeleton");
-
+    
+    mapModel.addPlayer(userId);
     context.startTrackingSkeleton(userId);
   }
 
   void onLostUser(SimpleOpenNI curContext, int userId)
   {
+    mapModel.removePlayer(userId);
     println("onLostUser - userId: " + userId);
   }
 

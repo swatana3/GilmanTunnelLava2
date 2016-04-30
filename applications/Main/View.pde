@@ -200,22 +200,20 @@ class View implements Observer {
         ellipse(250, 740, 360, 360);
         for (PlayerModel p : mapModel.getPlayers()) {
           if (p.getInStandingZone()){
-            ellipseMode(CENTER);
-            fill(0,0,0); 
-            ellipse(p.getRawLX(), p.getRawLY(), p.getDistanceScalarL()*feetSize,p.getDistanceScalarL()*feetSize);
-            println ("cooridnates of Rellipse is " + p.getRawRX() + " " +  p.getRawRY() + " "+ p.getDistanceScalarR());
-            ellipseMode(CENTER);
-            ellipse(p.getRawRX(), p.getRawRY(), p.getDistanceScalarR()*feetSize,p.getDistanceScalarR()*feetSize);
-            println ("cooridnates of Lellipse is " + p.getRawLX() + " " +  p.getRawLY() + " "+ p.getDistanceScalarL());
+//            ellipseMode(CENTER);
+            //fill(250,250,250); 
+            //ellipse(p.getRawLX(), p.getRawLY(), p.getDistanceScalarL()*feetSize,p.getDistanceScalarL()*feetSize);
+            fill(250,250,250); 
+            rect(p.getRawRX(), p.getRawRY(), p.getDistanceScalarR()*feetSize,p.getDistanceScalarR()*feetSize);
+//            println ("cooridnates of Lellipse is " + p.getRawLX() + " " +  p.getRawLY() + " "+ p.getDistanceScalarL());
           }
           else{
-            ellipseMode(CENTER);
-            fill(0,0,0); 
-            ellipse(p.getRawLX(), p.getRawLY(), p.getDistanceScalarL()*feetSize,p.getDistanceScalarL()*feetSize);
-            println ("cooridnates of Rellipse is " + p.getRawRX() + " " +  p.getRawRY() + " "+ p.getDistanceScalarR());
-            ellipseMode(CENTER);
+            fill(0); 
+            //this one showing up
+            rect(p.getRawLX(), p.getRawLY(), p.getDistanceScalarL()*feetSize,p.getDistanceScalarL()*feetSize);
+            fill(0);    
             ellipse(p.getRawRX(), p.getRawRY(), p.getDistanceScalarR()*feetSize,p.getDistanceScalarR()*feetSize);
-            println ("cooridnates of Lellipse is " + p.getRawLX() + " " +  p.getRawLY() + " "+ p.getDistanceScalarL());
+            println ("cooridnates of Rellipse is " + p.getRawRX() + " " +  p.getRawRY() + " "+ p.getDistanceScalarR());
           }
         }
         
@@ -355,12 +353,35 @@ class View implements Observer {
          switch (mapModel.getLevel()) {
            case 1:
              background(255, 92, 30);
+             for (PlayerModel p : mapModel.getPlayers()) {
+              ellipseMode(CENTER);
+              fill(0,0,0); 
+              ellipse(p.getRawLX(), p.getRawLY(), p.getDistanceScalarL()*feetSize,p.getDistanceScalarL()*feetSize);
+              fill(0,0,0); 
+              ellipse(p.getRawRX(), p.getRawRY(), p.getDistanceScalarR()*feetSize,p.getDistanceScalarR()*feetSize);
+            }
              break;
            case 2:
               background(natureBackground);
+              for (PlayerModel p : mapModel.getPlayers()) {
+                ellipseMode(CENTER);
+                fill(0,0,0); 
+                ellipse(p.getRawLX(), p.getRawLY(), p.getDistanceScalarL()*feetSize,p.getDistanceScalarL()*feetSize);
+                ellipseMode(CENTER);
+                fill(0,0,0); 
+                ellipse(p.getRawRX(), p.getRawRY(), p.getDistanceScalarR()*feetSize,p.getDistanceScalarR()*feetSize);
+               }
               break;
            case 3:
                background(flamingoBackground);
+               for (PlayerModel p : mapModel.getPlayers()) {
+//                ellipseMode(CENTER);
+                fill(0,0,0); 
+                ellipse(p.getRawLX(), p.getRawLY(), p.getDistanceScalarL()*feetSize,p.getDistanceScalarL()*feetSize);
+//                ellipseMode(CENTER);
+                fill(0,0,0); 
+                ellipse(p.getRawRX(), p.getRawRY(), p.getDistanceScalarR()*feetSize,p.getDistanceScalarR()*feetSize);
+              }
                break;
            default:
                background(255, 92, 30);
@@ -379,19 +400,21 @@ class View implements Observer {
               ellipseMode(CENTER);
               fill(0,0,0); 
               ellipse(p.getRawLX(), p.getRawLY(), p.getDistanceScalarL()*feetSize,p.getDistanceScalarL()*feetSize);
-              println ("cooridnates of Rellipse is " + p.getRawRX() + " " +  p.getRawRY() + " "+ p.getDistanceScalarR());
+//              println ("cooridnates of Rellipse is " + p.getRawRX() + " " +  p.getRawRY() + " "+ p.getDistanceScalarR());
               ellipseMode(CENTER);
+              fill(0,0,0); 
               ellipse(p.getRawRX(), p.getRawRY(), p.getDistanceScalarR()*feetSize,p.getDistanceScalarR()*feetSize);
-              println ("cooridnates of Lellipse is " + p.getRawLX() + " " +  p.getRawLY() + " "+ p.getDistanceScalarL());
+//              println ("cooridnates of Lellipse is " + p.getRawLX() + " " +  p.getRawLY() + " "+ p.getDistanceScalarL());
             }
             else{
               ellipseMode(CENTER);
               fill(0,0,0); 
               ellipse(p.getRawLX(), p.getRawLY(), p.getDistanceScalarL()*feetSize,p.getDistanceScalarL()*feetSize);
-              println ("cooridnates of Rellipse is " + p.getRawRX() + " " +  p.getRawRY() + " "+ p.getDistanceScalarR());
+//              println ("cooridnates of Rellipse is " + p.getRawRX() + " " +  p.getRawRY() + " "+ p.getDistanceScalarR());
               ellipseMode(CENTER);
+              fill(0,0,0); 
               ellipse(p.getRawRX(), p.getRawRY(), p.getDistanceScalarR()*feetSize,p.getDistanceScalarR()*feetSize);
-              println ("cooridnates of Lellipse is " + p.getRawLX() + " " +  p.getRawLY() + " "+ p.getDistanceScalarL());
+//              println ("cooridnates of Lellipse is " + p.getRawLX() + " " +  p.getRawLY() + " "+ p.getDistanceScalarL());
             }
              if (p.getRemainingFrames() < p.getMaxHealth()) {
                currentBubbles = ( ( float(p.getRemainingFrames()) / float(p.getMaxHealth()) ) * playBubbles );

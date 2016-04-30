@@ -22,22 +22,41 @@ class MapModel implements Observer {
     rocks = new ArrayList<RockModel>();
     original_num_rocks = 0;
     players = new ArrayList<PlayerModel>();
+    //not sure
+    framesSinceCalibrate = 0;
+    
     collisionModel = new CollisionModel(this);
     // TODO: get blob/dots from kinect and add those as players
     // for now, just use the mouse (mouse is used in player)
     PlayerModel player = new PlayerModel(playerCount);
     player.playerDeadEvent().addObserver(this);
-    //Right now, only allow support for up to ten players
-    if (players.size() < 10) {
-      players.add(player);
-      playerCount++;
-    }
+    //Right now, only allow support for up to five players
+//    if (players.size() < 5) {
+//      players.add(player);
+//      playerCount++;
+//    }
 
     // procedurally generate rocks for the map
     //generateMap();
     generateFullMap();
     state = GameState.START;
   }
+    /** Adds a new player to the player list, can't add it with player coordinates,
+    does that somewhere else, this makes max players 2 */
+  void addPlayer(int id){
+    PlayerModel player = new PlayerModel(id);
+    if (players.size() < 2) {
+      println("added players!");
+      players.add(player);
+      playerCount++;
+    }
+  }
+  /** Removes player from playerlist given id*/
+  void removePlayer(int id){
+     players.remove(id - 1);
+     playerCount--; 
+     println("removed players!");
+   }
   
   ArrayList<RockModel> getRocks(){
     return rocks;
@@ -182,6 +201,7 @@ class MapModel implements Observer {
       case COUNTDOWN3:
         if (framesSinceCalibrate > 360) {
           state = GameState.PLAY;
+          framesSinceCalibrate = 0;
         } else {
           framesSinceCalibrate++;
         }
@@ -203,12 +223,13 @@ class MapModel implements Observer {
       case FLIPPEDCOUNTDOWN3:
         if (framesSinceCalibrate > 360) {
           state = GameState.PLAY;
+          framesSinceCalibrate = 0;
         } else {
           framesSinceCalibrate++;
         }
         break;
       case PLAY:
-        if (framesSinceCalibrate == 361) {
+        if (framesSinceCalibrate == 0) {
            //add rocks below players if first iteration
            for (PlayerModel p : players) {
              rocks.add(new RockModel(p.getRawLX(), p.getRawLY(), mapModel.getLevel()));
@@ -246,9 +267,11 @@ class MapModel implements Observer {
         for (RockModel rock : rocksToDestroy) {
           rocks.remove(rock);
         }
+        rocksToDestroy.clear();
+        
         break;
       case WIN:
-        if ((framesSinceCalibrate > 361) && (win_reset == false)){
+        if ((framesSinceCalibrate > 0) && (win_reset == false)){
           framesSinceCalibrate = 0;
           win_reset = true;
         } else if ((framesSinceCalibrate > 360) && (win_reset)) {
@@ -260,7 +283,7 @@ class MapModel implements Observer {
         break;
 
       case LOSE:
-        if ((framesSinceCalibrate > 361) && (win_reset == false)){
+        if ((framesSinceCalibrate > 0) && (win_reset == false)){
           framesSinceCalibrate = 0;
           win_reset = true;
         } else if ((framesSinceCalibrate > 360) && (win_reset)) {

@@ -9,8 +9,8 @@ int[] userList;
 // diameter of feet drawn in pixels
 float feetSize = 200;
 // user colors
-color[] userColor = new color[]{ color(255,0,0), color(0,255,0), color(0,0,255),
-                                 color(255,255,0), color(255,0,255), color(0,255,255)};
+//color[] userColor = new color[]{ color(255,0,0), color(0,255,0), color(0,0,255),
+//                                 color(255,255,0), color(255,0,255), color(0,255,255)};
 
 
 class MapController {
@@ -42,9 +42,10 @@ class MapController {
     context.startTrackingSkeleton(userId);
     
     PlayerModel player = mapModel.players.get(userId -1);
+    //PlayerModel player = mapModel.players.get(userId);
 
   // get 3D positions of feet
-    println("in draw slekelton " + userId);
+//    println("in draw slekelton " + userId);
     
     PVector leftFootPosition = new PVector();
     PVector rightFootPosition = new PVector();
@@ -61,14 +62,14 @@ class MapController {
     context.convertRealWorldToProjective(leftFootPosition, leftFootPosition);
     context.convertRealWorldToProjective(rightFootPosition, rightFootPosition);
     
-    println("draw skeleton leftFootPosition is " + leftFootPosition);
-    println("draw skeleton rightFootPosition is " + rightFootPosition);
+//    println("draw skeleton leftFootPosition is " + leftFootPosition);
+//    println("draw skeleton rightFootPosition is " + rightFootPosition);
     // create a distance scalar related to the depth in z dimension
     float distanceScalarL = (525/leftFootPosition.z);
     float distanceScalarR = (525/rightFootPosition.z);
     
     player.setDistanceScalarL(distanceScalarL);
-    player.setDistanceScalarL(distanceScalarR);
+    player.setDistanceScalarR(distanceScalarR);
     
     
     float leftLerpX = lerp(leftLastX, leftFootPosition.x, 0.3f);
@@ -135,36 +136,6 @@ class MapController {
 
   //figures out if user is standing in that 1 zone...
   //deals with frames pressed, and gives a wider range for error
-  boolean standingZone5sec(int userId){
-    PlayerModel p = mapModel.players.get(userId -1);
-    println("frames Pressed is " + p.getFramesPressed());
-    if (p.getRawLX() <= 430 && p.getRawLX() >=70 ){
-      if (p.getRawLY() <= 920 && p.getRawLY() >= 560){
-            p.incrementFramesPressed();
-            println("They are standing in the zone");
-            p.setInStandingZone(true);
-          }
-        }
-        else if (p.getRawRX()<= 430 && p.getRawRX() >=70 ){
-          if (p.getRawRY() <= 920 && p.getRawRY()  >= 560){
-            p.incrementFramesPressed();
-            println("They are standing in the zone");
-            p.setInStandingZone(true);
-      }
-    } else{
-      println("not in standing zone");
-//      println("pLx is " + p.getRawLX());
-//      println("pLy is " + p.getRawLY());
-//      println("pRx is " + p.getRawRX());
-//      println("pRy is " + p.getRawRY());
-      
-//      p.resetFramesPressed();
-    }
-    if (p.getFramesPressed() >= 60){
-      return true;
-    }
-    return false;
-  }
   void update() {
     context.update();
     switch(mapModel.getState()) {
@@ -175,6 +146,7 @@ class MapController {
             if (context.isTrackingSkeleton(userList[i])){
               //sets the playerRaw values 
                getLeftRightFoot(userList[i]);
+               println("playerCount is " + mapModel.getPlayerCount());
               if (standingZone5sec(userList[i])) {//standing in zone for at least 300 frames
                 mapModel.beginRules();
               }
@@ -199,5 +171,35 @@ class MapController {
   
   MapModel getMapModel(){
     return mapModel;
+  }
+    boolean standingZone5sec(int userId){
+    PlayerModel p = mapModel.players.get(userId -1);
+//    println("frames Pressed is " + p.getFramesPressed());
+    if (p.getRawLX() <= 430 && p.getRawLX() >=70 ){
+      if (p.getRawLY() <= 920 && p.getRawLY() >= 560){
+            p.incrementFramesPressed();
+//            println("They are standing in the zone");
+            p.setInStandingZone(true);
+          }
+        }
+        else if (p.getRawRX()<= 430 && p.getRawRX() >=70 ){
+          if (p.getRawRY() <= 920 && p.getRawRY()  >= 560){
+            p.incrementFramesPressed();
+//            println("They are standing in the zone");
+            p.setInStandingZone(true);
+      }
+    } else{
+//      println("not in standing zone");
+//      println("pLx is " + p.getRawLX());
+//      println("pLy is " + p.getRawLY());
+//      println("pRx is " + p.getRawRX());
+//      println("pRy is " + p.getRawRY());
+      
+//      p.resetFramesPressed();
+    }
+    if (p.getFramesPressed() >= 60){
+      return true;
+    }
+    return false;
   }
 }
