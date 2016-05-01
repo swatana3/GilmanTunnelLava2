@@ -77,10 +77,8 @@ class View implements Observer {
   
   //for feet ellipse
   float feetSize = 200;
-
   
   //have an arrayList of Rocks while playerisSteppedOnRock and playerStepsOffRock
-
 
   View(PApplet parent, MapModel mapModel, Minim minim) {
     this.mapModel = mapModel;
@@ -496,6 +494,7 @@ class View implements Observer {
           imageMode(CORNERS);
           noTint();
           playerNum++;
+          println("Health Bar code reached. Player num: " + playerNum);
           //Wrap later instead of breaking
           if ((width - 80 * playerNum) < 0){
             break;

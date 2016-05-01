@@ -210,6 +210,7 @@ class RockModel {
     if (framesUntilDestroyed == 0) {
       rocksSound.play();
       rocksSound.rewind();
+      println("Rock Destroyed.");
       return true;
     } else {
       return false;
