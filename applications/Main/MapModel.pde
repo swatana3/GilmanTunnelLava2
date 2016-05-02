@@ -52,10 +52,14 @@ class MapModel implements Observer {
   }
   /** Removes player from playerlist given id*/
   void removePlayer(int id){
-     players.remove(id - 1);
-     playerCount--; 
-     println("removed players!");
-   }
+    for (int i=0; i<players.size(); i++){
+      if (id ==players.get(i).getId()){
+        players.remove(i);
+        playerCount--; 
+        println("removed players!");
+      }
+    }
+  }
   
   
   ArrayList<RockModel> getRocks(){

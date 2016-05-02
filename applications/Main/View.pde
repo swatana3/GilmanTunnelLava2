@@ -522,6 +522,7 @@ class View implements Observer {
           }else if (health == 105) {
             healthImage = health7;
           }
+     
           image(healthImage, (width - 80 * playerNum), 0, (width - 80 * (playerNum - 1)), 40);
           fill(255, 255, 255);
           textFont(createFont("Agency FB", 12, true));

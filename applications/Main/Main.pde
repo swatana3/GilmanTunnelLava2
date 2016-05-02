@@ -56,15 +56,21 @@ void draw() {
   void onNewUser(SimpleOpenNI curContext, int userId)
   {
     println("onNewUser - userId: " + userId);
-    println("\tstart tracking skeleton");
-    
-    mapModel.addPlayer(userId);
-    context.startTrackingSkeleton(userId);
+//    println("\tstart tracking skeleton");
+    if (mapModel.getPlayers().size() < 2){
+      mapModel.addPlayer(userId);
+      context.startTrackingSkeleton(userId);
+    }
   }
 
   void onLostUser(SimpleOpenNI curContext, int userId)
   {
-    mapModel.removePlayer(userId);
+    ArrayList<PlayerModel> players = mapModel.getPlayers();
+    for (int i= 0; i < players.size(); i++){
+      if (userId == players.get(i).getId()){
+        mapModel.removePlayer(userId);
+      }
+    }
     println("onLostUser - userId: " + userId);
   }
 

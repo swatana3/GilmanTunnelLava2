@@ -107,11 +107,12 @@ class PlayerModel {
   public void resetFramesPressed(){
     framesPressed = 0;
   }
+  public int getId(){
+    return id;
+  }
   public int getFramesPressed(){
     return framesPressed;
   }
-  
-  
   public int getRawLX() {
     return mLX;
   }
