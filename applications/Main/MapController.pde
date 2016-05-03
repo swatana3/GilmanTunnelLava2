@@ -38,12 +38,10 @@ class MapController {
     // SimpleOpenNI user events
 
   //need to claibrate to where the screen is..
-  void getLeftRightFoot(int userId){
+  void getLeftRightFoot(PlayerModel player){
+        
+        int userId = player.getId();
     
-    ArrayList<PlayerModel> players = mapModel.getPlayers();
-    for (int i=0; i<players.size(); i++){
-      if (userId == players.get(i).getId()){
-        PlayerModel player = players.get(i);
         PVector leftFootPosition = new PVector();
         PVector rightFootPosition = new PVector();
         
@@ -123,8 +121,6 @@ class MapController {
         player.setLeftLastY(leftLastY);
         player.setRightLastX(rightLastX);
         player.setRightLastY(rightLastY);
-        }
-     }
   }
   
 
@@ -141,9 +137,9 @@ class MapController {
           PlayerModel player = players.get(i);
           if (context.isTrackingSkeleton(player.getId())){
           //sets the playerRaw values 
-            getLeftRightFoot(player.getId());
+            getLeftRightFoot(player);
             println("playerCount is " + mapModel.getPlayerCount());
-            if (standingZone5sec(player.getId())) {//standing in zone for at least 300 frames
+            if (standingZone5sec(player)) {//standing in zone for at least 300 frames
                 mapModel.beginRules();
             }
           }
@@ -159,7 +155,7 @@ class MapController {
         {
           PlayerModel player = players.get(i);
           if (context.isTrackingSkeleton(player.getId())) {
-              getLeftRightFoot(player.getId());
+              getLeftRightFoot(player);
             }
         }
         break;
@@ -169,11 +165,7 @@ class MapController {
   MapModel getMapModel(){
     return mapModel;
   }
-    boolean standingZone5sec(int userId){
-      ArrayList<PlayerModel> players = mapModel.getPlayers();
-      for (int i=0; i<players.size(); i++){
-         if (userId == players.get(i).getId()){  
-           PlayerModel p = players.get(i);
+    boolean standingZone5sec(PlayerModel p){
             if (p.getRawLX() <= 430 && p.getRawLX() >=70 ){
               if (p.getRawLY() <= 920 && p.getRawLY() >= 560){
                 p.incrementFramesPressed();
@@ -199,8 +191,6 @@ class MapController {
            if (p.getFramesPressed() >= 60){
               return true;
           }
-        }
-      }
       return false;
     }
 }
