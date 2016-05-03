@@ -10,7 +10,7 @@ class PlayerModel {
   private float leftLastX, leftLastY, rightLastX, rightLastY;
   // player id
   private int id;
-  private int health;
+  private int health = 105;
   private int shield;
   private boolean collidingWithLava = false;
   private boolean dead = false;

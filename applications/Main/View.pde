@@ -502,6 +502,7 @@ class View implements Observer {
           String display = "Player" + " " + playerNum;
           int health = (player.getRemainingFrames());
           PImage healthImage = health7;
+          println("Player " + playerNum + " Health: " + health);
           if (health == 0) { 
             dieSound.play();
             dieSound.rewind();
@@ -519,11 +520,13 @@ class View implements Observer {
             healthImage = health5;
           }else if (health <= 90) {
             healthImage = health6;
-          }else if (health == 105) {
+          }else if (health <= 105) {
+            healthImage = health7;
+          } else {
             healthImage = health7;
           }
      
-          image(healthImage, (2200 - 80 * playerNum), 0, (2200 - 80 * (playerNum - 1)), 40);
+          image(healthImage, (width - 80 * playerNum), 0, (width - 80 * (playerNum - 1)), 40);
           fill(255, 255, 255);
           textFont(createFont("Agency FB", 12, true));
           text(display, width -  80*playerNum + 20, 50);
